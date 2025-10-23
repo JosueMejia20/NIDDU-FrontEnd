@@ -28,16 +28,20 @@ const HowItWorks = () => {
   return (
     <section className="how-it-works" id="como-funciona">
       <div className="container">
-        <div className="section-title">
+        <div className="how-it-works-header">
           <h2>¿Cómo Funciona?</h2>
           <p>Encuentra el cuidador perfecto en solo 4 pasos</p>
         </div>
-        <div className="steps">
+        <div className="how-it-works-steps">
           {steps.map((step, index) => (
-            <div key={step.number} className="step animate-fadeInUp" style={{animationDelay: `${index * 0.1}s`}}>
-              <div className="step-number">{step.number}</div>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
+            <div key={step.number} className="how-it-works-step">
+              <div className="step-circle">
+                <span className="step-number">{step.number}</span>
+              </div>
+              <div className="step-content">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
             </div>
           ))}
         </div>

@@ -1,11 +1,53 @@
 // components/RegisterPage.js
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/components/RegisterPage.css';
 
-const RegisterPage = ({ navigateTo }) => {
+const RegisterPage = ({ navigateTo, onRegister }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    petType: '',
+    password: '',
+    confirmPassword: '',
+    terms: false
+  });
+
+  const handleChange = (e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormData({
+      ...formData,
+      [e.target.name]: value
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Formulario de registro enviado');
+    
+    // Validar que las contraseñas coincidan
+    if (formData.password !== formData.confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+    
+    // Validar términos
+    if (!formData.terms) {
+      alert('Debes aceptar los términos y condiciones');
+      return;
+    }
+    
+    // Simular datos de usuario (en una app real esto vendría del backend)
+    const userData = {
+      id: Date.now(),
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      petType: formData.petType,
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80'
+    };
+    
+    // Llamar a la función de registro del App.js
+    onRegister(userData);
   };
 
   return (
@@ -23,7 +65,10 @@ const RegisterPage = ({ navigateTo }) => {
                 <label htmlFor="name">Nombre completo *</label>
                 <input 
                   type="text" 
-                  id="name" 
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Tu nombre completo" 
                   required 
                 />
@@ -33,7 +78,10 @@ const RegisterPage = ({ navigateTo }) => {
                 <label htmlFor="email">Correo electrónico *</label>
                 <input 
                   type="email" 
-                  id="email" 
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="tu@email.com" 
                   required 
                 />
@@ -45,14 +93,23 @@ const RegisterPage = ({ navigateTo }) => {
                 <label htmlFor="phone">Teléfono</label>
                 <input 
                   type="tel" 
-                  id="phone" 
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
                   placeholder="+1 234 567 890" 
                 />
               </div>
               
               <div className="form-group">
-                <label htmlFor="pet-type">Tipo de mascota *</label>
-                <select id="pet-type" required>
+                <label htmlFor="petType">Tipo de mascota *</label>
+                <select 
+                  id="petType"
+                  name="petType"
+                  value={formData.petType}
+                  onChange={handleChange}
+                  required
+                >
                   <option value="">Selecciona una opción</option>
                   <option value="dog">Perro</option>
                   <option value="cat">Gato</option>
@@ -66,7 +123,10 @@ const RegisterPage = ({ navigateTo }) => {
               <label htmlFor="password">Contraseña *</label>
               <input 
                 type="password" 
-                id="password" 
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="Mínimo 8 caracteres" 
                 required 
                 minLength="8"
@@ -74,17 +134,27 @@ const RegisterPage = ({ navigateTo }) => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="confirm-password">Confirmar contraseña *</label>
+              <label htmlFor="confirmPassword">Confirmar contraseña *</label>
               <input 
                 type="password" 
-                id="confirm-password" 
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 placeholder="Repite tu contraseña" 
                 required 
               />
             </div>
             
             <div className="form-group checkbox-group">
-              <input type="checkbox" id="terms" required />
+              <input 
+                type="checkbox" 
+                id="terms" 
+                name="terms"
+                checked={formData.terms}
+                onChange={handleChange}
+                required 
+              />
               <label htmlFor="terms">
                 Acepto los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad</a>
               </label>
@@ -114,5 +184,4 @@ const RegisterPage = ({ navigateTo }) => {
   );
 };
 
-// Asegúrate de que esta línea esté al final
 export default RegisterPage;

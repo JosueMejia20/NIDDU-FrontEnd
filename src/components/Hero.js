@@ -1,7 +1,31 @@
 import React from 'react';
 import '../styles/components/Hero.css';
 
-const Hero = () => {
+const Hero = ({ navigateTo }) => {
+  const handleRegisterClick = () => {
+    if (navigateTo) {
+      navigateTo('register');
+    }
+  };
+
+  const handleHowItWorksClick = (e) => {
+    e.preventDefault();
+    if (navigateTo && navigateTo.currentPage !== 'home') {
+      navigateTo('home');
+      setTimeout(() => {
+        const section = document.getElementById('como-funciona');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const section = document.getElementById('como-funciona');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <section className="hero" id="inicio">
       <div className="container">
@@ -11,8 +35,21 @@ const Hero = () => {
             <h2>Cuidado integral para tus mascotas</h2>
             <p>Conectamos a dueños de mascotas con una red confiable de cuidadores y servicios especializados. Bienestar, comodidad y seguridad en un solo lugar.</p>
             <div className="hero-buttons">
-              <a href="#servicios" className="btn btn-primary">Comenzar Ahora</a>
-              <a href="#como-funciona" className="btn btn-outline">Cómo Funciona</a>
+              {/* Botón actualizado para redirigir a registro */}
+              <button 
+                className="btn btn-primary"
+                onClick={handleRegisterClick}
+              >
+                Comenzar Ahora
+              </button>
+              
+              <a 
+                href="#como-funciona" 
+                className="btn btn-outline"
+                onClick={handleHowItWorksClick}
+              >
+                Cómo Funciona
+              </a>
             </div>
           </div>
           <div className="hero-image animate-fadeInRight">

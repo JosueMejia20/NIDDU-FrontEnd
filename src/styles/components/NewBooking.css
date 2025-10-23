@@ -1,0 +1,440 @@
+/* styles/components/NewBooking.css */
+.new-booking {
+  background: var(--light-gray);
+  min-height: calc(100vh - 140px);
+  padding: 100px 0 20px;
+}
+
+.booking-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.back-btn {
+  background: var(--white);
+  border: 1px solid var(--medium-gray);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: var(--light-gray);
+}
+
+.booking-header h1 {
+  font-size: 24px;
+  color: var(--dark-gray);
+  font-family: 'Poppins', sans-serif;
+}
+
+.step-indicator {
+  display: flex;
+  gap: 10px;
+}
+
+.step {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--medium-gray);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.step.active {
+  background: linear-gradient(135deg, var(--primary-green), var(--primary-blue));
+  color: var(--white);
+}
+
+.booking-step h2 {
+  font-size: 20px;
+  color: var(--dark-gray);
+  margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.step-subtitle {
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+/* Servicios Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.service-card {
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  position: relative;
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+}
+
+.service-card.popular {
+  border: 2px solid var(--primary-green);
+}
+
+.popular-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--primary-green);
+  color: var(--white);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.service-image {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-image img {
+  transform: scale(1.05);
+}
+
+.service-info {
+  padding: 15px;
+}
+
+.service-info h3 {
+  font-size: 16px;
+  color: var(--dark-gray);
+  margin-bottom: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.service-info p {
+  color: var(--text-color);
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.service-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-color);
+}
+
+.service-details .price {
+  font-weight: 600;
+  color: var(--primary-green);
+  font-size: 14px;
+}
+
+/* Cuidadores List */
+.caregivers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.caregiver-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.caregiver-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.caregiver-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.caregiver-avatar {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.caregiver-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.caregiver-info h3 {
+  font-size: 16px;
+  color: var(--dark-gray);
+  margin-bottom: 5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.specialty {
+  color: var(--primary-blue);
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.caregiver-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-color);
+}
+
+.stat i {
+  width: 12px;
+  color: var(--primary-green);
+}
+
+.caregiver-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-green);
+  white-space: nowrap;
+}
+
+/* Formulario de reserva */
+.booking-summary {
+  margin-bottom: 25px;
+}
+
+.summary-card {
+  background: var(--light-gray);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.summary-card h3 {
+  font-size: 16px;
+  color: var(--dark-gray);
+  margin-bottom: 15px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-item.total {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--dark-gray);
+}
+
+.booking-form {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--dark-gray);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px;
+  border: 1px solid var(--medium-gray);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: var(--white);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn-full {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Responsive para nueva reserva */
+@media (max-width: 768px) {
+  .new-booking {
+    padding: 80px 0 15px;
+  }
+
+  .booking-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .step-indicator {
+    align-self: center;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .caregiver-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .caregiver-price {
+    align-self: flex-end;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-form {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-image {
+    height: 140px;
+  }
+
+  .caregiver-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .caregiver-stats {
+    align-items: center;
+  }
+}
+
+/* Agrega esto al final de styles/components/NewBooking.css */
+.booking-actions-bottom {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--medium-gray);
+  flex-wrap: wrap;
+}
+
+.booking-actions-bottom .btn {
+  min-width: 140px;
+}
+
+.add-pet-card,
+.add-pet-detail-card {
+  transition: all 0.3s ease;
+}
+
+.add-pet-card:hover,
+.add-pet-detail-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+  background: var(--light-blue) !important;
+}
+
+.no-bookings {
+  background: var(--light-gray);
+  border-radius: 10px;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.status.no {
+  color: #e74c3c;
+  font-weight: 600;
+}

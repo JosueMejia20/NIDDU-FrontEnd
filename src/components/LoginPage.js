@@ -1,12 +1,33 @@
 // components/LoginPage.js
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/components/LoginPage.css';
 
-const LoginPage = ({ navigateTo }) => {
+const LoginPage = ({ navigateTo, onLogin }) => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes agregar la lógica de login
-    alert('Inicio de sesión exitoso');
+    
+    // Simular datos de usuario (en una app real esto vendría del backend)
+    const userData = {
+      id: 1,
+      name: 'Carlos Rodríguez',
+      email: formData.email,
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80'
+    };
+    
+    // Llamar a la función de login del App.js
+    onLogin(userData);
   };
 
   return (
@@ -23,7 +44,10 @@ const LoginPage = ({ navigateTo }) => {
               <label htmlFor="email">Correo electrónico *</label>
               <input 
                 type="email" 
-                id="email" 
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="tu@email.com" 
                 required 
               />
@@ -33,7 +57,10 @@ const LoginPage = ({ navigateTo }) => {
               <label htmlFor="password">Contraseña *</label>
               <input 
                 type="password" 
-                id="password" 
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="Tu contraseña" 
                 required 
               />
@@ -73,11 +100,11 @@ const LoginPage = ({ navigateTo }) => {
               <span>O inicia sesión con</span>
             </div>
             <div className="social-buttons">
-              <button className="btn-social btn-google">
+              <button type="button" className="btn-social btn-google">
                 <i className="fab fa-google"></i>
                 Google
               </button>
-              <button className="btn-social btn-facebook">
+              <button type="button" className="btn-social btn-facebook">
                 <i className="fab fa-facebook-f"></i>
                 Facebook
               </button>
