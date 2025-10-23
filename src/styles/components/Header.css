@@ -1,0 +1,299 @@
+/* Header y Navegación - CORREGIDO */
+.header {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.4s ease;
+  height: 80px; /* Altura fija para mejor control */
+  display: flex;
+  align-items: center;
+}
+
+.header.scrolled {
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  height: 70px; /* Ligeramente más compacto al hacer scroll */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%; /* Ocupa toda la altura del header */
+  padding: 0; /* Eliminamos padding vertical */
+}
+
+.header.scrolled .navbar {
+  padding: 0; /* Mantener consistente */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: 100%;
+  padding: 10px 0; /* Padding interno para centrar */
+}
+
+/* CONTENEDOR DEL LOGO MEJORADO */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espacio consistente entre logo y texto */
+}
+
+.logo-image {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image img {
+  width: 80px; /* Aumentado de 40px */
+  height: 80px; /* Aumentado de 40px */
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  display: block; /* Elimina espacios extra */
+}
+
+.logo:hover .logo-image img {
+  transform: scale(1.1);
+}
+
+/* TEXTO DEL LOGO MEJORADO */
+.logo-text {
+  font-size: 32px; /* Aumentado de 28px */
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+  line-height: 1; /* Evita altura extra */
+  margin: 0; /* Elimina márgenes por defecto */
+}
+
+/* NAVEGACIÓN MEJORADA */
+.nav-links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  margin-left: 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--dark-gray);
+  font-weight: 500;
+  font-size: 16px;
+  padding: 12px 0; /* Más padding para mejor click */
+  transition: all 0.3s ease;
+  position: relative;
+  white-space: nowrap; /* Evita que el texto se rompa */
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; /* Ajustado para el nuevo padding */
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-green), var(--primary-blue));
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary-green);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a.active {
+  color: var(--primary-green);
+}
+
+.nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-cta {
+  margin-left: 30px;
+}
+
+.nav-cta .btn {
+  padding: 12px 24px; /* Botón más prominente */
+  font-size: 15px;
+}
+
+.mobile-menu {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--dark-gray);
+  transition: all 0.3s ease;
+  padding: 8px;
+}
+
+.mobile-menu:hover {
+  color: var(--primary-green);
+}
+
+/* Mobile Menu - MEJORADO */
+@media (max-width: 768px) {
+  .header {
+    height: 70px; /* Un poco más compacto en móvil */
+  }
+  
+  .logo-image img {
+    width: 80px; /* Ligeramente más pequeño en móvil */
+    height: 80px;
+  }
+  
+  .logo-text {
+    font-size: 28px; /* Ligeramente más pequeño en móvil */
+  }
+  
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: auto; /* Altura automática en móvil */
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .nav-links li {
+    margin: 12px 0;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .nav-links a {
+    padding: 15px 0;
+    font-size: 18px; /* Texto más grande en móvil */
+  }
+  
+  .nav-cta {
+    margin: 20px 0 0 0;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .nav-cta .btn {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .mobile-menu {
+    display: block;
+  }
+}
+
+/* Ajuste para solo logo - MEJORADO */
+.logo.only-logo .logo-text {
+  display: none;
+}
+
+.logo.only-logo .logo-image img {
+  width: 60px; /* Más grande si es solo logo */
+  height: 60px;
+}
+
+/* Ajuste del Hero section para el header */
+.hero {
+  padding: 160px 0 100px; /* Aumentado para header más alto */
+}
+.nav-auth {
+  margin-left: 20px;
+}
+
+.nav-login {
+  color: var(--primary-blue) !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+  border: 2px solid var(--primary-blue);
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.nav-login:hover {
+  background-color: var(--primary-blue);
+  color: var(--white) !important;
+  transform: translateY(-2px);
+}
+
+.nav-login:hover::after {
+  width: 0 !important; /* Elimina el subrayado en hover */
+}
+
+/* Ajustes para móvil */
+@media (max-width: 768px) {
+  .nav-auth {
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .nav-login {
+    display: inline-block;
+    padding: 12px 30px !important;
+  }
+}
+
+
+.circle-green {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+}
+
+.circle-blue {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+}
+
+.circle-brown {
+  background: linear-gradient(135deg, var(--primary-brown) 0%, var(--dark-brown) 100%);
+}
+
+.logo-circles {
+  display: flex;
+  margin-right: 12px;
+}
+
+.logo-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  font-weight: bold;
+  color: var(--white);
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.logo:hover .logo-circle {
+  transform: rotate(15deg);
+}
