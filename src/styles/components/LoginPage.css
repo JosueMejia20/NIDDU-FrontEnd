@@ -1,6 +1,10 @@
 /* styles/components/LoginPage.css */
 .login-page {
-  background: linear-gradient(135deg, var(--light-blue) 0%, var(--light-green) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--light-blue) 0%,
+    var(--light-green) 100%
+  );
   min-height: calc(100vh - 140px);
   display: flex;
   align-items: center;
@@ -140,7 +144,7 @@
 }
 
 .divider::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 0;
@@ -184,11 +188,11 @@
 }
 
 .btn-google:hover {
-  border-color: #DB4437;
+  border-color: #db4437;
 }
 
 .btn-facebook:hover {
-  border-color: #4267B2;
+  border-color: #4267b2;
 }
 
 /* Responsive */
@@ -196,22 +200,22 @@
   .login-page {
     padding: 100px 0 60px;
   }
-  
+
   .login-content {
     padding: 30px 25px;
-    margin: 20px;
+    margin: auto;
   }
-  
+
   .login-header h1 {
     font-size: 28px;
   }
-  
+
   .form-options {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
   }
-  
+
   .social-buttons {
     flex-direction: column;
   }

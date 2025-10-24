@@ -1,6 +1,10 @@
 /* styles/components/RegisterPage.css */
 .register-page {
-  background: linear-gradient(135deg, var(--light-blue) 0%, var(--light-green) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--light-blue) 0%,
+    var(--light-green) 100%
+  );
   min-height: calc(100vh - 140px);
   display: flex;
   align-items: center;
@@ -133,21 +137,21 @@
   .register-page {
     padding: 100px 0 60px;
   }
-  
+
   .register-content {
     padding: 30px 25px;
-    margin: 20px;
+    margin: auto;
   }
-  
+
   .register-header h1 {
     font-size: 28px;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
     gap: 0;
   }
-  
+
   .form-group input,
   .form-group select {
     padding: 12px;
