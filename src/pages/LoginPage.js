@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/components/LoginPage.css";
 
 const LoginPage = ({ onLogin }) => {
-  const navigate = useNavigate(); // ✅ reemplaza navigateTo()
+  const navigate = useNavigate(); // reemplaza navigateTo()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -31,7 +31,7 @@ const LoginPage = ({ onLogin }) => {
 
     onLogin(userData);
 
-    // ✅ Redirigir al dashboard u otra ruta después del login
+    // Redirigir al dashboard u otra ruta después del login
     navigate("/dashboard");
   };
 

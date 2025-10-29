@@ -29,7 +29,7 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
     closeMobileMenu();
   };
 
-  // ✅ Nueva función de navegación usando React Router
+  // Nueva función de navegación usando React Router
   const handleNavigation = (path) => {
     navigate(path);
     closeMobileMenu();
@@ -37,7 +37,7 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
     window.scrollTo(0, 0);
   };
 
-  // ✅ Para scroll interno (solo funciona desde la ruta "/")
+  // Para scroll interno (solo funciona desde la ruta "/")
   const handleSectionNavigation = (sectionId) => {
     if (location.pathname !== "/") {
       navigate("/"); // Ir al home primero

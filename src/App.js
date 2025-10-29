@@ -20,6 +20,7 @@ import SuccessModal from "./components/SuccessModal";
 import NewBooking from "./components/NewBooking";
 import AddPet from "./components/AddPet";
 import "./styles/globals.css";
+import ScrollToTop from "./components/ScrollToTop";
 
 const ProtectedRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) {
@@ -65,7 +66,7 @@ function App() {
 
   const navigate = useNavigate();
 
-  // ✅ Restaurar sesión al recargar
+  // Restaurar sesión al recargar
   useEffect(() => {
     const savedUser = localStorage.getItem("niddu_user");
     const savedSession = localStorage.getItem("niddu_session");
@@ -79,7 +80,7 @@ function App() {
     }
   }, [navigate]);
 
-  // 🔹 Funciones de autenticación
+  // Funciones de autenticación
   const handleLogin = (userData) => {
     setIsLoggedIn(true);
     setUser(userData);
@@ -137,7 +138,7 @@ function App() {
 
     setTimeout(() => {
       setShowSuccessModal(false);
-      navigate("/dashboard?tab=pets"); // ✅ Actualizado
+      navigate("/dashboard?tab=pets"); // Actualizado
     }, 2000);
   };
 
@@ -148,7 +149,7 @@ function App() {
     <div className="App">
       <Header isLoggedIn={isLoggedIn} user={user} onLogout={handleLogout} />
 
-      {/* 📍 Rutas */}
+      {/* Rutas */}
       <Routes>
         <Route
           path="/"
@@ -181,7 +182,7 @@ function App() {
           }
         />
 
-        {/* ✅ Rutas sin /dashboard */}
+        {/* Rutas sin /dashboard */}
         <Route
           path="/new-booking"
           element={<NewBooking mascotas={mascotas} />}
@@ -201,10 +202,11 @@ function App() {
   );
 }
 
-// 🔹 Envolvemos App en BrowserRouter
+// Envolvemos App en BrowserRouter
 export default function RootApp() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <App />
     </BrowserRouter>
   );

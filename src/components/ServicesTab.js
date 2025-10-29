@@ -22,7 +22,7 @@ const ServicesTab = ({ servicios, navigate }) => (
               <span className="price">{servicio.precio}</span>
             </div>
             <button
-              type="button" // ✅ AGREGADO
+              type="button" // AGREGADO
               className="btn btn-primary btn-full"
               onClick={() => navigate("/new-booking")}
             >

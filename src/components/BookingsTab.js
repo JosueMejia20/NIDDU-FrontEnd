@@ -3,7 +3,7 @@ const BookingsTab = ({ reservas, filtro, onFiltroChange, navigate }) => (
     <div className="tab-header">
       <h2>Mis Reservas</h2>
       <button
-        type="button" // ✅ AGREGADO
+        type="button" // AGREGADO
         className="btn btn-primary"
         onClick={() => navigate("/new-booking")}
       >
@@ -14,21 +14,21 @@ const BookingsTab = ({ reservas, filtro, onFiltroChange, navigate }) => (
     <div className="bookings-filters">
       <div className="filter-buttons">
         <button
-          type="button" // ✅ AGREGADO
+          type="button" // AGREGADO
           className={`filter-btn ${filtro === "todas" ? "active" : ""}`}
           onClick={() => onFiltroChange("todas")}
         >
           Todas
         </button>
         <button
-          type="button" // ✅ AGREGADO
+          type="button" // AGREGADO
           className={`filter-btn ${filtro === "activa" ? "active" : ""}`}
           onClick={() => onFiltroChange("activa")}
         >
           Activas
         </button>
         <button
-          type="button" // ✅ AGREGADO
+          type="button" // AGREGADO
           className={`filter-btn ${filtro === "completada" ? "active" : ""}`}
           onClick={() => onFiltroChange("completada")}
         >
@@ -75,11 +75,11 @@ const BookingsTab = ({ reservas, filtro, onFiltroChange, navigate }) => (
                 <button type="button" className="btn btn-outline btn-sm">
                   Detalles
                 </button>{" "}
-                {/* ✅ AGREGADO */}
+                {/* AGREGADO */}
                 {reserva.estado === "Activa" && (
                   <button type="button" className="btn btn-primary btn-sm">
                     Modificar
-                  </button> // ✅ AGREGADO
+                  </button> // AGREGADO
                 )}
               </div>
             </div>
@@ -91,7 +91,7 @@ const BookingsTab = ({ reservas, filtro, onFiltroChange, navigate }) => (
           <h3>No hay reservas</h3>
           <p>No se encontraron reservas con los filtros seleccionados</p>
           <button
-            type="button" // ✅ AGREGADO
+            type="button" // AGREGADO
             className="btn btn-primary"
             onClick={() => navigate("/new-booking")}
           >

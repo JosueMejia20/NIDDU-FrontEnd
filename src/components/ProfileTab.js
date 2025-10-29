@@ -4,7 +4,7 @@ const ProfileTab = ({ user }) => (
       <h2>Mi Perfil</h2>
       <button type="button" className="btn btn-outline">
         {" "}
-        {/* ✅ AGREGADO */}
+        {/* AGREGADO */}
         <i className="fas fa-edit"></i> Editar Perfil
       </button>
     </div>
@@ -22,7 +22,7 @@ const ProfileTab = ({ user }) => (
             />
             <button type="button" className="edit-avatar-btn">
               {" "}
-              {/* ✅ AGREGADO */}
+              {/* AGREGADO */}
               <i className="fas fa-camera"></i>
             </button>
           </div>

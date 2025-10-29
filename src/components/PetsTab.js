@@ -3,7 +3,7 @@ const PetsTab = ({ mascotas, navigate }) => (
     <div className="tab-header">
       <h2>Mis Mascotas</h2>
       <button
-        type="button" // ✅ AGREGADO
+        type="button" // AGREGADO
         className="btn btn-secondary"
         onClick={() => navigate("/add-pet")}
       >
@@ -37,11 +37,11 @@ const PetsTab = ({ mascotas, navigate }) => (
             <div className="pet-actions">
               <button type="button" className="btn btn-outline btn-sm">
                 {" "}
-                {/* ✅ AGREGADO */}
+                {/* AGREGADO */}
                 <i className="fas fa-edit"></i> Editar
               </button>
               <button
-                type="button" // ✅ AGREGADO
+                type="button" // AGREGADO
                 className="btn btn-primary btn-sm"
                 onClick={() => navigate("/new-booking")}
               >

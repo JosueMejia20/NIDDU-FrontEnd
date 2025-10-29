@@ -294,7 +294,7 @@ const Dashboard = ({
 
         <div className="mobile-tabs-header">
           <button
-            type="button" // ✅ AGREGADO
+            type="button" // AGREGADO
             className="mobile-menu-toggle"
             onClick={() => setShowMobileMenu(!showMobileMenu)}
           >
@@ -316,7 +316,7 @@ const Dashboard = ({
           >
             <nav className="sidebar-nav">
               <button
-                type="button" // ✅ AGREGADO
+                type="button" // AGREGADO
                 className={`nav-item ${
                   internalActiveTab === "overview" ? "active" : ""
                 }`}
@@ -328,7 +328,7 @@ const Dashboard = ({
                 <i className="fas fa-home"></i> Resumen
               </button>
               <button
-                type="button" // ✅ AGREGADO
+                type="button" // AGREGADO
                 className={`nav-item ${
                   internalActiveTab === "pets" ? "active" : ""
                 }`}
@@ -340,7 +340,7 @@ const Dashboard = ({
                 <i className="fas fa-paw"></i> Mis Mascotas
               </button>
               <button
-                type="button" // ✅ AGREGADO
+                type="button" // AGREGADO
                 className={`nav-item ${
                   internalActiveTab === "bookings" ? "active" : ""
                 }`}
@@ -352,7 +352,7 @@ const Dashboard = ({
                 <i className="fas fa-calendar"></i> Mis Reservas
               </button>
               <button
-                type="button" // ✅ AGREGADO
+                type="button" // AGREGADO
                 className={`nav-item ${
                   internalActiveTab === "caregivers" ? "active" : ""
                 }`}
@@ -364,7 +364,7 @@ const Dashboard = ({
                 <i className="fas fa-users"></i> Cuidadores
               </button>
               <button
-                type="button" // ✅ AGREGADO
+                type="button" // AGREGADO
                 className={`nav-item ${
                   internalActiveTab === "services" ? "active" : ""
                 }`}
@@ -376,7 +376,7 @@ const Dashboard = ({
                 <i className="fas fa-concierge-bell"></i> Servicios
               </button>
               <button
-                type="button" // ✅ AGREGADO
+                type="button" // AGREGADO
                 className={`nav-item ${
                   internalActiveTab === "profile" ? "active" : ""
                 }`}

@@ -1,11 +1,11 @@
 // components/AddPet.js
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Importar useNavigate
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import "../styles/components/AddPet.css";
 
 const AddPet = ({ user, onPetAdded }) => {
-  // ✅ Eliminar prop navigateTo
-  const navigate = useNavigate(); // ✅ Inicializar navigate
+  // Eliminar prop navigateTo
+  const navigate = useNavigate(); // Inicializar navigate
   const [formData, setFormData] = useState({
     nombre: "",
     tipo: "Perro",
@@ -66,12 +66,12 @@ const AddPet = ({ user, onPetAdded }) => {
       onPetAdded(nuevaMascota);
     }
 
-    // ✅ Navegar de vuelta al dashboard después de agregar
-    navigate("/dashboard?tab=pets");
+    // Navegar de vuelta al dashboard después de agregar
+    navigate("/dashboard");
   };
 
   const handleCancel = () => {
-    navigate("/dashboard?tab=pets"); // ✅ Reemplazar navigateTo con navigate
+    navigate("/dashboard"); // Reemplazar navigateTo con navigate
   };
 
   const getRazasDisponibles = () => {

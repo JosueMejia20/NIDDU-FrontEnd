@@ -105,11 +105,11 @@ const CaregiversTab = ({
             <div className="caregiver-actions">
               <button type="button" className="btn btn-outline">
                 {" "}
-                {/* ✅ AGREGADO */}
+                {/* AGREGADO */}
                 <i className="fas fa-heart"></i> Favorito
               </button>
               <button
-                type="button" // ✅ AGREGADO
+                type="button" // AGREGADO
                 className="btn btn-primary"
                 disabled={!cuidador.disponible}
                 onClick={() => navigate("/new-booking")}

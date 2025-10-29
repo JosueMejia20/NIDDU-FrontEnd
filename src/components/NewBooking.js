@@ -1,11 +1,11 @@
 // components/NewBooking.js
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Importar useNavigate
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import "../styles/components/NewBooking.css";
 
 const NewBooking = () => {
-  // ✅ Eliminar prop navigateTo
-  const navigate = useNavigate(); // ✅ Inicializar navigate
+  // Eliminar prop navigateTo
+  const navigate = useNavigate(); // Inicializar navigate
   const [step, setStep] = useState(1);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedCaregiver, setSelectedCaregiver] = useState(null);
@@ -127,7 +127,7 @@ const NewBooking = () => {
     e.preventDefault();
     // Aquí iría la lógica para procesar la reserva
     alert("Reserva creada exitosamente");
-    navigate("/new-booking"); // ✅ Navegar al dashboard en la pestaña de reservas
+    navigate("/new-booking"); // Navegar al dashboard en la pestaña de reservas
   };
 
   const calcularTotal = () => {
@@ -149,7 +149,7 @@ const NewBooking = () => {
           <button
             className="back-btn"
             onClick={
-              () => (step > 1 ? setStep(step - 1) : navigate("/dashboard")) // ✅ Reemplazar navigateTo
+              () => (step > 1 ? setStep(step - 1) : navigate("/dashboard")) // Reemplazar navigateTo
             }
           >
             <i className="fas fa-arrow-left"></i>

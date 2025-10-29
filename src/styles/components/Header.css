@@ -66,7 +66,11 @@
 .logo-text {
   font-size: 32px; /* Aumentado de 28px */
   font-weight: 700;
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-green) 0%,
+    var(--primary-blue) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
@@ -103,7 +107,7 @@
 }
 
 .nav-links a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 8px; /* Ajustado para el nuevo padding */
   left: 0;
@@ -154,58 +158,64 @@
 /* Mobile Menu - MEJORADO */
 @media (max-width: 768px) {
   .header {
-    height: 70px; /* Un poco más compacto en móvil */
+    height: 70px;
   }
-  
+
   .logo-image img {
-    width: 80px; /* Ligeramente más pequeño en móvil */
+    width: 80px;
     height: 80px;
   }
-  
+
   .logo-text {
-    font-size: 28px; /* Ligeramente más pequeño en móvil */
+    font-size: 28px;
   }
-  
+
   .nav-links {
     display: none;
-    position: absolute;
-    top: 100%;
+    position: fixed; /* Cambiado de absolute a fixed */
+    top: 70px; /* Altura del header */
     left: 0;
     width: 100%;
+    height: calc(100vh - 70px); /* Altura total menos el header */
     background: var(--white);
     flex-direction: column;
     padding: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    height: auto; /* Altura automática en móvil */
+    overflow-y: auto; /* Scroll solo en el menú */
+    overflow-x: hidden;
+    /* Prevenir scroll en el body */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch; /* Smooth scroll en iOS */
   }
-  
+
   .nav-links.active {
     display: flex;
   }
-  
+
   .nav-links li {
     margin: 12px 0;
     width: 100%;
     justify-content: center;
+    flex-shrink: 0; /* Prevenir que los items se compriman */
   }
-  
+
   .nav-links a {
     padding: 15px 0;
-    font-size: 18px; /* Texto más grande en móvil */
+    font-size: 18px;
   }
-  
+
   .nav-cta {
     margin: 20px 0 0 0;
     text-align: center;
     width: 100%;
   }
-  
+
   .nav-cta .btn {
     width: 100%;
     max-width: 200px;
   }
-  
+
   .mobile-menu {
     display: block;
   }
@@ -254,24 +264,35 @@
     margin: 10px 0;
     text-align: center;
   }
-  
+
   .nav-login {
     display: inline-block;
     padding: 12px 30px !important;
   }
 }
 
-
 .circle-green {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-green) 0%,
+    var(--dark-green) 100%
+  );
 }
 
 .circle-blue {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue) 0%,
+    var(--dark-blue) 100%
+  );
 }
 
 .circle-brown {
-  background: linear-gradient(135deg, var(--primary-brown) 0%, var(--dark-brown) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-brown) 0%,
+    var(--dark-brown) 100%
+  );
 }
 
 .logo-circles {
@@ -355,7 +376,11 @@
   align-items: center;
   gap: 12px;
   padding: 20px;
-  background: linear-gradient(135deg, var(--primary-green), var(--primary-blue));
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--primary-blue)
+  );
   color: var(--white);
 }
 
@@ -411,17 +436,24 @@
 /* Ajustes para móvil */
 @media (max-width: 768px) {
   .nav-user {
+    position: static; /* Cambiado a static */
     margin: 10px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Para que el dropdown aparezca debajo */
+    align-items: center;
   }
-  
+
   .user-menu-trigger {
     justify-content: center;
     width: 100%;
   }
-  
+
   .user-dropdown {
-    position: static;
-    margin-top: 10px;
+    position: static; /* Elimina el posicionamiento absoluto */
+    margin-top: 15px;
     width: 100%;
+    max-width: 100%;
+    right: auto; /* Resetea el right */
   }
 }
