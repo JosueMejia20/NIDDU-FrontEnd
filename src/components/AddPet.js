@@ -1,68 +1,92 @@
 // components/AddPet.js
-import React, { useState } from 'react';
-import '../styles/components/AddPet.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Importar useNavigate
+import "../styles/components/AddPet.css";
 
-const AddPet = ({ user, navigateTo, onPetAdded }) => {
+const AddPet = ({ user, onPetAdded }) => {
+  // ✅ Eliminar prop navigateTo
+  const navigate = useNavigate(); // ✅ Inicializar navigate
   const [formData, setFormData] = useState({
-    nombre: '',
-    tipo: 'Perro',
-    raza: '',
-    edad: '',
-    peso: '',
-    alergias: 'Ninguna',
+    nombre: "",
+    tipo: "Perro",
+    raza: "",
+    edad: "",
+    peso: "",
+    alergias: "Ninguna",
     vacunasAlDia: true,
-    veterinario: '',
-    notas: ''
+    veterinario: "",
+    notas: "",
   });
 
-  const tiposMascota = ['Perro', 'Gato', 'Conejo', 'Ave', 'Otro'];
-  const razasPerro = ['Golden Retriever', 'Labrador', 'Bulldog', 'Poodle', 'Chihuahua', 'Pastor Alemán', 'Mixta', 'Otra'];
-  const razasGato = ['Siamés', 'Persa', 'Maine Coon', 'Bengalí', 'Sphynx', 'Común Europeo', 'Mixta', 'Otra'];
+  const tiposMascota = ["Perro", "Gato", "Conejo", "Ave", "Otro"];
+  const razasPerro = [
+    "Golden Retriever",
+    "Labrador",
+    "Bulldog",
+    "Poodle",
+    "Chihuahua",
+    "Pastor Alemán",
+    "Mixta",
+    "Otra",
+  ];
+  const razasGato = [
+    "Siamés",
+    "Persa",
+    "Maine Coon",
+    "Bengalí",
+    "Sphynx",
+    "Común Europeo",
+    "Mixta",
+    "Otra",
+  ];
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const nuevaMascota = {
       id: Date.now(),
       ...formData,
-      foto: formData.tipo === 'Perro' 
-        ? 'https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
-        : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
-      ultimaVisita: 'Nunca',
-      veterinario: formData.veterinario || 'No especificado'
+      foto:
+        formData.tipo === "Perro"
+          ? "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+          : "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+      ultimaVisita: "Nunca",
+      veterinario: formData.veterinario || "No especificado",
     };
 
     if (onPetAdded) {
       onPetAdded(nuevaMascota);
     }
+
+    // ✅ Navegar de vuelta al dashboard después de agregar
+    navigate("/dashboard?tab=pets");
   };
 
   const handleCancel = () => {
-    navigateTo('dashboard', 'pets');
+    navigate("/dashboard?tab=pets"); // ✅ Reemplazar navigateTo con navigate
   };
 
   const getRazasDisponibles = () => {
-    return formData.tipo === 'Perro' ? razasPerro : 
-           formData.tipo === 'Gato' ? razasGato : 
-           ['Mixta', 'Otra'];
+    return formData.tipo === "Perro"
+      ? razasPerro
+      : formData.tipo === "Gato"
+      ? razasGato
+      : ["Mixta", "Otra"];
   };
 
   return (
     <section className="add-pet">
       <div className="container">
         <div className="add-pet-header">
-          <button 
-            className="btn btn-back"
-            onClick={handleCancel}
-          >
+          <button className="btn btn-back" onClick={handleCancel}>
             <i className="fas fa-arrow-left"></i> Volver al Dashboard
           </button>
           <h1>Agregar Nueva Mascota</h1>
@@ -73,7 +97,7 @@ const AddPet = ({ user, navigateTo, onPetAdded }) => {
           <form onSubmit={handleSubmit} className="pet-form">
             <div className="form-section">
               <h3>Información Básica</h3>
-              
+
               <div className="form-grid">
                 <div className="form-group">
                   <label htmlFor="nombre">Nombre de la Mascota *</label>
@@ -97,8 +121,10 @@ const AddPet = ({ user, navigateTo, onPetAdded }) => {
                     onChange={handleChange}
                     required
                   >
-                    {tiposMascota.map(tipo => (
-                      <option key={tipo} value={tipo}>{tipo}</option>
+                    {tiposMascota.map((tipo) => (
+                      <option key={tipo} value={tipo}>
+                        {tipo}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -113,8 +139,10 @@ const AddPet = ({ user, navigateTo, onPetAdded }) => {
                     required
                   >
                     <option value="">Selecciona una raza</option>
-                    {getRazasDisponibles().map(raza => (
-                      <option key={raza} value={raza}>{raza}</option>
+                    {getRazasDisponibles().map((raza) => (
+                      <option key={raza} value={raza}>
+                        {raza}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -154,7 +182,7 @@ const AddPet = ({ user, navigateTo, onPetAdded }) => {
 
             <div className="form-section">
               <h3>Información Médica</h3>
-              
+
               <div className="form-grid">
                 <div className="form-group">
                   <label htmlFor="alergias">Alergias Conocidas</label>
@@ -168,13 +196,17 @@ const AddPet = ({ user, navigateTo, onPetAdded }) => {
                     <option value="Polen">Polen</option>
                     <option value="Ciertos alimentos">Ciertos alimentos</option>
                     <option value="Medicamentos">Medicamentos</option>
-                    <option value="Picaduras de insectos">Picaduras de insectos</option>
+                    <option value="Picaduras de insectos">
+                      Picaduras de insectos
+                    </option>
                     <option value="Otras">Otras</option>
                   </select>
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="veterinario">Veterinario de Preferencia</label>
+                  <label htmlFor="veterinario">
+                    Veterinario de Preferencia
+                  </label>
                   <input
                     type="text"
                     id="veterinario"
@@ -213,8 +245,8 @@ const AddPet = ({ user, navigateTo, onPetAdded }) => {
             </div>
 
             <div className="form-actions">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn btn-outline"
                 onClick={handleCancel}
               >
@@ -230,24 +262,33 @@ const AddPet = ({ user, navigateTo, onPetAdded }) => {
             <h3>Vista Previa</h3>
             <div className="preview-card">
               <div className="preview-avatar">
-                <img 
-                  src={formData.tipo === 'Perro' 
-                    ? 'https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
-                    : formData.tipo === 'Gato'
-                    ? 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
-                    : 'https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
-                  } 
-                  alt="Preview" 
+                <img
+                  src={
+                    formData.tipo === "Perro"
+                      ? "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                      : formData.tipo === "Gato"
+                      ? "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                      : "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                  }
+                  alt="Preview"
                 />
               </div>
               <div className="preview-info">
-                <h4>{formData.nombre || 'Nombre de la mascota'}</h4>
-                <p>{formData.raza || 'Raza'} • {formData.edad || '0'} años</p>
-                <span className="preview-detail">{formData.peso || '0'} kg</span>
+                <h4>{formData.nombre || "Nombre de la mascota"}</h4>
+                <p>
+                  {formData.raza || "Raza"} • {formData.edad || "0"} años
+                </p>
+                <span className="preview-detail">
+                  {formData.peso || "0"} kg
+                </span>
                 <div className="preview-tags">
                   <span className="tag">{formData.tipo}</span>
-                  <span className={`tag ${formData.vacunasAlDia ? 'vaccinated' : 'not-vaccinated'}`}>
-                    {formData.vacunasAlDia ? 'Vacunado' : 'Pendiente vacunas'}
+                  <span
+                    className={`tag ${
+                      formData.vacunasAlDia ? "vaccinated" : "not-vaccinated"
+                    }`}
+                  >
+                    {formData.vacunasAlDia ? "Vacunado" : "Pendiente vacunas"}
                   </span>
                 </div>
               </div>

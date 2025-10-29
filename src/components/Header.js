@@ -1,38 +1,27 @@
-// components/Header.js
-import React, { useState, useEffect } from 'react';
-import '../styles/components/Header.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "../styles/components/Header.css";
 
-const Header = ({ currentPage, navigateTo, isLoggedIn, user, onLogout }) => {
+const Header = ({ isLoggedIn, user, onLogout }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation(); // Para saber en qué ruta estamos
+
+  // Detectar scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
-
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen);
-  };
-
-  const handleNavigation = (page) => {
-    navigateTo(page);
-    closeMobileMenu();
-    setIsUserMenuOpen(false);
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
   const handleLogout = () => {
     onLogout();
@@ -40,112 +29,103 @@ const Header = ({ currentPage, navigateTo, isLoggedIn, user, onLogout }) => {
     closeMobileMenu();
   };
 
+  // ✅ Nueva función de navegación usando React Router
+  const handleNavigation = (path) => {
+    navigate(path);
+    closeMobileMenu();
+    setIsUserMenuOpen(false);
+    window.scrollTo(0, 0);
+  };
+
+  // ✅ Para scroll interno (solo funciona desde la ruta "/")
   const handleSectionNavigation = (sectionId) => {
-    if (currentPage !== 'home') {
-      navigateTo('home');
+    if (location.pathname !== "/") {
+      navigate("/"); // Ir al home primero
       setTimeout(() => {
         const section = document.getElementById(sectionId);
-        if (section) {
-          section.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      }, 300);
     } else {
       const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (section) section.scrollIntoView({ behavior: "smooth" });
     }
     closeMobileMenu();
   };
 
   return (
-    <header className={`header ${isScrolled ? 'scrolled' : ''}`} id="header">
+    <header className={`header ${isScrolled ? "scrolled" : ""}`} id="header">
       <div className="container">
         <nav className="navbar">
-          {/* Logo que redirige al home */}
-          <a 
-            href="#" 
-            className="logo" 
+          {/* Logo */}
+          <a
+            href="#"
+            className="logo"
             onClick={(e) => {
               e.preventDefault();
-              handleNavigation('home');
+              handleNavigation("/");
             }}
           >
             <div className="logo-container">
               <div className="logo-image">
-                 <img src="/logo2.jpg" alt="NIDDU" />
-
-                  <div className="logo-circle circle-green">N</div>
-                  <div className="logo-circle circle-blue">I</div>
-                  <div className="logo-circle circle-brown">D</div>
-                  <div className="logo-circle circle-green">D</div>
-                  <div className="logo-circle circle-blue">U</div>
+                <img src="/logo2.jpg" alt="NIDDU" />
+                <div className="logo-circle circle-green">N</div>
+                <div className="logo-circle circle-blue">I</div>
+                <div className="logo-circle circle-brown">D</div>
+                <div className="logo-circle circle-green">D</div>
+                <div className="logo-circle circle-blue">U</div>
               </div>
-              <div className="logo-text"></div>
             </div>
           </a>
-          
-          <ul className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
+
+          <ul className={`nav-links ${isMobileMenuOpen ? "active" : ""}`}>
             {isLoggedIn ? (
-              // Menú para usuarios logueados
               <>
                 <li>
-                  <a 
+                  <a
                     href="#buscar"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavigation('dashboard');
+                      handleNavigation("/dashboard");
                     }}
                   >
                     <i className="fas fa-search"></i> Buscar
                   </a>
                 </li>
                 <li>
-                  <a 
-                    href="#ayuda"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // Aquí puedes redirigir a una página de ayuda
-                    }}
-                  >
+                  <a href="#ayuda" onClick={(e) => e.preventDefault()}>
                     <i className="fas fa-question-circle"></i> Ayuda
                   </a>
                 </li>
                 <li>
-                  <a 
-                    href="#ser-cuidador"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // Aquí puedes redirigir a ser cuidador
-                    }}
-                  >
+                  <a href="#ser-cuidador" onClick={(e) => e.preventDefault()}>
                     <i className="fas fa-paw"></i> Ser Cuidador
                   </a>
                 </li>
-                
+
                 {/* Menú de usuario */}
                 <li className="nav-user">
-                  <div 
-                    className="user-menu-trigger"
-                    onClick={toggleUserMenu}
-                  >
+                  <div className="user-menu-trigger" onClick={toggleUserMenu}>
                     <div className="user-avatar">
-                      <img 
-                        src={user?.avatar || "/default-avatar.png"} 
-                        alt={user?.name || "Usuario"} 
+                      <img
+                        src={user?.avatar || "/default-avatar.png"}
+                        alt={user?.name || "Usuario"}
                       />
                     </div>
                     <span className="user-name">{user?.name || "Usuario"}</span>
-                    <i className={`fas fa-chevron-${isUserMenuOpen ? 'up' : 'down'}`}></i>
+                    <i
+                      className={`fas fa-chevron-${
+                        isUserMenuOpen ? "up" : "down"
+                      }`}
+                    ></i>
                   </div>
-                  
+
                   {isUserMenuOpen && (
                     <div className="user-dropdown">
                       <div className="user-info">
                         <div className="user-avatar">
-                          <img 
-                            src={user?.avatar || "/default-avatar.png"} 
-                            alt={user?.name || "Usuario"} 
+                          <img
+                            src={user?.avatar || "/default-avatar.png"}
+                            alt={user?.name || "Usuario"}
                           />
                         </div>
                         <div className="user-details">
@@ -154,17 +134,26 @@ const Header = ({ currentPage, navigateTo, isLoggedIn, user, onLogout }) => {
                         </div>
                       </div>
                       <div className="dropdown-divider"></div>
-                      <a href="#perfil" className="dropdown-item">
+                      <button
+                        className="dropdown-item"
+                        onClick={() => handleNavigation("/dashboard/profile")}
+                      >
                         <i className="fas fa-user"></i> Mi Perfil
-                      </a>
-                      <a href="#mascotas" className="dropdown-item">
+                      </button>
+                      <button
+                        className="dropdown-item"
+                        onClick={() => handleNavigation("/dashboard/pets")}
+                      >
                         <i className="fas fa-paw"></i> Mis Mascotas
-                      </a>
-                      <a href="#reservas" className="dropdown-item">
+                      </button>
+                      <button
+                        className="dropdown-item"
+                        onClick={() => handleNavigation("/dashboard/bookings")}
+                      >
                         <i className="fas fa-calendar"></i> Mis Reservas
-                      </a>
+                      </button>
                       <div className="dropdown-divider"></div>
-                      <button 
+                      <button
                         className="dropdown-item logout-btn"
                         onClick={handleLogout}
                       >
@@ -175,75 +164,71 @@ const Header = ({ currentPage, navigateTo, isLoggedIn, user, onLogout }) => {
                 </li>
               </>
             ) : (
-              // Menú para usuarios no logueados
               <>
                 <li>
-                  <a 
-                    href="#inicio" 
-                    className={currentPage === 'home' ? 'active' : ''}
+                  <a
+                    href="#inicio"
+                    className={location.pathname === "/" ? "active" : ""}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavigation('home');
+                      handleNavigation("/");
                     }}
                   >
                     Inicio
                   </a>
                 </li>
                 <li>
-                  <a 
+                  <a
                     href="#servicios"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleSectionNavigation('servicios');
+                      handleSectionNavigation("servicios");
                     }}
                   >
                     Servicios
                   </a>
                 </li>
                 <li>
-                  <a 
+                  <a
                     href="#como-funciona"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleSectionNavigation('como-funciona');
+                      handleSectionNavigation("como-funciona");
                     }}
                   >
                     Cómo Funciona
                   </a>
                 </li>
                 <li>
-                  <a 
+                  <a
                     href="#testimonios"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleSectionNavigation('testimonios');
+                      handleSectionNavigation("testimonios");
                     }}
                   >
                     Testimonios
                   </a>
                 </li>
-                
-                {/* Botones de autenticación */}
                 <li className="nav-auth">
-                  <a 
-                    href="#login" 
+                  <a
+                    href="#login"
                     className="nav-login"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavigation('login');
+                      handleNavigation("/login");
                     }}
                   >
                     Iniciar Sesión
                   </a>
                 </li>
-                
                 <li className="nav-cta">
-                  <a 
-                    href="#registro" 
+                  <a
+                    href="#registro"
                     className="btn btn-primary"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavigation('register');
+                      handleNavigation("/register");
                     }}
                   >
                     Registrarse
@@ -252,9 +237,11 @@ const Header = ({ currentPage, navigateTo, isLoggedIn, user, onLogout }) => {
               </>
             )}
           </ul>
-          
+
           <div className="mobile-menu" onClick={toggleMobileMenu}>
-            <i className={`fas ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'}`}></i>
+            <i
+              className={`fas ${isMobileMenuOpen ? "fa-times" : "fa-bars"}`}
+            ></i>
           </div>
         </nav>
       </div>

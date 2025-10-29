@@ -1,28 +1,18 @@
-import React from 'react';
-import '../styles/components/Hero.css';
+import { useNavigate } from "react-router-dom";
+import "../styles/components/Hero.css";
 
-const Hero = ({ navigateTo }) => {
+const Hero = () => {
+  const navigate = useNavigate();
+
   const handleRegisterClick = () => {
-    if (navigateTo) {
-      navigateTo('register');
-    }
+    navigate("/register");
   };
 
   const handleHowItWorksClick = (e) => {
     e.preventDefault();
-    if (navigateTo && navigateTo.currentPage !== 'home') {
-      navigateTo('home');
-      setTimeout(() => {
-        const section = document.getElementById('como-funciona');
-        if (section) {
-          section.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else {
-      const section = document.getElementById('como-funciona');
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
+    const section = document.getElementById("como-funciona");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -33,18 +23,18 @@ const Hero = ({ navigateTo }) => {
           <div className="hero-text animate-fadeInLeft">
             <h1>NIDDU</h1>
             <h2>Cuidado integral para tus mascotas</h2>
-            <p>Conectamos a dueños de mascotas con una red confiable de cuidadores y servicios especializados. Bienestar, comodidad y seguridad en un solo lugar.</p>
+            <p>
+              Conectamos a dueños de mascotas con una red confiable de
+              cuidadores y servicios especializados. Bienestar, comodidad y
+              seguridad en un solo lugar.
+            </p>
             <div className="hero-buttons">
-              {/* Botón actualizado para redirigir a registro */}
-              <button 
-                className="btn btn-primary"
-                onClick={handleRegisterClick}
-              >
+              <button className="btn btn-primary" onClick={handleRegisterClick}>
                 Comenzar Ahora
               </button>
-              
-              <a 
-                href="#como-funciona" 
+
+              <a
+                href="#como-funciona"
                 className="btn btn-outline"
                 onClick={handleHowItWorksClick}
               >
@@ -53,9 +43,9 @@ const Hero = ({ navigateTo }) => {
             </div>
           </div>
           <div className="hero-image animate-fadeInRight">
-            <img 
-              src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-              alt="Mascotas felices" 
+            <img
+              src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="Mascotas felices"
               className="animate-float"
             />
           </div>

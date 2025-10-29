@@ -1,53 +1,66 @@
 // components/RegisterPage.js
-import React, { useState } from 'react';
-import '../styles/components/RegisterPage.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/components/RegisterPage.css";
 
-const RegisterPage = ({ navigateTo, onRegister }) => {
+const RegisterPage = ({ onRegister }) => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    petType: '',
-    password: '',
-    confirmPassword: '',
-    terms: false
+    name: "",
+    email: "",
+    phone: "",
+    petType: "",
+    password: "",
+    confirmPassword: "",
+    terms: false,
   });
 
   const handleChange = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setFormData({
       ...formData,
-      [e.target.name]: value
+      [e.target.name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Validar que las contraseñas coincidan
+
+    // Validar contraseñas
     if (formData.password !== formData.confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      alert("Las contraseñas no coinciden");
       return;
     }
-    
+
     // Validar términos
     if (!formData.terms) {
-      alert('Debes aceptar los términos y condiciones');
+      alert("Debes aceptar los términos y condiciones");
       return;
     }
-    
-    // Simular datos de usuario (en una app real esto vendría del backend)
+
+    // Simular datos de usuario
     const userData = {
       id: Date.now(),
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
       petType: formData.petType,
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80'
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
     };
-    
-    // Llamar a la función de registro del App.js
+
+    // Registrar usuario
     onRegister(userData);
+
+    // Redirigir al dashboard tras el registro
+    navigate("/dashboard");
+  };
+
+  const goToLogin = (e) => {
+    e.preventDefault();
+    navigate("/login");
   };
 
   return (
@@ -58,52 +71,52 @@ const RegisterPage = ({ navigateTo, onRegister }) => {
             <h1>Únete a NIDDU</h1>
             <p>Comienza a cuidar de tu mascota como se merece</p>
           </div>
-          
+
           <form className="register-form" onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="name">Nombre completo *</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Tu nombre completo" 
-                  required 
+                  placeholder="Tu nombre completo"
+                  required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="email">Correo electrónico *</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="tu@email.com" 
-                  required 
+                  placeholder="tu@email.com"
+                  required
                 />
               </div>
             </div>
-            
+
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="phone">Teléfono</label>
-                <input 
-                  type="tel" 
+                <input
+                  type="tel"
                   id="phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="+1 234 567 890" 
+                  placeholder="+1 234 567 890"
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="petType">Tipo de mascota *</label>
-                <select 
+                <select
                   id="petType"
                   name="petType"
                   value={formData.petType}
@@ -118,62 +131,58 @@ const RegisterPage = ({ navigateTo, onRegister }) => {
                 </select>
               </div>
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="password">Contraseña *</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Mínimo 8 caracteres" 
-                required 
+                placeholder="Mínimo 8 caracteres"
+                required
                 minLength="8"
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirmar contraseña *</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 id="confirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                placeholder="Repite tu contraseña" 
-                required 
+                placeholder="Repite tu contraseña"
+                required
               />
             </div>
-            
+
             <div className="form-group checkbox-group">
-              <input 
-                type="checkbox" 
-                id="terms" 
+              <input
+                type="checkbox"
+                id="terms"
                 name="terms"
                 checked={formData.terms}
                 onChange={handleChange}
-                required 
+                required
               />
               <label htmlFor="terms">
-                Acepto los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad</a>
+                Acepto los <a href="#">términos y condiciones</a> y la{" "}
+                <a href="#">política de privacidad</a>
               </label>
             </div>
-            
+
             <button type="submit" className="btn btn-primary btn-full">
               Crear Cuenta
             </button>
           </form>
-          
+
           <div className="login-link">
-            <p>¿Ya tienes cuenta? 
-              <a 
-                href="#login" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigateTo('login');
-                }}
-              >
+            <p>
+              ¿Ya tienes cuenta?{" "}
+              <a href="#login" onClick={goToLogin}>
                 Inicia sesión aquí
               </a>
             </p>
