@@ -9,12 +9,7 @@ import CaregiversTab from "../components/CaregiversTab";
 import BookingsTab from "../components/BookingsTab";
 import PetsTab from "../components/PetsTab";
 
-const Dashboard = ({
-  user,
-  mascotas: propMascotas,
-  activeTab,
-  onTabChange,
-}) => {
+const Dashboard = ({ user, mascotas, activeTab, onTabChange }) => {
   const navigate = useNavigate();
   const [internalActiveTab, setInternalActiveTab] = useState(
     activeTab || "overview"
@@ -38,13 +33,11 @@ const Dashboard = ({
   };
 
   const userStats = {
-    mascotas: propMascotas.length,
+    mascotas: mascotas.length,
     reservasActivas: 1,
     cuidadoresFavoritos: 3,
     puntos: 150,
   };
-
-  const mascotas = propMascotas;
 
   const reservas = [
     {

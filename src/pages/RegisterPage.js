@@ -88,6 +88,19 @@ const RegisterPage = ({ onRegister }) => {
               </div>
 
               <div className="form-group">
+                <label htmlFor="name">Apellido completo *</label>
+                <input
+                  type="text"
+                  id="apellido"
+                  name="apellido"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Tu apellido completo"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
                 <label htmlFor="email">Correo electrónico *</label>
                 <input
                   type="email"
@@ -99,9 +112,7 @@ const RegisterPage = ({ onRegister }) => {
                   required
                 />
               </div>
-            </div>
 
-            <div className="form-row">
               <div className="form-group">
                 <label htmlFor="phone">Teléfono</label>
                 <input
@@ -112,23 +123,6 @@ const RegisterPage = ({ onRegister }) => {
                   onChange={handleChange}
                   placeholder="+1 234 567 890"
                 />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="petType">Tipo de mascota *</label>
-                <select
-                  id="petType"
-                  name="petType"
-                  value={formData.petType}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Selecciona una opción</option>
-                  <option value="dog">Perro</option>
-                  <option value="cat">Gato</option>
-                  <option value="both">Ambos</option>
-                  <option value="other">Otro</option>
-                </select>
               </div>
             </div>
 

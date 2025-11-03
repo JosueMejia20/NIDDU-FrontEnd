@@ -272,19 +272,11 @@
 }
 
 .circle-green {
-  background: linear-gradient(
-    135deg,
-    var(--primary-green) 0%,
-    var(--dark-green) 100%
-  );
+  background-color: #95aa5c;
 }
 
 .circle-blue {
-  background: linear-gradient(
-    135deg,
-    var(--primary-blue) 0%,
-    var(--dark-blue) 100%
-  );
+  background-color: #80b5bb;
 }
 
 .circle-brown {

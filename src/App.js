@@ -21,6 +21,16 @@ import NewBooking from "./components/NewBooking";
 import AddPet from "./components/AddPet";
 import "./styles/globals.css";
 import ScrollToTop from "./components/ScrollToTop";
+import { userService } from "./api/services/userService";
+
+userService
+  .obtainUser()
+  .then((response) => {
+    console.log(response.data);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
 const ProtectedRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) {
@@ -51,7 +61,7 @@ function App() {
     },
     {
       id: 2,
-      nombre: "Luna",
+      nombre: "Kitty",
       tipo: "Gato",
       raza: "Siamés",
       edad: 2,
@@ -138,7 +148,7 @@ function App() {
 
     setTimeout(() => {
       setShowSuccessModal(false);
-      navigate("/dashboard?tab=pets"); // Actualizado
+      navigate("/dashboard"); // Actualizado
     }, 2000);
   };
 

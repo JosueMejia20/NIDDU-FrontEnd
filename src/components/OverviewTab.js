@@ -1,6 +1,9 @@
 // OverviewTab.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import PetCard from "./PetCard";
+import BookingItem from "./BookingItem";
+import CaregiverCard from "./CaregiverCard";
 
 const OverviewTab = ({ mascotas, reservas, cuidadores, userStats }) => {
   const navigate = useNavigate();
@@ -73,25 +76,11 @@ const OverviewTab = ({ mascotas, reservas, cuidadores, userStats }) => {
         </div>
         <div className="pets-grid">
           {mascotas.map((mascota) => (
-            <div key={mascota.id} className="pet-card">
-              <div className="pet-avatar">
-                <img src={mascota.foto} alt={mascota.nombre} />
-              </div>
-              <div className="pet-info">
-                <h4>{mascota.nombre}</h4>
-                <p>
-                  {mascota.raza} • {mascota.edad} años
-                </p>
-                <span className="pet-detail">{mascota.peso}</span>
-              </div>
-              <button
-                type="button"
-                className="btn btn-outline btn-sm"
-                onClick={() => handleReserve(mascota.id)}
-              >
-                Ver / Reservar
-              </button>
-            </div>
+            <PetCard
+              key={mascota.id}
+              mascota={mascota}
+              onReserve={handleReserve}
+            />
           ))}
         </div>
       </div>
@@ -110,23 +99,7 @@ const OverviewTab = ({ mascotas, reservas, cuidadores, userStats }) => {
         </div>
         <div className="bookings-list">
           {reservas.slice(0, 2).map((reserva) => (
-            <div key={reserva.id} className="booking-item">
-              <div className="booking-info">
-                <h4>{reserva.servicio}</h4>
-                <p>Con {reserva.cuidador}</p>
-                <span className="booking-date">
-                  {reserva.fecha} - {reserva.hora}
-                </span>
-              </div>
-              <div className="booking-details">
-                <span className="booking-price">{reserva.precio}</span>
-                <div
-                  className={`booking-status ${reserva.estado.toLowerCase()}`}
-                >
-                  {reserva.estado}
-                </div>
-              </div>
-            </div>
+            <BookingItem key={reserva.id} reserva={reserva} />
           ))}
         </div>
       </div>
@@ -145,40 +118,11 @@ const OverviewTab = ({ mascotas, reservas, cuidadores, userStats }) => {
         </div>
         <div className="caregivers-grid">
           {cuidadores.slice(0, 2).map((cuidador) => (
-            <div key={cuidador.id} className="caregiver-card">
-              <div className="caregiver-avatar">
-                <img src={cuidador.foto} alt={cuidador.nombre} />
-                <div
-                  className={`availability-dot ${
-                    cuidador.disponible ? "available" : "busy"
-                  }`}
-                ></div>
-              </div>
-              <div className="caregiver-info">
-                <h4>{cuidador.nombre}</h4>
-                <p>{cuidador.especialidad}</p>
-                <div className="caregiver-rating">
-                  <i className="fas fa-star"></i>
-                  <span>{cuidador.calificacion}</span>
-                  <span>({cuidador.reseñas})</span>
-                </div>
-                <div className="caregiver-services">
-                  {cuidador.servicios.slice(0, 2).map((servicio, index) => (
-                    <div key={index} className="service-badge">
-                      <img src={servicio.imagen} alt={servicio.nombre} />
-                      <span>{servicio.nombre}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary btn-sm"
-                onClick={() => handleReserve(cuidador.id)}
-              >
-                Reservar
-              </button>
-            </div>
+            <CaregiverCard
+              key={cuidador.id}
+              cuidador={cuidador}
+              onReserve={handleReserve}
+            />
           ))}
         </div>
       </div>
