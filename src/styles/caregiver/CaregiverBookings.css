@@ -1,0 +1,260 @@
+/* CaregiverBookings.css */
+.caregiver-bookings {
+  background: var(--light-gray);
+  min-height: 100vh;
+  padding: 30px 0;
+}
+
+.bookings-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  align-items: center;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 5px;
+  background: var(--white);
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-tab {
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.filter-tab.active {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-box input {
+  padding: 10px 15px 10px 35px;
+  border: 1px solid var(--medium-gray);
+  border-radius: 20px;
+  width: 100%;
+  font-size: 14px;
+}
+
+.search-box i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-color);
+}
+
+.bookings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.booking-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.booking-card.pending {
+  border-left: 4px solid #f39c12;
+}
+
+.booking-card.confirmed {
+  border-left: 4px solid var(--primary-green);
+}
+
+.booking-card.completed {
+  border-left: 4px solid var(--primary-blue);
+}
+
+.booking-card.cancelled {
+  border-left: 4px solid #e74c3c;
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: var(--light-gray);
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.booking-id {
+  font-weight: 600;
+  color: var(--dark-gray);
+}
+
+.booking-status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.booking-status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.booking-status.confirmed {
+  background: var(--light-green);
+  color: var(--dark-green);
+}
+
+.booking-status.completed {
+  background: var(--light-blue);
+  color: var(--dark-blue);
+}
+
+.booking-status.cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.booking-content {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.client-info,
+.service-info,
+.booking-pricing {
+  display: flex;
+  flex-direction: column;
+}
+
+.client-info {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.client-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.client-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.client-details h4 {
+  margin-bottom: 5px;
+  color: var(--dark-gray);
+}
+
+.client-details p {
+  font-size: 12px;
+  margin-bottom: 3px;
+  color: var(--text-color);
+}
+
+.service-info h4 {
+  margin-bottom: 10px;
+  color: var(--dark-gray);
+}
+
+.service-details p {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+.price-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.price-item,
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.price-total {
+  font-weight: 600;
+  border-top: 1px solid var(--medium-gray);
+  padding-top: 8px;
+  margin-top: 5px;
+}
+
+.booking-actions {
+  padding: 15px 20px;
+  background: var(--light-gray);
+  border-top: 1px solid var(--medium-gray);
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .booking-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .bookings-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .booking-content {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .booking-actions {
+    flex-direction: column;
+  }
+  
+  .booking-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .client-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .booking-actions .btn {
+    width: 100%;
+  }
+}
