@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/components/RegisterPage.css";
 import DepartamentosSelect from "../components/DepartamentosSelect";
 
-const RegisterPage = ({ onRegister }) => {
+const RegisterCaregiverPage = ({ onRegister }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -180,6 +180,16 @@ const RegisterPage = ({ onRegister }) => {
               </div>
             </div>
 
+            <div className="form-group" style={{ width: "100%" }}>
+              <label htmlFor="file">Foto de identidad</label>
+              <input
+                type="file"
+                id="file"
+                name="file"
+                onChange={handleChange}
+              />
+            </div>
+
             <div className="form-group">
               <label htmlFor="password">Contraseña *</label>
               <input
@@ -241,4 +251,4 @@ const RegisterPage = ({ onRegister }) => {
   );
 };
 
-export default RegisterPage;
+export default RegisterCaregiverPage;

@@ -22,6 +22,7 @@ import AddPet from "./components/AddPet";
 import "./styles/globals.css";
 import ScrollToTop from "./components/ScrollToTop";
 import { userService } from "./api/services/userService";
+import RegisterCaregiverPage from "./pages/RegisterCaregiverPage";
 
 userService
   .obtainUser()
@@ -178,6 +179,12 @@ function App() {
           path="/register"
           element={<RegisterPage onRegister={handleRegister} />}
         />
+
+        <Route
+          path="/registerCaregiver"
+          element={<RegisterCaregiverPage onRegister={handleRegister} />}
+        />
+
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
 
         <Route

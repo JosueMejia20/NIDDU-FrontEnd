@@ -8,6 +8,10 @@ const Hero = () => {
     navigate("/register");
   };
 
+  const handleRegisterCaregiverClick = () => {
+    navigate("/registerCaregiver");
+  };
+
   const handleHowItWorksClick = (e) => {
     e.preventDefault();
     const section = document.getElementById("como-funciona");
@@ -33,13 +37,19 @@ const Hero = () => {
                 Comenzar Ahora
               </button>
 
-              <a
+              <button
+                className="btn btn-secondary"
+                onClick={handleRegisterCaregiverClick}
+              >
+                ¿Quieres ser cuidador?
+              </button>
+              {/* <a
                 href="#como-funciona"
                 className="btn btn-outline"
                 onClick={handleHowItWorksClick}
               >
                 Cómo Funciona
-              </a>
+              </a> */}
             </div>
           </div>
           <div className="hero-image animate-fadeInRight">
