@@ -23,6 +23,12 @@ import "./styles/globals.css";
 import ScrollToTop from "./components/ScrollToTop";
 import { userService } from "./api/services/userService";
 import RegisterCaregiverPage from "./pages/RegisterCaregiverPage";
+import OverviewTab from "./components/OverviewTab";
+import PetsTab from "./components/PetsTab";
+import BookingsTab from "./components/BookingsTab";
+import CaregiversTab from "./components/CaregiversTab";
+import ServicesTab from "./components/ServicesTab";
+import ProfileTab from "./components/ProfileTab";
 
 /*muestuserService
   .obtainUser()
@@ -74,6 +80,208 @@ function App() {
       veterinario: "Dra. Rodríguez",
     },
   ]);
+
+  /**
+   * TODO ESTO ES PARA LOS TABS, SE DEBE ELIMINAR LUEGO (DATADASHBOARD)
+   */
+
+  const [filtroReservas, setFiltroReservas] = useState("todas");
+  const [filtroCuidadores, setFiltroCuidadores] = useState("todos");
+  const [busquedaCuidadores, setBusquedaCuidadores] = useState("");
+
+  const reservas = [
+    {
+      id: 1,
+      servicio: "Day Care",
+      cuidador: "Ana García",
+      fecha: "15 Nov 2023",
+      hora: "09:00 - 18:00",
+      estado: "Activa",
+      precio: "$25.000",
+      direccion: "Calle 123 #45-67",
+      tipo: "activa",
+      duracion: "8 horas",
+    },
+    {
+      id: 2,
+      servicio: "Paseo",
+      cuidador: "Carlos López",
+      fecha: "10 Nov 2023",
+      hora: "16:00 - 17:00",
+      estado: "Completada",
+      precio: "$15.000",
+      direccion: "Carrera 89 #12-34",
+      tipo: "completada",
+      duracion: "1 hora",
+    },
+    {
+      id: 3,
+      servicio: "Peluquería",
+      cuidador: "María Rodríguez",
+      fecha: "20 Nov 2023",
+      hora: "14:00 - 16:00",
+      estado: "Confirmada",
+      precio: "$35.000",
+      direccion: "Avenida Siempre Viva 742",
+      tipo: "confirmada",
+      duracion: "2 horas",
+    },
+  ];
+
+  const cuidadores = [
+    {
+      id: 1,
+      nombre: "Ana García",
+      especialidad: "Day Care, Paseos",
+      calificacion: 4.9,
+      reseñas: 42,
+      experiencia: "3 años",
+      precioHora: "$25.000",
+      disponible: true,
+      foto: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
+      servicios: [
+        {
+          nombre: "Day Care",
+          imagen:
+            "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&w=200&q=80",
+          descripcion: "Cuidado diurno en instalaciones seguras",
+        },
+        {
+          nombre: "Paseos",
+          imagen:
+            "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&w=200&q=80",
+          descripcion: "Paseos personalizados para tu mascota",
+        },
+      ],
+    },
+    {
+      id: 2,
+      nombre: "Carlos López",
+      especialidad: "Paseos, Entrenamiento",
+      calificacion: 4.8,
+      reseñas: 35,
+      experiencia: "2 años",
+      precioHora: "$20.000",
+      disponible: true,
+      foto: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
+      servicios: [
+        {
+          nombre: "Paseos",
+          imagen:
+            "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&w=200&q=80",
+          descripcion: "Paseos energéticos y divertidos",
+        },
+        {
+          nombre: "Entrenamiento",
+          imagen:
+            "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&w=200&q=80",
+          descripcion: "Entrenamiento básico y avanzado",
+        },
+      ],
+    },
+    {
+      id: 3,
+      nombre: "María Rodríguez",
+      especialidad: "Peluquería, Cuidado Especial",
+      calificacion: 5.0,
+      reseñas: 28,
+      experiencia: "4 años",
+      precioHora: "$30.000",
+      disponible: false,
+      foto: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
+      servicios: [
+        {
+          nombre: "Peluquería",
+          imagen:
+            "https://images.unsplash.com/photo-1622279450236-4ffa2d5e0e82?ixlib=rb-4.0.3&w=200&q=80",
+          descripcion: "Servicios de belleza completos",
+        },
+        {
+          nombre: "Cuidado Especial",
+          imagen:
+            "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&w=200&q=80",
+          descripcion: "Atención para mascotas con necesidades especiales",
+        },
+      ],
+    },
+  ];
+
+  const userStats = {
+    mascotas: mascotas.length,
+    reservasActivas: 1,
+    cuidadoresFavoritos: 3,
+    puntos: 150,
+  };
+
+  const reservasFiltradas = reservas.filter((reserva) => {
+    if (filtroReservas === "todas") return true;
+    return reserva.tipo === filtroReservas;
+  });
+
+  const cuidadoresFiltrados = cuidadores
+    .filter((cuidador) => {
+      if (filtroCuidadores === "todos") return true;
+      if (filtroCuidadores === "disponibles") return cuidador.disponible;
+      return cuidador.especialidad.toLowerCase().includes(filtroCuidadores);
+    })
+    .filter(
+      (cuidador) =>
+        cuidador.nombre
+          .toLowerCase()
+          .includes(busquedaCuidadores.toLowerCase()) ||
+        cuidador.especialidad
+          .toLowerCase()
+          .includes(busquedaCuidadores.toLowerCase())
+    );
+
+  const serviciosDisponibles = [
+    {
+      id: 1,
+      nombre: "Day Care Diario",
+      descripcion:
+        "Cuidado durante el día en instalaciones seguras y supervisadas",
+      precio: "$25.000/día",
+      duracion: "8 horas",
+      popular: true,
+      imagen:
+        "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 2,
+      nombre: "Paseos Personalizados",
+      descripcion: "Paseos adaptados a las necesidades y energía de tu mascota",
+      precio: "$15.000/paseo",
+      duracion: "1 hora",
+      popular: true,
+      imagen:
+        "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 3,
+      nombre: "Peluquería Canina",
+      descripcion: "Servicio completo de belleza, baño y corte de pelo",
+      precio: "$35.000/sesión",
+      duracion: "2 horas",
+      popular: false,
+      imagen:
+        "https://images.unsplash.com/photo-1622279450236-4ffa2d5e0e82?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 4,
+      nombre: "Entrenamiento Básico",
+      descripcion:
+        "Sesiones de entrenamiento para obediencia básica y comandos",
+      precio: "$40.000/sesión",
+      duracion: "1 hora",
+      popular: true,
+      imagen:
+        "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    },
+  ];
+
+  /**
+   * AQUI TERMINA LA DATA (DATADASHBOARD)
+   */
 
   const navigate = useNavigate();
 
@@ -187,17 +395,52 @@ function App() {
 
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
 
+        {/* Dashboard con rutas anidadas */}
         <Route
           path="/dashboard"
-          element={
-            <Dashboard
-              user={user}
-              mascotas={mascotas}
-              activeTab={dashboardActiveTab}
-              onTabChange={handleDashboardTabChange}
-            />
-          }
-        />
+          element={<Dashboard user={user} mascotas={mascotas} />}
+        >
+          <Route index element={<Navigate to="overview" replace />} />
+          <Route
+            path="overview"
+            element={
+              <OverviewTab
+                mascotas={mascotas}
+                reservas={reservas}
+                cuidadores={cuidadores}
+                userStats={userStats}
+              />
+            }
+          />
+          <Route path="pets" element={<PetsTab mascotas={mascotas} />} />
+          <Route
+            path="bookings"
+            element={
+              <BookingsTab
+                reservas={reservasFiltradas}
+                filtro={filtroReservas}
+                onFiltroChange={setFiltroReservas}
+              />
+            }
+          />
+          <Route
+            path="caregivers"
+            element={
+              <CaregiversTab
+                cuidadores={cuidadoresFiltrados}
+                filtro={filtroCuidadores}
+                busqueda={busquedaCuidadores}
+                onFiltroChange={setFiltroCuidadores}
+                onBusquedaChange={setBusquedaCuidadores}
+              />
+            }
+          />
+          <Route
+            path="services"
+            element={<ServicesTab servicios={serviciosDisponibles} />}
+          />
+          <Route path="profile" element={<ProfileTab user={user} />} />
+        </Route>
 
         {/* Rutas sin /dashboard */}
         <Route

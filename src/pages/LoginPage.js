@@ -29,8 +29,23 @@ const LoginPage = ({ onLogin }) => {
     }
 
     try {
+      // Este obtiene un JSON de la forma
+      /**
+      * {
+        "id": 3,
+        "correo": "edu@fas.com",
+        "idTipoUsuario": 2,
+        "idEstadoUsuario": 1
+        }
+       */
+
+      //Se debera crear un endpoint que devuelva un JSON con los datos de la Persona
+      // El endpoint debera tomar el id del usuario para devolver los datos de la Persona
+
+      //TODO: usuario contiene un json con el correo y su id, se debe crear otro objeto para poder almacenar
+      //los datos de la persona
       const usuario = await validarCredenciales(email, password);
-      
+
       if (!usuario) {
         alert("Correo o contraseña incorrectos");
         return;
@@ -39,6 +54,7 @@ const LoginPage = ({ onLogin }) => {
       console.log("Usuario validado:", usuario);
 
       // Guardamos el usuario en localStorage
+
       localStorage.setItem("usuario", JSON.stringify(usuario));
 
       // Ejecutamos callback de login (si necesitas actualizar estado global)
