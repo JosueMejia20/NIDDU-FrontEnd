@@ -42,7 +42,7 @@ const Dashboard = ({ user, mascotas }) => {
         <div className="dashboard-header">
           <div className="welcome-section">
             <h1>
-              ¡Bienvenido, {usuario?.persona?.nombres || "Carlos Rodríguez"}!
+              ¡Bienvenido, {usuario?.persona?.nombres || usuario?.nombre ||"Carlos Rodríguez"}!
             </h1>
             <p>Gestiona el cuidado de tus mascotas</p>
           </div>

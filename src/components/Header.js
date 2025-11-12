@@ -24,6 +24,7 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
   const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
   const handleLogout = () => {
+    localStorage.clear();
     onLogout();
     setIsUserMenuOpen(false);
     closeMobileMenu();
@@ -114,7 +115,7 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
                         alt={usuario?.persona?.nombres || "Usuario"}
                       />
                     </div>
-                    <span className="user-name">{usuario?.persona?.nombres || "Usuario"}</span>
+                    <span className="user-name">{usuario?.persona?.nombres || usuario?.nombre || "Usuario"}</span>
                     <i
                       className={`fas fa-chevron-${
                         isUserMenuOpen ? "up" : "down"
@@ -128,11 +129,11 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
                         <div className="user-avatar">
                           <img
                             src={ usuario?.fotoPerfil || "/default-avatar.png"}
-                            alt={usuario?.persona?.nombres || "Usuario"}
+                            alt={usuario?.persona?.nombres || usuario?.nombre || "Usuario"}
                           />
                         </div>
                         <div className="user-details">
-                          <strong>{usuario?.persona?.nombres || "Usuario"}</strong>
+                          <strong>{usuario?.persona?.nombres || usuario?.nombre || "Usuario"}</strong>
                           <span>{usuario?.correo || "usuario@email.com"}</span>
                         </div>
                       </div>

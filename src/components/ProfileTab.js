@@ -1,4 +1,37 @@
-const ProfileTab = ({ user }) => (
+import React, { useEffect, useState } from "react";
+
+
+  
+
+ 
+ //const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+const ProfileTab = ({ user }) => {
+
+  const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    // Cada vez que cambie localStorage (por login/logout) se actualiza
+    const storedUser = localStorage.getItem("usuario");
+    if (storedUser) {
+      setUsuario(JSON.parse(storedUser));
+    } else {
+      setUsuario(null);
+    }
+  }, []); // 👈 Esto se ejecuta solo al montar
+
+  // 💡 Pero queremos detectar también los cambios:
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const storedUser = localStorage.getItem("usuario");
+      setUsuario(storedUser ? JSON.parse(storedUser) : null);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  return (
   <div className="tab-content">
     <div className="tab-header">
       <h2>Mi Perfil</h2>
@@ -27,11 +60,11 @@ const ProfileTab = ({ user }) => (
             </button>
           </div>
           <div className="profile-info">
-            <h3>{user?.name || "Carlos Rodríguez"}</h3>
-            <p>{user?.email || "carlos@email.com"}</p>
+            <h3>{usuario?.persona?.nombres || usuario?.nombre || "Carlos Rodríguez"}</h3>
+            <p>{usuario?.correo || "carlos@email.com"}</p>
             <div className="member-since">
               <i className="fas fa-calendar"></i>
-              Miembro desde Enero 2023
+              Miembro desde {usuario?.fechaCreacion}
             </div>
           </div>
         </div>
@@ -42,19 +75,19 @@ const ProfileTab = ({ user }) => (
             <div className="detail-grid">
               <div className="detail-item">
                 <label>Nombre completo</label>
-                <span>{user?.name || "Carlos Rodríguez"}</span>
+                <span>{usuario?.persona?.nombres || usuario?.nombre  || "Carlos Rodríguez"}</span>
               </div>
               <div className="detail-item">
                 <label>Correo electrónico</label>
-                <span>{user?.email || "carlos@email.com"}</span>
+                <span>{usuario?.correo || "carlos@email.com"}</span>
               </div>
               <div className="detail-item">
                 <label>Teléfono</label>
-                <span>+57 300 123 4567</span>
+                <span>{usuario?.persona?.telefono || usuario?.telefono || "+57 300 123 4567"}</span>
               </div>
               <div className="detail-item">
                 <label>Dirección</label>
-                <span>Calle 123 #45-67, Bogotá</span>
+                <span>{ `${usuario?.direcciones?.[0]?.ciudad || ""} ${usuario?.direcciones?.[0]?.colonia || ""}`.trim() || `${usuario?.direccion?.ciudad || ""} ${usuario?.direccion?.colonia || ""}`.trim() || "Calle 123 #45-67, Bogotá"}</span>
               </div>
             </div>
           </div>
@@ -81,5 +114,5 @@ const ProfileTab = ({ user }) => (
     </div>
   </div>
 );
-
+  };
 export default ProfileTab;

@@ -64,12 +64,12 @@ const RegisterPage = ({ onRegister }) => {
     ],
   };
 
-   console.log("➡️ Enviando JSON al backend:", usuarioData);
+   console.log(" Enviando JSON al backend:", usuarioData);
 
   try {
     const response = await registrarUsuario(usuarioData);
-    console.log("✅ Respuesta del backend:", response);
-    alert("Usuario registrado correctamente 🎉");
+    console.log(" Respuesta del backend:", response);
+    alert("Usuario registrado correctamente ");
     // Registrar usuario
     onRegister(usuarioData);
 
@@ -80,13 +80,13 @@ const RegisterPage = ({ onRegister }) => {
     navigate("/dashboard");
   } catch (error) {
     if (error.response) {
-      console.error("⚠️ Error del servidor:", error.response.data);
+      console.error(" Error del servidor:", error.response.data);
       alert(`Error del servidor: ${error.response.data}`);
     } else if (error.request) {
-      console.error("❌ Sin respuesta del servidor:", error.request);
+      console.error(" Sin respuesta del servidor:", error.request);
       alert("No se pudo conectar con el servidor");
     } else {
-      console.error("❌ Error al configurar la petición:", error.message);
+      console.error(" Error al configurar la petición:", error.message);
       alert("Error en el envío del formulario");
     }
   }
