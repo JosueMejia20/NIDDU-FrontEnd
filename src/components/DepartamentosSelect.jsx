@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 
-const DepartamentosSelect = () => {
-  const departamentos = {
-    AT: "Atlántida",
-    CH: "Choluteca",
-    CL: "Colón",
-    CM: "Comayagua",
-    CP: "Copán",
-    CR: "Cortés",
-    EP: "El Paraíso",
-    FM: "Francisco Morazán",
-    GD: "Gracias a Dios",
-    IN: "Intibucá",
-    IB: "Islas de la Bahía",
-    LP: "La Paz",
-    LE: "Lempira",
-    OC: "Ocotepeque",
-    OL: "Olancho",
-    SB: "Santa Bárbara",
-    VA: "Valle",
-    YO: "Yoro",
-  };
+const DepartamentosSelect = ({ value, onDepartamentoChange }) => {
+  // Lista fija según tu tabla de la base de datos
+  const departamentos = [
+    { id: 1, nombre: "Atlántida" },
+    { id: 2, nombre: "Choluteca" },
+    { id: 3, nombre: "Colón" },
+    { id: 4, nombre: "Comayagua" },
+    { id: 5, nombre: "Copán" },
+    { id: 6, nombre: "Cortés" },
+    { id: 7, nombre: "El Paraíso" },
+    { id: 8, nombre: "Francisco Morazán" },
+    { id: 9, nombre: "Gracias a Dios" },
+    { id: 10, nombre: "Intibucá" },
+    { id: 11, nombre: "Islas de la Bahía" },
+    { id: 12, nombre: "La Paz" },
+    { id: 13, nombre: "Lempira" },
+    { id: 14, nombre: "Ocotepeque" },
+    { id: 15, nombre: "Olancho" },
+    { id: 16, nombre: "Santa Bárbara" },
+    { id: 17, nombre: "Valle" },
+    { id: 18, nombre: "Yoro" },
+  ];
 
-  const [departamento, setDepartamento] = useState("");
+  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(value || "");
 
   const handleChange = (e) => {
-    setDepartamento(e.target.value);
+    const selectedValue = e.target.value;
+    setDepartamentoSeleccionado(selectedValue);
+    onDepartamentoChange(selectedValue); // <-- envia el ID al padre
   };
 
   return (
@@ -34,8 +37,9 @@ const DepartamentosSelect = () => {
       <select
         id="departamento"
         name="departamento"
-        value={departamento}
+        value={departamentoSeleccionado}
         onChange={handleChange}
+        required
         style={{
           width: "100%",
           padding: "8px",
@@ -45,9 +49,9 @@ const DepartamentosSelect = () => {
         }}
       >
         <option value="">Selecciona un departamento</option>
-        {Object.entries(departamentos).map(([codigo, nombre]) => (
-          <option key={codigo} value={nombre}>
-            {nombre}
+        {departamentos.map((dep) => (
+          <option key={dep.id} value={dep.id}>
+            {dep.nombre}
           </option>
         ))}
       </select>

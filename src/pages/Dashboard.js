@@ -275,12 +275,15 @@ const Dashboard = ({ user, mascotas, activeTab, onTabChange }) => {
     }
   };
 
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  console.log(usuario?.persona?.nombres, usuario?.correo);
+
   return (
     <section className="dashboard">
       <div className="container">
         <div className="dashboard-header">
           <div className="welcome-section">
-            <h1>¡Bienvenido, {user?.name || "Carlos Rodríguez"}!</h1>
+            <h1>¡Bienvenido, {usuario?.persona?.nombres || "Carlos Rodríguez"}!</h1>
             <p>Gestiona el cuidado de tus mascotas</p>
           </div>
         </div>

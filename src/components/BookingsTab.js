@@ -75,13 +75,18 @@ const BookingsTab = ({ reservas, filtro, onFiltroChange, navigate }) => (
                 <button type="button" className="btn btn-outline btn-sm">
                   Detalles
                 </button>{" "}
-                {/* AGREGADO */}
                 {reserva.estado === "Activa" && (
-                  <button type="button" className="btn btn-primary btn-sm">
-                    Modificar
-                  </button> // AGREGADO
+                  <>
+                    <button type="button" className="btn btn-primary btn-sm">
+                      Modificar
+                    </button>
+                    <button type="button" className="btn btn-danger btn-sm">
+                      Cancelar
+                    </button>
+                  </>
                 )}
               </div>
+
             </div>
           </div>
         ))

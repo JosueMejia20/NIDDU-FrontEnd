@@ -24,14 +24,14 @@ import ScrollToTop from "./components/ScrollToTop";
 import { userService } from "./api/services/userService";
 import RegisterCaregiverPage from "./pages/RegisterCaregiverPage";
 
-userService
+/*muestuserService
   .obtainUser()
   .then((response) => {
     console.log(response.data);
   })
   .catch((error) => {
     console.error(error);
-  });
+  });*/
 
 const ProtectedRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) {

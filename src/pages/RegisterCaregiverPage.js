@@ -1,5 +1,7 @@
 // components/RegisterPage.js
 import React, { useState } from "react";
+import { registrarUsuario } from "../api/usuarios/usuariosApi";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/RegisterPage.css";
 import DepartamentosSelect from "../components/DepartamentosSelect";
@@ -26,43 +28,78 @@ const RegisterCaregiverPage = ({ onRegister }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validar contraseñas
+  
     if (formData.password !== formData.confirmPassword) {
       alert("Las contraseñas no coinciden");
       return;
     }
-
-    // Validar términos
+  
     if (!formData.terms) {
       alert("Debes aceptar los términos y condiciones");
       return;
     }
-
-    // Simular datos de usuario
-    const userData = {
-      id: Date.now(),
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      petType: formData.petType,
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+  
+    // Estructura del JSON esperada por tu backend
+    const usuarioData = {
+      correo: formData.email,
+      contrasena: formData.password,
+      idTipoUsuario: 2,  // Ajusta según el tipo de usuario
+      idEstadoUsuario: 1,
+      fotoPerfil: "default.jpg",
+      persona: {
+        nombres: formData.name,
+        apellidos: formData.apellido,
+        telefono: formData.phone,
+      },
+      direcciones: [
+        {
+          ciudad: formData.city,
+          colonia: formData.colony,
+          departamento: {
+            idDepartamento: formData.departamentoId || 1,
+          },
+        },
+      ],
     };
-
-    // Registrar usuario
-    onRegister(userData);
-
-    // Redirigir al dashboard tras el registro
-    navigate("/dashboard");
+  
+     console.log("➡️ Enviando JSON al backend:", usuarioData);
+  
+    try {
+      const response = await registrarUsuario(usuarioData);
+      console.log("✅ Respuesta del backend:", response);
+      alert("Usuario registrado correctamente 🎉");
+      // Registrar usuario
+      onRegister(usuarioData);
+  
+      // Redirigir al dashboard tras el registro
+      navigate("/dashboard");
+    } catch (error) {
+      if (error.response) {
+        console.error("⚠️ Error del servidor:", error.response.data);
+        alert(`Error del servidor: ${error.response.data}`);
+      } else if (error.request) {
+        console.error("❌ Sin respuesta del servidor:", error.request);
+        alert("No se pudo conectar con el servidor");
+      } else {
+        console.error("❌ Error al configurar la petición:", error.message);
+        alert("Error en el envío del formulario");
+      }
+    }
   };
 
   const goToLogin = (e) => {
     e.preventDefault();
     navigate("/login");
   };
+
+  const handleDepartamentoChange = (idDepartamento) => {
+  setFormData({
+    ...formData,
+    departamentoId: idDepartamento,
+  });
+};
 
   return (
     <section className="register-page">
@@ -94,7 +131,7 @@ const RegisterCaregiverPage = ({ onRegister }) => {
                   type="text"
                   id="apellido"
                   name="apellido"
-                  value={formData.name}
+                  value={formData.apellido}
                   onChange={handleChange}
                   placeholder="Tu apellido completo"
                   required
@@ -143,7 +180,10 @@ const RegisterCaregiverPage = ({ onRegister }) => {
                 </select>
               </div>
 
-              <DepartamentosSelect />
+              <DepartamentosSelect
+                value={formData.departamentoId}
+                onDepartamentoChange={handleDepartamentoChange}
+              />
 
               <div className="form-group">
                 <label htmlFor="city">Ciudad</label>
@@ -151,6 +191,8 @@ const RegisterCaregiverPage = ({ onRegister }) => {
                   type="text"
                   id="city"
                   name="city"
+                  value={formData.city || ""} 
+                   onChange={handleChange}
                   placeholder="Ejemplo: Tegucigalpa"
                   style={{
                     width: "100%",
@@ -168,6 +210,8 @@ const RegisterCaregiverPage = ({ onRegister }) => {
                   type="text"
                   id="colony"
                   name="colony"
+                  value={formData.colony || ""} 
+                  onChange={handleChange}        
                   placeholder="Ejemplo: Colonia Kennedy"
                   style={{
                     width: "100%",

@@ -1,10 +1,11 @@
 // src/pages/LoginPage.jsx
 import React, { useState } from "react";
+import { validarCredenciales } from "../api/usuarios/usuariosApi";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/LoginPage.css";
 
 const LoginPage = ({ onLogin }) => {
-  const navigate = useNavigate(); // reemplaza navigateTo()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,22 +18,38 @@ const LoginPage = ({ onLogin }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simular datos de usuario (esto vendría del backend)
-    const userData = {
-      id: 1,
-      name: "Carlos Rodríguez",
-      email: formData.email,
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80",
-    };
+    const { email, password } = formData; // extraemos los valores correctamente
 
-    onLogin(userData);
+    if (!email || !password) {
+      alert("Por favor completa todos los campos");
+      return;
+    }
 
-    // Redirigir al dashboard u otra ruta después del login
-    navigate("/dashboard");
+    try {
+      const usuario = await validarCredenciales(email, password);
+      
+      if (!usuario) {
+        alert("Correo o contraseña incorrectos");
+        return;
+      }
+
+      console.log("Usuario validado:", usuario);
+
+      // Guardamos el usuario en localStorage
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+
+      // Ejecutamos callback de login (si necesitas actualizar estado global)
+      if (onLogin) onLogin(usuario);
+
+      // Redirigimos al dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error al validar credenciales:", error);
+      alert("Ocurrió un error al iniciar sesión");
+    }
   };
 
   const goToRegister = (e) => {

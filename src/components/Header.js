@@ -52,6 +52,9 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
     closeMobileMenu();
   };
 
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  console.log(usuario?.persona?.nombres, usuario?.correo, usuario?.fotoPerfil);
+
   return (
     <header className={`header ${isScrolled ? "scrolled" : ""}`} id="header">
       <div className="container">
@@ -107,11 +110,11 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
                   <div className="user-menu-trigger" onClick={toggleUserMenu}>
                     <div className="user-avatar">
                       <img
-                        src={user?.avatar || "/default-avatar.png"}
-                        alt={user?.name || "Usuario"}
+                        src={ usuario?.fotoPerfil || "/default-avatar.png"}
+                        alt={usuario?.persona?.nombres || "Usuario"}
                       />
                     </div>
-                    <span className="user-name">{user?.name || "Usuario"}</span>
+                    <span className="user-name">{usuario?.persona?.nombres || "Usuario"}</span>
                     <i
                       className={`fas fa-chevron-${
                         isUserMenuOpen ? "up" : "down"
@@ -124,13 +127,13 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
                       <div className="user-info">
                         <div className="user-avatar">
                           <img
-                            src={user?.avatar || "/default-avatar.png"}
-                            alt={user?.name || "Usuario"}
+                            src={ usuario?.fotoPerfil || "/default-avatar.png"}
+                            alt={usuario?.persona?.nombres || "Usuario"}
                           />
                         </div>
                         <div className="user-details">
-                          <strong>{user?.name || "Usuario"}</strong>
-                          <span>{user?.email || "usuario@email.com"}</span>
+                          <strong>{usuario?.persona?.nombres || "Usuario"}</strong>
+                          <span>{usuario?.correo || "usuario@email.com"}</span>
                         </div>
                       </div>
                       <div className="dropdown-divider"></div>
