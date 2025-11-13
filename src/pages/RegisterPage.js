@@ -29,69 +29,68 @@ const RegisterPage = ({ onRegister }) => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (formData.password !== formData.confirmPassword) {
-    alert("Las contraseñas no coinciden");
-    return;
-  }
-
-  if (!formData.terms) {
-    alert("Debes aceptar los términos y condiciones");
-    return;
-  }
-
-  // Estructura del JSON esperada por tu backend
-  const usuarioData = {
-    correo: formData.email,
-    contrasena: formData.password,
-    idTipoUsuario: 2,  // Ajusta según el tipo de usuario
-    idEstadoUsuario: 1,
-    fotoPerfil: "default.jpg",
-    persona: {
-      nombres: formData.name,
-      apellidos: formData.apellido,
-      telefono: formData.phone,
-    },
-    direcciones: [
-      {
-        ciudad: formData.city,
-        colonia: formData.colony,
-        departamento: {
-          idDepartamento: formData.departamentoId || 1,
-        },
-      },
-    ],
-  };
-
-   console.log(" Enviando JSON al backend:", usuarioData);
-
-  try {
-    const response = await registrarUsuario(usuarioData);
-    console.log(" Respuesta del backend:", response);
-    alert("Usuario registrado correctamente ");
-    // Registrar usuario
-    onRegister(usuarioData);
-
-    // Guardar datos en memoria
-    localStorage.setItem("usuario", JSON.stringify(usuarioData));
-
-    // Redirigir al dashboard tras el registro
-    navigate("/dashboard");
-  } catch (error) {
-    if (error.response) {
-      console.error(" Error del servidor:", error.response.data);
-      alert(`Error del servidor: ${error.response.data}`);
-    } else if (error.request) {
-      console.error(" Sin respuesta del servidor:", error.request);
-      alert("No se pudo conectar con el servidor");
-    } else {
-      console.error(" Error al configurar la petición:", error.message);
-      alert("Error en el envío del formulario");
+    if (formData.password !== formData.confirmPassword) {
+      alert("Las contraseñas no coinciden");
+      return;
     }
-  }
-};
 
+    if (!formData.terms) {
+      alert("Debes aceptar los términos y condiciones");
+      return;
+    }
+
+    // Estructura del JSON esperada por tu backend
+    const usuarioData = {
+      correo: formData.email,
+      contrasena: formData.password,
+      idTipoUsuario: 2, // Ajusta según el tipo de usuario
+      idEstadoUsuario: 1,
+      fotoPerfil: "default.jpg",
+      persona: {
+        nombres: formData.name,
+        apellidos: formData.apellido,
+        telefono: formData.phone,
+      },
+      direcciones: [
+        {
+          ciudad: formData.city,
+          colonia: formData.colony,
+          departamento: {
+            idDepartamento: formData.departamentoId || 1,
+          },
+        },
+      ],
+    };
+
+    console.log(" Enviando JSON al backend:", usuarioData);
+
+    try {
+      const response = await registrarUsuario(usuarioData);
+      console.log(" Respuesta del backend:", response);
+      alert("Usuario registrado correctamente ");
+      // Registrar usuario
+      onRegister(usuarioData);
+
+      // Guardar datos en memoria
+      localStorage.setItem("usuario", JSON.stringify(usuarioData));
+
+      // Redirigir al dashboard tras el registro
+      navigate("/dashboard");
+    } catch (error) {
+      if (error.response) {
+        console.error(" Error del servidor:", error.response.data);
+        alert(`Error del servidor: ${error.response.data}`);
+      } else if (error.request) {
+        console.error(" Sin respuesta del servidor:", error.request);
+        alert("No se pudo conectar con el servidor");
+      } else {
+        console.error(" Error al configurar la petición:", error.message);
+        alert("Error en el envío del formulario");
+      }
+    }
+  };
 
   const goToLogin = (e) => {
     e.preventDefault();
@@ -99,12 +98,11 @@ const RegisterPage = ({ onRegister }) => {
   };
 
   const handleDepartamentoChange = (idDepartamento) => {
-  setFormData({
-    ...formData,
-    departamentoId: idDepartamento,
-  });
-};
-
+    setFormData({
+      ...formData,
+      departamentoId: idDepartamento,
+    });
+  };
 
   return (
     <section className="register-page">
@@ -196,8 +194,8 @@ const RegisterPage = ({ onRegister }) => {
                   type="text"
                   id="city"
                   name="city"
-                  value={formData.city || ""} 
-                   onChange={handleChange}    
+                  value={formData.city || ""}
+                  onChange={handleChange}
                   placeholder="Ejemplo: Tegucigalpa"
                   style={{
                     width: "100%",
@@ -215,8 +213,8 @@ const RegisterPage = ({ onRegister }) => {
                   type="text"
                   id="colony"
                   name="colony"
-                  value={formData.colony || ""} 
-                  onChange={handleChange}        
+                  value={formData.colony || ""}
+                  onChange={handleChange}
                   placeholder="Ejemplo: Colonia Kennedy"
                   style={{
                     width: "100%",
@@ -291,6 +289,19 @@ const RegisterPage = ({ onRegister }) => {
               ¿Ya tienes cuenta?{" "}
               <a href="#login" onClick={goToLogin}>
                 Inicia sesión aquí
+              </a>
+            </p>
+
+            <p style={{ marginTop: "20px" }}>
+              ¿Quieres ser cuidador?{" "}
+              <a
+                href="/registerCaregiver"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/registerCaregiver");
+                }}
+              >
+                Registrate aquí
               </a>
             </p>
           </div>

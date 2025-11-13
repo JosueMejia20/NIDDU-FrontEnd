@@ -29,6 +29,13 @@ import BookingsTab from "./components/BookingsTab";
 import CaregiversTab from "./components/CaregiversTab";
 import ServicesTab from "./components/ServicesTab";
 import ProfileTab from "./components/ProfileTab";
+import CaregiverDashboard from "./components/caregiver/CaregiverDashboard";
+import ServiceCreation from "./components/caregiver/ServiceCreation";
+import CaregiverBookings from "./components/caregiver/CaregiverBooking";
+import ReportsSection from "./components/caregiver/ReportsSection";
+import SettingsSection from "./components/caregiver/SettingsSection";
+import CaregiverLayout from "./components/caregiver/CaregiverLayout";
+import LoginPageCaregiver from "./pages/LoginPageCaregiver";
 
 /*muestuserService
   .obtainUser()
@@ -286,6 +293,7 @@ function App() {
   const navigate = useNavigate();
 
   // Restaurar sesión al recargar
+  //TODO: Estas funciones dependen mucho del /dashboard, hacer funciones independientes para el cuidador
   useEffect(() => {
     const savedUser = localStorage.getItem("niddu_user");
     const savedSession = localStorage.getItem("niddu_session");
@@ -319,6 +327,25 @@ function App() {
     }, 2000);
   };
 
+  const handleLoginCaregiver = (userData) => {
+    setIsLoggedIn(true);
+    setUser(userData);
+    localStorage.setItem("niddu_user", JSON.stringify(userData));
+    localStorage.setItem("niddu_session", "active");
+
+    setModalConfig({
+      title: "¡Acceso Exitoso!",
+      message: "Has iniciado sesión correctamente en NIDDU",
+      type: "success",
+    });
+    setShowSuccessModal(true);
+
+    setTimeout(() => {
+      setShowSuccessModal(false);
+      navigate("/caregiver");
+    }, 2000);
+  };
+
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUser(null);
@@ -343,6 +370,26 @@ function App() {
     setTimeout(() => {
       setShowSuccessModal(false);
       navigate("/dashboard");
+    }, 2000);
+  };
+
+  //Solamente este funcion es para el cuidador, personalizada
+  const handleRegisterCaregiver = (userData) => {
+    setIsLoggedIn(true);
+    setUser(userData);
+    localStorage.setItem("niddu_user", JSON.stringify(userData));
+    localStorage.setItem("niddu_session", "active");
+
+    setModalConfig({
+      title: "¡Registro Exitoso!",
+      message: "Tu cuenta ha sido creada correctamente",
+      type: "success",
+    });
+    setShowSuccessModal(true);
+
+    setTimeout(() => {
+      setShowSuccessModal(false);
+      navigate("/caregiver");
     }, 2000);
   };
 
@@ -390,10 +437,17 @@ function App() {
 
         <Route
           path="/registerCaregiver"
-          element={<RegisterCaregiverPage onRegister={handleRegister} />}
+          element={
+            <RegisterCaregiverPage onRegister={handleRegisterCaregiver} />
+          }
         />
 
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+
+        <Route
+          path="/loginCaregiver"
+          element={<LoginPageCaregiver onLogin={handleLoginCaregiver} />}
+        />
 
         {/* Dashboard con rutas anidadas */}
         <Route
@@ -440,6 +494,21 @@ function App() {
             element={<ServicesTab servicios={serviciosDisponibles} />}
           />
           <Route path="profile" element={<ProfileTab user={user} />} />
+        </Route>
+
+        {/* Rutas del Caregiver con Layout */}
+        <Route path="/caregiver" element={<CaregiverLayout />}>
+          <Route index element={<CaregiverDashboard />} />
+          <Route path="reservas" element={<CaregiverBookings />} />
+          {/* <Route
+            path="reservas/:id"
+            element={
+              <AGREGARAQUI /> // Componente para detalles de reserva individual
+            }
+          /> */}
+          <Route path="servicios" element={<ServiceCreation />} />
+          <Route path="reportes" element={<ReportsSection />} />
+          <Route path="configuracion" element={<SettingsSection />} />
         </Route>
 
         {/* Rutas sin /dashboard */}

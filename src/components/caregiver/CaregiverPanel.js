@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import CaregiverHeader from './CaregiverHeader';
-import CaregiverDashboard from './CaregiverDashboard';
-import ServiceCreation from './ServiceCreation';
-import CaregiverBookings from './CaregiverBooking';
-import ReportsSection from './ReportsSection';
-import SettingsSection from './SettingsSection';
+import React, { useState } from "react";
+import CaregiverHeader from "./CaregiverHeader";
+import CaregiverDashboard from "./CaregiverDashboard";
+import ServiceCreation from "./ServiceCreation";
+import CaregiverBookings from "./CaregiverBooking";
+import ReportsSection from "./ReportsSection";
+import SettingsSection from "./SettingsSection";
 
 const CaregiverPanel = () => {
-  const [currentSection, setCurrentSection] = useState('dashboard');
+  const [currentSection, setCurrentSection] = useState("dashboard");
 
+  //TODO: Aqui se debe quitar el onSectionChange y hacerlo con navigate
   const renderSection = () => {
     switch (currentSection) {
-      case 'servicios':
+      case "servicios":
         return <ServiceCreation onSectionChange={setCurrentSection} />;
-      case 'reservas':
+      case "reservas":
         return <CaregiverBookings onSectionChange={setCurrentSection} />;
-      case 'reportes':
+      case "reportes":
         return <ReportsSection onSectionChange={setCurrentSection} />;
-      case 'configuracion':
+      case "configuracion":
         return <SettingsSection onSectionChange={setCurrentSection} />;
       default:
         return <CaregiverDashboard onSectionChange={setCurrentSection} />;
@@ -26,9 +27,9 @@ const CaregiverPanel = () => {
 
   return (
     <div className="caregiver-panel">
-      <CaregiverHeader 
-        currentSection={currentSection} 
-        onSectionChange={setCurrentSection} 
+      <CaregiverHeader
+        currentSection={currentSection}
+        onSectionChange={setCurrentSection}
       />
       {renderSection()}
     </div>
