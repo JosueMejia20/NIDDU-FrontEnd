@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 // import { registrarUsuario } from "../api/usuarios/usuariosApi";
 import { registrarUsuarioCuidadores } from "../api/cuidador/cuidadoresApi";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/RegisterPage.css";
 import DepartamentosSelect from "../components/DepartamentosSelect";
