@@ -1,6 +1,7 @@
 // components/RegisterPage.js
 import React, { useState } from "react";
-import { registrarUsuario } from "../api/usuarios/usuariosApi";
+// import { registrarUsuario } from "../api/usuarios/usuariosApi";
+import { registrarUsuarioCuidadores } from "../api/cuidador/cuidadoresApi";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/RegisterPage.css";
@@ -30,24 +31,26 @@ const RegisterCaregiverPage = ({ onRegister }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (formData.password !== formData.confirmPassword) {
       alert("Las contraseñas no coinciden");
       return;
     }
-  
+
     if (!formData.terms) {
       alert("Debes aceptar los términos y condiciones");
       return;
     }
-  
+
     // Estructura del JSON esperada por tu backend
     const usuarioData = {
       correo: formData.email,
       contrasena: formData.password,
-      idTipoUsuario: 2,  // Ajusta según el tipo de usuario
-      idEstadoUsuario: 1,
+      idEstadoCuidador: 1,
       fotoPerfil: "default.jpg",
+      fotoIdentidad: "identidad.jpg",
+      precioxhora: formData.precioxhora,
+      experiencia: formData.experiencia,
       persona: {
         nombres: formData.name,
         apellidos: formData.apellido,
@@ -63,27 +66,27 @@ const RegisterCaregiverPage = ({ onRegister }) => {
         },
       ],
     };
-  
-     console.log("➡️ Enviando JSON al backend:", usuarioData);
-  
+
+    console.log(" Enviando JSON al backend:", usuarioData);
+
     try {
-      const response = await registrarUsuario(usuarioData);
-      console.log("✅ Respuesta del backend:", response);
-      alert("Usuario registrado correctamente 🎉");
+      const response = await registrarUsuarioCuidadores(usuarioData);
+      console.log(" Respuesta del backend:", response);
+      alert("Usuario registrado correctamente ");
       // Registrar usuario
       onRegister(usuarioData);
-  
+
       // Redirigir al dashboard tras el registro
-      navigate("/dashboard");
+      navigate("/caregiver");
     } catch (error) {
       if (error.response) {
-        console.error("⚠️ Error del servidor:", error.response.data);
+        console.error(" Error del servidor:", error.response.data);
         alert(`Error del servidor: ${error.response.data}`);
       } else if (error.request) {
-        console.error("❌ Sin respuesta del servidor:", error.request);
+        console.error(" Sin respuesta del servidor:", error.request);
         alert("No se pudo conectar con el servidor");
       } else {
-        console.error("❌ Error al configurar la petición:", error.message);
+        console.error("Error al configurar la petición:", error.message);
         alert("Error en el envío del formulario");
       }
     }
@@ -91,15 +94,15 @@ const RegisterCaregiverPage = ({ onRegister }) => {
 
   const goToLogin = (e) => {
     e.preventDefault();
-    navigate("/login");
+    navigate("/loginCaregiver");
   };
 
   const handleDepartamentoChange = (idDepartamento) => {
-  setFormData({
-    ...formData,
-    departamentoId: idDepartamento,
-  });
-};
+    setFormData({
+      ...formData,
+      departamentoId: idDepartamento,
+    });
+  };
 
   return (
     <section className="register-page">
@@ -164,6 +167,32 @@ const RegisterCaregiverPage = ({ onRegister }) => {
               </div>
 
               <div className="form-group">
+                <label htmlFor="number">Precio por hora</label>
+                <input
+                  type="text"
+                  id="precioxhora"
+                  name="precioxhora"
+                  value={formData.precioxhora}
+                  onChange={handleChange}
+                  placeholder="Coloca el precio por hora"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="number">Experiencia (en años)</label>
+                <input
+                  type="text"
+                  id="experiencia"
+                  name="experiencia"
+                  value={formData.experiencia}
+                  onChange={handleChange}
+                  placeholder="Coloca la experiencia que tienes"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
                 <label htmlFor="country">Pais</label>
                 <select
                   id="country"
@@ -191,8 +220,8 @@ const RegisterCaregiverPage = ({ onRegister }) => {
                   type="text"
                   id="city"
                   name="city"
-                  value={formData.city || ""} 
-                   onChange={handleChange}
+                  value={formData.city || ""}
+                  onChange={handleChange}
                   placeholder="Ejemplo: Tegucigalpa"
                   style={{
                     width: "100%",
@@ -210,8 +239,8 @@ const RegisterCaregiverPage = ({ onRegister }) => {
                   type="text"
                   id="colony"
                   name="colony"
-                  value={formData.colony || ""} 
-                  onChange={handleChange}        
+                  value={formData.colony || ""}
+                  onChange={handleChange}
                   placeholder="Ejemplo: Colonia Kennedy"
                   style={{
                     width: "100%",
@@ -222,6 +251,16 @@ const RegisterCaregiverPage = ({ onRegister }) => {
                   }}
                 />
               </div>
+            </div>
+
+            <div className="form-group" style={{ width: "100%" }}>
+              <label htmlFor="file">Foto de perfil</label>
+              <input
+                type="file"
+                id="file"
+                name="file"
+                onChange={handleChange}
+              />
             </div>
 
             <div className="form-group" style={{ width: "100%" }}>

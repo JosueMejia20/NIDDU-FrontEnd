@@ -4,7 +4,7 @@ import { validarCredenciales } from "../api/usuarios/usuariosApi";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/LoginPage.css";
 
-const LoginPage = ({ onLogin }) => {
+const LoginPageCaregiver = ({ onLogin }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -70,7 +70,7 @@ const LoginPage = ({ onLogin }) => {
 
   const goToRegister = (e) => {
     e.preventDefault();
-    navigate("/register");
+    navigate("/registerCaregiver");
   };
 
   return (
@@ -78,7 +78,7 @@ const LoginPage = ({ onLogin }) => {
       <div className="container">
         <div className="login-content">
           <div className="login-header">
-            <h1>Iniciar Sesión</h1>
+            <h1>Iniciar Sesión Como Cuidador</h1>
             <p>Bienvenido de vuelta a NIDDU</p>
           </div>
 
@@ -131,19 +131,6 @@ const LoginPage = ({ onLogin }) => {
                 Regístrate aquí
               </a>
             </p>
-
-            <p style={{ marginTop: "20px" }}>
-              ¿Eres cuidador?{" "}
-              <a
-                href="/loginCaregiver"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate("/loginCaregiver");
-                }}
-              >
-                Inicia sesión aquí
-              </a>
-            </p>
           </div>
 
           <div className="social-login">
@@ -165,4 +152,4 @@ const LoginPage = ({ onLogin }) => {
   );
 };
 
-export default LoginPage;
+export default LoginPageCaregiver;

@@ -22,7 +22,9 @@ export const registrarUsuario = async (usuarioData) => {
 export const validarCredenciales = async (correo, password) => {
   try {
     const response = await axios.get(
-      `${API_URL}/validarCredenciales/${encodeURIComponent(correo)}/${encodeURIComponent(password)}`
+      `${API_URL}/validarCredenciales/${encodeURIComponent(
+        correo
+      )}/${encodeURIComponent(password)}`
     );
     return response.data; // Esto devolverá un UserDto
   } catch (error) {

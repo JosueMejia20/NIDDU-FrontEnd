@@ -111,11 +111,15 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
                   <div className="user-menu-trigger" onClick={toggleUserMenu}>
                     <div className="user-avatar">
                       <img
-                        src={ usuario?.fotoPerfil || "/default-avatar.png"}
+                        src={usuario?.fotoPerfil || "/default-avatar.png"}
                         alt={usuario?.persona?.nombres || "Usuario"}
                       />
                     </div>
-                    <span className="user-name">{usuario?.persona?.nombres || usuario?.nombre || "Usuario"}</span>
+                    <span className="user-name">
+                      {usuario?.persona?.nombres ||
+                        usuario?.nombre ||
+                        "Usuario"}
+                    </span>
                     <i
                       className={`fas fa-chevron-${
                         isUserMenuOpen ? "up" : "down"
@@ -128,12 +132,20 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
                       <div className="user-info">
                         <div className="user-avatar">
                           <img
-                            src={ usuario?.fotoPerfil || "/default-avatar.png"}
-                            alt={usuario?.persona?.nombres || usuario?.nombre || "Usuario"}
+                            src={usuario?.fotoPerfil || "/default-avatar.png"}
+                            alt={
+                              usuario?.persona?.nombres ||
+                              usuario?.nombre ||
+                              "Usuario"
+                            }
                           />
                         </div>
                         <div className="user-details">
-                          <strong>{usuario?.persona?.nombres || usuario?.nombre || "Usuario"}</strong>
+                          <strong>
+                            {usuario?.persona?.nombres ||
+                              usuario?.nombre ||
+                              "Usuario"}
+                          </strong>
                           <span>{usuario?.correo || "usuario@email.com"}</span>
                         </div>
                       </div>

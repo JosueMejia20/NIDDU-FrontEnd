@@ -1,48 +1,52 @@
-import React, { useState } from 'react';
-import '../../styles/caregiver/ServiceCreation.css';
+import React, { useState } from "react";
+import "../../styles/caregiver/ServiceCreation.css";
+import { useNavigate } from "react-router-dom";
 
-const ServiceCreation = ({ onSectionChange }) => {
+//TODO: Este utiliza la funcion onSectionChange, cambiar su uso con navigate
+const ServiceCreation = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    serviceName: '',
-    serviceType: '',
-    servicePrice: '',
-    serviceDuration: '1',
-    serviceDescription: '',
-    maxPets: '1',
-    serviceLocation: '',
-    experience: '',
-    additionalServices: []
+    serviceName: "",
+    serviceType: "",
+    servicePrice: "",
+    serviceDuration: "1",
+    serviceDescription: "",
+    maxPets: "1",
+    serviceLocation: "",
+    experience: "",
+    additionalServices: [],
   });
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
-    if (type === 'checkbox') {
-      setFormData(prev => ({
+
+    if (type === "checkbox") {
+      setFormData((prev) => ({
         ...prev,
-        additionalServices: checked 
+        additionalServices: checked
           ? [...prev.additionalServices, value]
-          : prev.additionalServices.filter(service => service !== value)
+          : prev.additionalServices.filter((service) => service !== value),
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: value
+        [name]: value,
       }));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('¡Servicio creado exitosamente!');
-    onSectionChange('dashboard');
+    alert("¡Servicio creado exitosamente!");
+    navigate("/caregiver");
   };
 
   return (
     <section className="service-creation">
       <div className="container">
         <div className="page-header">
-          <button className="btn-back" onClick={() => onSectionChange('dashboard')}>
+          <button className="btn-back" onClick={() => navigate("/caregiver")}>
             <i className="fas fa-arrow-left"></i> Volver al Dashboard
           </button>
           <h1>Crear Nuevo Servicio</h1>
@@ -52,7 +56,7 @@ const ServiceCreation = ({ onSectionChange }) => {
         <form className="service-form" onSubmit={handleSubmit}>
           <div className="form-section">
             <h3>Información del Servicio</h3>
-            
+
             <div className="form-grid">
               <div className="form-group">
                 <label htmlFor="serviceName">Nombre del Servicio *</label>
@@ -119,7 +123,9 @@ const ServiceCreation = ({ onSectionChange }) => {
             </div>
 
             <div className="form-group full-width">
-              <label htmlFor="serviceDescription">Descripción del Servicio *</label>
+              <label htmlFor="serviceDescription">
+                Descripción del Servicio *
+              </label>
               <textarea
                 id="serviceDescription"
                 name="serviceDescription"
@@ -134,7 +140,7 @@ const ServiceCreation = ({ onSectionChange }) => {
 
           <div className="form-section">
             <h3>Especificaciones</h3>
-            
+
             <div className="form-grid">
               <div className="form-group">
                 <label htmlFor="maxPets">Máximo de Mascotas</label>
@@ -153,7 +159,9 @@ const ServiceCreation = ({ onSectionChange }) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="serviceLocation">Ubicación del Servicio *</label>
+                <label htmlFor="serviceLocation">
+                  Ubicación del Servicio *
+                </label>
                 <select
                   id="serviceLocation"
                   name="serviceLocation"
@@ -232,7 +240,11 @@ const ServiceCreation = ({ onSectionChange }) => {
           </div>
 
           <div className="form-actions">
-            <button type="button" className="btn btn-outline" onClick={() => onSectionChange('dashboard')}>
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={() => navigate("/caregiver")}
+            >
               Cancelar
             </button>
             <button type="submit" className="btn btn-primary">
