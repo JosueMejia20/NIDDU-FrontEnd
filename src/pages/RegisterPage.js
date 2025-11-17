@@ -1,7 +1,7 @@
 // components/RegisterPage.js
 import React, { useState } from "react";
 import { registrarUsuario } from "../api/usuarios/usuariosApi";
-import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 import "../styles/components/RegisterPage.css";
 import DepartamentosSelect from "../components/DepartamentosSelect";
@@ -274,8 +274,8 @@ const RegisterPage = ({ onRegister }) => {
                 required
               />
               <label htmlFor="terms">
-                Acepto los <a href="#">términos y condiciones</a> y la{" "}
-                <a href="#">política de privacidad</a>
+                Acepto los <a>términos y condiciones</a> y la{" "}
+                <a>política de privacidad</a>
               </label>
             </div>
 
