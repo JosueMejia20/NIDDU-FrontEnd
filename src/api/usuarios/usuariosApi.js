@@ -1,7 +1,7 @@
 // src/api/usuarios/usuariosApi.js
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/usuarios";
+const API_URL = "https://niddu-backend-aqg9cngxbza8dxd4.eastus2-01.azurewebsites.net/usuarios";
 
 // Registrar Usuario
 export const registrarUsuario = async (usuarioData) => {

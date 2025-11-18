@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/cuidadores";
+const API_URL = "https://niddu-backend-aqg9cngxbza8dxd4.eastus2-01.azurewebsites.net/cuidadores";
 
 // Registrar Usuario
 export const registrarUsuarioCuidadores = async (usuarioData) => {
