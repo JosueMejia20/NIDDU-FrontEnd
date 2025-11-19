@@ -36,6 +36,7 @@ import ReportsSection from "./components/caregiver/ReportsSection";
 import SettingsSection from "./components/caregiver/SettingsSection";
 import CaregiverLayout from "./components/caregiver/CaregiverLayout";
 import LoginPageCaregiver from "./pages/LoginPageCaregiver";
+import { obtenerMascotasPorUsuario } from "./api/mascotas/mascotasApi";
 
 /*muestuserService
   .obtainUser()
@@ -59,34 +60,7 @@ function App() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [modalConfig, setModalConfig] = useState({});
   const [dashboardActiveTab, setDashboardActiveTab] = useState("overview");
-  const [mascotas, setMascotas] = useState([
-    {
-      id: 1,
-      nombre: "Max",
-      tipo: "Perro",
-      raza: "Golden Retriever",
-      edad: 3,
-      peso: "25 kg",
-      alergias: "Ninguna",
-      foto: "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&q=80",
-      vacunasAlDia: true,
-      ultimaVisita: "15 Oct 2023",
-      veterinario: "Dr. Martínez",
-    },
-    {
-      id: 2,
-      nombre: "Kitty",
-      tipo: "Gato",
-      raza: "Siamés",
-      edad: 2,
-      peso: "4 kg",
-      alergias: "Polen",
-      foto: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&q=80",
-      vacunasAlDia: true,
-      ultimaVisita: "20 Sep 2023",
-      veterinario: "Dra. Rodríguez",
-    },
-  ]);
+  const [mascotas, setMascotas] = useState([]);
 
   /**
    * TODO ESTO ES PARA LOS TABS, SE DEBE ELIMINAR LUEGO (DATADASHBOARD)
@@ -306,6 +280,31 @@ function App() {
       }
     }
   }, [navigate]);
+
+  //Para obtener las mascotas
+  useEffect(() => {
+    if (!user) return; // espera a que el usuario esté disponible
+
+    obtenerMascotasPorUsuario(user.id)
+      .then((data) =>
+        setMascotas(
+          data.map((m) => ({
+            id: m.idMascota,
+            nombre: m.nombre,
+            tipo: m.tipo,
+            raza: m.raza,
+            edad: m.edad,
+            peso: `${m.peso} kg`,
+            alergias: m.alergias ?? "Ninguna",
+            foto: m.foto ?? "https://placehold.co/600x400?text=Mascota",
+            vacunasAlDia: m.vacunasAlDia,
+            ultimaVisita: m.ultimaVisita ?? "Sin registro",
+            veterinario: m.veterinarioPreferencia ?? "No asignado",
+          }))
+        )
+      )
+      .catch(console.error);
+  }, [user]);
 
   // Funciones de autenticación
   const handleLogin = (userData) => {

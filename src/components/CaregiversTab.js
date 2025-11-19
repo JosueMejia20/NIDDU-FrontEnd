@@ -57,7 +57,7 @@ const CaregiversTab = ({
         {cuidadores.length > 0 ? (
           cuidadores.map((cuidador) => (
             <div key={cuidador.id} className="caregiver-detailed-card">
-              <div className="caregiver-header">
+              <div className="caregiver-header-dashboard">
                 <div className="caregiver-avatar-large">
                   <img src={cuidador.foto} alt={cuidador.nombre} />
                   <div

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import "../styles/components/NewBooking.css";
 
-const NewBooking = () => {
+const NewBooking = ({ mascotas }) => {
   // Eliminar prop navigateTo
   const navigate = useNavigate(); // Inicializar navigate
   const [step, setStep] = useState(1);
@@ -86,11 +86,6 @@ const NewBooking = () => {
       foto: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
       servicios: ["Paseos", "Entrenamiento"],
     },
-  ];
-
-  const mascotas = [
-    { id: 1, nombre: "Max", tipo: "Perro" },
-    { id: 2, nombre: "Luna", tipo: "Gato" },
   ];
 
   const horarios = [
@@ -210,7 +205,7 @@ const NewBooking = () => {
                   className="caregiver-card"
                   onClick={() => handleCaregiverSelect(cuidador)}
                 >
-                  <div className="caregiver-header">
+                  <div className="caregiver-header-dashboard">
                     <div className="caregiver-avatar">
                       <img src={cuidador.foto} alt={cuidador.nombre} />
                       <div
