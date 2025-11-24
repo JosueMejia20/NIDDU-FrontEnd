@@ -66,13 +66,13 @@ const OverviewTab = ({ mascotas, reservas, cuidadores, userStats }) => {
       <div className="section-card">
         <div className="section-header">
           <h3>Mis Mascotas</h3>
-          <button
+          {/* <button
             type="button"
             className="btn btn-outline"
             onClick={() => handleTabNavigate("pets")}
           >
             Ver Todas
-          </button>
+          </button> */}
         </div>
         <div className="pets-grid">
           {mascotas.map((mascota) => (

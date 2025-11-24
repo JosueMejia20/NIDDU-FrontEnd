@@ -17,13 +17,17 @@ export const obtenerMascotasPorUsuario = async (id) => {
 };
 
 // Registrar Usuario
-export const registrarMascota = async (mascotaData) => {
+export const registrarMascota = async (mascotaData, idUsuario) => {
   try {
-    const response = await axios.post(`${API_URL}/registrar`, mascotaData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.post(
+      `${API_URL}/agregarMascota/${idUsuario}`,
+      mascotaData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error al registrar mascota:", error);

@@ -60,11 +60,11 @@ const PetsTab = ({ mascotas }) => {
               <div className="medical-grid">
                 <div className="medical-item">
                   <label>Vacunas al día:</label>
-                  <span className="status yes">Sí</span>
-                </div>
-                <div className="medical-item">
-                  <label>Última visita:</label>
-                  <span>{mascota.ultimaVisita}</span>
+                  {mascota.vacunasAlDia ? (
+                    <span className="status yes">Sí</span>
+                  ) : (
+                    <span className="status no">No</span>
+                  )}
                 </div>
                 <div className="medical-item">
                   <label>Veterinario:</label>

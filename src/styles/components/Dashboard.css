@@ -239,8 +239,14 @@
 /* Grid de mascotas */
 .pets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  max-width: 100%;
+}
+@media (max-width: 768px) {
+  .pets-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .pet-card {
@@ -692,7 +698,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 8px 6px;
   border-bottom: 1px solid var(--medium-gray);
 }
 
@@ -709,6 +715,11 @@
 
 .status.yes {
   color: var(--primary-green);
+  font-weight: 600;
+}
+
+.status.no {
+  color: red;
   font-weight: 600;
 }
 

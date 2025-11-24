@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import "../styles/components/AddPet.css";
+import { registrarMascota } from "../api/mascotas/mascotasApi";
 
 const AddPet = ({ user, onPetAdded }) => {
   // Eliminar prop navigateTo
@@ -13,8 +14,8 @@ const AddPet = ({ user, onPetAdded }) => {
     edad: "",
     peso: "",
     alergias: "Ninguna",
-    vacunasAlDia: true,
-    veterinario: "",
+    vacunas_al_dia: true,
+    veterinario_preferencia: "",
     notas: "",
   });
 
@@ -52,15 +53,20 @@ const AddPet = ({ user, onPetAdded }) => {
     e.preventDefault();
 
     const nuevaMascota = {
-      id: Date.now(),
-      ...formData,
-      foto:
-        formData.tipo === "Perro"
-          ? "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-          : "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
-      ultimaVisita: "Nunca",
-      veterinario: formData.veterinario || "No especificado",
+      nombre: formData.nombre,
+      tipo: formData.tipo,
+      raza: formData.raza,
+      edad: formData.edad,
+      peso: formData.peso,
+      alergias: formData.alergias,
+      veterinarioPreferencia: formData.veterinario,
+      vacunasAlDia: formData.vacunas_al_dia ? 1 : 0,
+      notas: formData.notas,
     };
+
+    console.log(nuevaMascota);
+    console.log(formData);
+    registrarMascota(nuevaMascota, user.id);
 
     if (onPetAdded) {
       onPetAdded(nuevaMascota);
