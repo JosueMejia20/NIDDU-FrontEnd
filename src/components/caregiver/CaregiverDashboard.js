@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/caregiver/CaregiverDashboard.css";
 
-const CaregiverDashboard = () => {
+const CaregiverDashboard = (user) => {
   const navigate = useNavigate();
 
   const stats = [
@@ -87,7 +87,10 @@ const CaregiverDashboard = () => {
     <section className="caregiver-dashboard">
       <div className="container">
         <div className="dashboard-welcome">
-          <h1>¡Hola, Ana García! 🐕</h1>
+          <h1>
+            ¡Hola, {user?.user?.persona?.nombres}{" "}
+            {user?.user?.persona?.apellidos}! 🐕
+          </h1>
           <p>Gestiona tus servicios y reservas desde aquí</p>
         </div>
 

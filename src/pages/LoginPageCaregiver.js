@@ -1,6 +1,6 @@
 // src/pages/LoginPage.jsx
 import React, { useState } from "react";
-import { validarCredenciales } from "../api/usuarios/usuariosApi";
+import { validarCredencialesCuidador } from "../api/cuidador/cuidadoresApi";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/LoginPage.css";
 
@@ -44,7 +44,7 @@ const LoginPageCaregiver = ({ onLogin }) => {
 
       //TODO: usuario contiene un json con el correo y su id, se debe crear otro objeto para poder almacenar
       //los datos de la persona
-      const usuario = await validarCredenciales(email, password);
+      const usuario = await validarCredencialesCuidador(email, password);
 
       if (!usuario) {
         alert("Correo o contraseña incorrectos");

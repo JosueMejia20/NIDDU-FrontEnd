@@ -60,17 +60,9 @@ const CaregiversTab = ({
               <div className="caregiver-header-dashboard">
                 <div className="caregiver-avatar-large">
                   <img src={cuidador.foto} alt={cuidador.nombre} />
-                  <div
-                    className={`availability-badge ${
-                      cuidador.disponible ? "available" : "busy"
-                    }`}
-                  >
-                    {cuidador.disponible ? "Disponible" : "No disponible"}
-                  </div>
                 </div>
                 <div className="caregiver-main-info">
                   <h3>{cuidador.nombre}</h3>
-                  <p className="specialty">{cuidador.especialidad}</p>
                   <div className="caregiver-stats">
                     <div className="stat">
                       <i className="fas fa-star"></i>
@@ -83,10 +75,6 @@ const CaregiversTab = ({
                       <i className="fas fa-clock"></i>
                       <span>{cuidador.experiencia} de experiencia</span>
                     </div>
-                    <div className="stat">
-                      <i className="fas fa-dollar-sign"></i>
-                      <span>{cuidador.precioHora}/hora</span>
-                    </div>
                   </div>
 
                   <div className="caregiver-services-detailed">
@@ -97,7 +85,6 @@ const CaregiversTab = ({
                           <img src={servicio.imagen} alt={servicio.nombre} />
                           <div className="service-info-mini">
                             <strong>{servicio.nombre}</strong>
-                            <span>{servicio.descripcion}</span>
                           </div>
                         </div>
                       ))}
@@ -107,11 +94,6 @@ const CaregiversTab = ({
               </div>
 
               <div className="caregiver-actions">
-                <button type="button" className="btn btn-outline">
-                  {" "}
-                  {/* AGREGADO */}
-                  <i className="fas fa-heart"></i> Favorito
-                </button>
                 <button
                   type="button" // AGREGADO
                   className="btn btn-primary"

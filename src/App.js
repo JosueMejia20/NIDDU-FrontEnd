@@ -113,75 +113,30 @@ function App() {
     {
       id: 1,
       nombre: "Ana García",
-      especialidad: "Day Care, Paseos",
       calificacion: 4.9,
       reseñas: 42,
       experiencia: "3 años",
-      precioHora: "$25.000",
-      disponible: true,
       foto: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
       servicios: [
         {
           nombre: "Day Care",
           imagen:
             "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&w=200&q=80",
-          descripcion: "Cuidado diurno en instalaciones seguras",
         },
         {
           nombre: "Paseos",
           imagen:
             "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&w=200&q=80",
-          descripcion: "Paseos personalizados para tu mascota",
-        },
-      ],
-    },
-    {
-      id: 2,
-      nombre: "Carlos López",
-      especialidad: "Paseos, Entrenamiento",
-      calificacion: 4.8,
-      reseñas: 35,
-      experiencia: "2 años",
-      precioHora: "$20.000",
-      disponible: true,
-      foto: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
-      servicios: [
-        {
-          nombre: "Paseos",
-          imagen:
-            "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&w=200&q=80",
-          descripcion: "Paseos energéticos y divertidos",
         },
         {
           nombre: "Entrenamiento",
           imagen:
             "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&w=200&q=80",
-          descripcion: "Entrenamiento básico y avanzado",
         },
-      ],
-    },
-    {
-      id: 3,
-      nombre: "María Rodríguez",
-      especialidad: "Peluquería, Cuidado Especial",
-      calificacion: 5.0,
-      reseñas: 28,
-      experiencia: "4 años",
-      precioHora: "$30.000",
-      disponible: false,
-      foto: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
-      servicios: [
         {
           nombre: "Peluquería",
           imagen:
-            "https://images.unsplash.com/photo-1622279450236-4ffa2d5e0e82?ixlib=rb-4.0.3&w=200&q=80",
-          descripcion: "Servicios de belleza completos",
-        },
-        {
-          nombre: "Cuidado Especial",
-          imagen:
-            "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&w=200&q=80",
-          descripcion: "Atención para mascotas con necesidades especiales",
+            "https://www.clinicaveterinariamh.com/wp-content/uploads/2023/08/45.jpg",
         },
       ],
     },
@@ -327,6 +282,7 @@ function App() {
   };
 
   const handleLoginCaregiver = (userData) => {
+    console.log("El usuario es: " + userData);
     setIsLoggedIn(true);
     setUser(userData);
     localStorage.setItem("niddu_user", JSON.stringify(userData));
@@ -497,7 +453,7 @@ function App() {
 
         {/* Rutas del Caregiver con Layout */}
         <Route path="/caregiver" element={<CaregiverLayout />}>
-          <Route index element={<CaregiverDashboard />} />
+          <Route index element={<CaregiverDashboard user={user} />} />
           <Route path="reservas" element={<CaregiverBookings />} />
           {/* <Route
             path="reservas/:id"

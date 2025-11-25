@@ -45,7 +45,7 @@ const NewBooking = ({ mascotas }) => {
       descripcion: "Servicio completo de belleza, baño y corte de pelo",
       precio: 35000,
       imagen:
-        "https://images.unsplash.com/photo-1622279450236-4ffa2d5e0e82?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "https://www.clinicaveterinariamh.com/wp-content/uploads/2023/08/45.jpg",
       popular: false,
       duracion: "2 horas",
     },

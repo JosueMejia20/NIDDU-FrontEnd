@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../../styles/caregiver/CaregiverHeader.css";
+import UserDropdownMenu from "./UserDropdownMenu";
 
-//TODO: Este utilizaba la funcion onSectionChange, cambiar su uso con navigate en los buttons
-const CaregiverHeader = ({ currentSection }) => {
+const CaregiverHeader = ({ currentSection, onSectionChange }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleMenuNavigate = (section) => {
+    onSectionChange(section);
+  };
+
   return (
     <header className="caregiver-header">
       <div className="container">
@@ -16,6 +38,7 @@ const CaregiverHeader = ({ currentSection }) => {
               className={`nav-link ${
                 currentSection === "dashboard" ? "active" : ""
               }`}
+              onClick={() => onSectionChange("dashboard")}
             >
               Dashboard
             </button>
@@ -23,6 +46,7 @@ const CaregiverHeader = ({ currentSection }) => {
               className={`nav-link ${
                 currentSection === "servicios" ? "active" : ""
               }`}
+              onClick={() => onSectionChange("servicios")}
             >
               Mis Servicios
             </button>
@@ -30,6 +54,7 @@ const CaregiverHeader = ({ currentSection }) => {
               className={`nav-link ${
                 currentSection === "reservas" ? "active" : ""
               }`}
+              onClick={() => onSectionChange("reservas")}
             >
               Reservas
             </button>
@@ -37,6 +62,7 @@ const CaregiverHeader = ({ currentSection }) => {
               className={`nav-link ${
                 currentSection === "reportes" ? "active" : ""
               }`}
+              onClick={() => onSectionChange("reportes")}
             >
               Reportes
             </button>
@@ -44,20 +70,38 @@ const CaregiverHeader = ({ currentSection }) => {
               className={`nav-link ${
                 currentSection === "configuracion" ? "active" : ""
               }`}
+              onClick={() => onSectionChange("configuracion")}
             >
               Configuración
             </button>
 
-            {/* TODO: Se debe hacer un boton que despliegue el CaregiverPanel */}
-            <div className="user-menu">
-              <div className="user-avatar">
-                <img
-                  src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
-                  alt="Ana García"
-                />
+            {/* Menú de usuario */}
+            <div className="user-menu-container" ref={menuRef}>
+              <div className="user-menu" onClick={toggleMenu}>
+                <div className="user-avatar">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
+                    alt="Ana García"
+                  />
+                </div>
+                <span>Ana García</span>
+                <i
+                  className="fas fa-chevron-down"
+                  style={{
+                    transition: "transform 0.2s",
+                    transform: isMenuOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
+                ></i>
               </div>
-              <span>Ana García</span>
-              <i className="fas fa-chevron-down"></i>
+
+              {isMenuOpen && (
+                <div className="panel-dropdown">
+                  <UserDropdownMenu
+                    onClose={() => setIsMenuOpen(false)}
+                    onNavigate={handleMenuNavigate}
+                  />
+                </div>
+              )}
             </div>
           </nav>
         </div>

@@ -105,7 +105,7 @@ const OverviewTab = ({ mascotas, reservas, cuidadores, userStats }) => {
       </div>
 
       {/* Sección Cuidadores */}
-      <div className="section-card">
+      {/* <div className="section-card">
         <div className="section-header">
           <h3>Cuidadores Favoritos</h3>
           <button
@@ -125,7 +125,7 @@ const OverviewTab = ({ mascotas, reservas, cuidadores, userStats }) => {
             />
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

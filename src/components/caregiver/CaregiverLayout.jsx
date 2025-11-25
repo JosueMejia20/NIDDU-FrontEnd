@@ -1,12 +1,41 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import CaregiverHeader from "./CaregiverHeader";
-// import CaregiverSidebar from './CaregiverSidebar'; // Si tienes un sidebar
 
 const CaregiverLayout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Función para determinar la sección actual basada en la ruta
+  const getCurrentSection = () => {
+    const path = location.pathname;
+    if (path.includes("/servicios")) return "servicios";
+    if (path.includes("/reservas")) return "reservas";
+    if (path.includes("/reportes")) return "reportes";
+    if (path.includes("/configuracion")) return "configuracion";
+    return "dashboard";
+  };
+
+  // Función handleSectionChange con navigate
+  const handleSectionChange = (section) => {
+    const routeMap = {
+      dashboard: "/caregiver",
+      servicios: "/caregiver/servicios",
+      reservas: "/caregiver/reservas",
+      reportes: "/caregiver/reportes",
+      configuracion: "/caregiver/configuracion",
+    };
+
+    const route = routeMap[section] || "/caregiver";
+    navigate(route);
+  };
+
   return (
     <div className="caregiver-layout">
-      <CaregiverHeader currentSection="dashboard" />
+      <CaregiverHeader
+        currentSection={getCurrentSection()}
+        onSectionChange={handleSectionChange}
+      />
 
       <main className="caregiver-content">
         <Outlet /> {/* Aquí se renderizarán las rutas anidadas */}

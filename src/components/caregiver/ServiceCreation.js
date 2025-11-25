@@ -191,52 +191,6 @@ const ServiceCreation = () => {
                 />
               </div>
             </div>
-
-            <div className="form-group full-width">
-              <label>Servicios Adicionales</label>
-              <div className="checkbox-grid">
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    name="additionalServices"
-                    value="medicacion"
-                    onChange={handleInputChange}
-                  />
-                  <span className="checkmark"></span>
-                  Administración de medicación
-                </label>
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    name="additionalServices"
-                    value="emergencias"
-                    onChange={handleInputChange}
-                  />
-                  <span className="checkmark"></span>
-                  Atención de emergencias
-                </label>
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    name="additionalServices"
-                    value="reportes"
-                    onChange={handleInputChange}
-                  />
-                  <span className="checkmark"></span>
-                  Reportes diarios con fotos
-                </label>
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    name="additionalServices"
-                    value="entrenamiento"
-                    onChange={handleInputChange}
-                  />
-                  <span className="checkmark"></span>
-                  Entrenamiento básico
-                </label>
-              </div>
-            </div>
           </div>
 
           <div className="form-actions">
