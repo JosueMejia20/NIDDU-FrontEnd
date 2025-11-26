@@ -35,8 +35,10 @@ const CaregiverHeader = ({
       <div className="container">
         <div className="header-content">
           <div className="logo">
-            <span className="logo-icon">🐾</span>
-            <span className="logo-text">NIDDU CUIDADORES</span>
+            <span className="logo-icon">
+              <i className="fas fa-paw"></i>
+            </span>
+            <span className="logo-text-caregiver">NIDDU CUIDADORES</span>
           </div>
           <nav className="caregiver-nav">
             <button

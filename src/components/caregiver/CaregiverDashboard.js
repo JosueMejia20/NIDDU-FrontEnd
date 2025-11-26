@@ -90,7 +90,8 @@ const CaregiverDashboard = ({ user }) => {
       <div className="container">
         <div className="dashboard-welcome">
           <h1>
-            ¡Hola, {user?.persona?.nombres} {user?.persona?.apellidos}! 🐕
+            ¡Hola, {user?.persona?.nombres} {user?.persona?.apellidos}!{" "}
+            <i className="fas fa-dog"></i>
           </h1>
           <p>Gestiona tus servicios y reservas desde aquí</p>
         </div>

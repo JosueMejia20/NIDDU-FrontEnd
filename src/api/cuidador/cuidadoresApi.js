@@ -31,3 +31,15 @@ export const validarCredencialesCuidador = async (correo, password) => {
     throw error;
   }
 };
+
+export const obtenerServiciosPorCuidadores = async () => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/obtenerServiciosPorCuidadores`
+    );
+    return response.data; // Esto devolverá un UserDto
+  } catch (error) {
+    console.error("Error al validar credenciales:", error);
+    throw error;
+  }
+};

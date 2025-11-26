@@ -55,40 +55,49 @@ const ServiceSelection = () => {
   };
 
   return (
-    <section className="service-selection">
+    <section className="service-selection-section">
       <div className="container">
-        <div className="page-header">
-          <button className="btn-back" onClick={() => navigate("/caregiver")}>
+        <div className="page-header-service-selection">
+          <button
+            className="btn-back-service-selection"
+            onClick={() => navigate("/caregiver")}
+          >
             <i className="fas fa-arrow-left"></i> Volver al Dashboard
           </button>
           <h1>Seleccionar Servicios</h1>
           <p>Elige los servicios que ofrecerás a los clientes</p>
         </div>
 
-        <div className="services-selection-grid">
+        <div className="services-selection-grid-service-selection">
           {predefinedServices.map((service) => (
             <div
               key={service.id}
-              className={`service-selection-card ${
-                selectedServices.includes(service.id) ? "selected" : ""
+              className={`service-selection-card-service-selection ${
+                selectedServices.includes(service.id)
+                  ? "selected-service-selection"
+                  : ""
               }`}
               onClick={() => toggleService(service.id)}
             >
-              <div className="service-icon">
+              <div className="service-icon-service-selection">
                 <i className={`fas ${service.icon}`}></i>
               </div>
 
-              <div className="service-content">
+              <div className="service-content-service-selection">
                 <h3>{service.name}</h3>
-                <p className="service-description">{service.description}</p>
+                <p className="service-description-service-selection">
+                  {service.description}
+                </p>
 
-                <div className="service-details">
-                  <div className="service-price">{service.price}/hora</div>
+                <div className="service-details-service-selection">
+                  <div className="service-price-service-selection">
+                    {service.price}/hora
+                  </div>
                 </div>
 
-                <div className="selection-indicator">
+                <div className="selection-indicator-service-selection">
                   {selectedServices.includes(service.id) ? (
-                    <i className="fas fa-check-circle selected"></i>
+                    <i className="fas fa-check-circle selected-service-selection"></i>
                   ) : (
                     <i className="far fa-circle"></i>
                   )}
@@ -103,25 +112,25 @@ const ServiceSelection = () => {
           ))}
         </div>
 
-        <div className="selection-actions">
-          <div className="selection-summary">
+        <div className="selection-actions-service-selection">
+          <div className="selection-summary-service-selection">
             <p>
               <strong>{selectedServices.length}</strong> servicio(s)
               seleccionado(s)
             </p>
           </div>
 
-          <div className="action-buttons">
+          <div className="action-buttons-service-selection">
             <button
               type="button"
-              className="btn btn-outline"
+              className="btn-service-selection btn-outline-service-selection"
               onClick={() => navigate("/caregiver")}
             >
               Cancelar
             </button>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn-service-selection btn-primary-service-selection"
               onClick={handleSaveServices}
               disabled={selectedServices.length === 0}
             >

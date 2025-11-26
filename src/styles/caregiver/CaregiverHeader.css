@@ -26,6 +26,16 @@
 
 .logo-icon {
   font-size: 24px;
+  color: var(--light-blue);
+  margin-right: 8px;
+}
+
+.logo-text-caregiver {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: var(--light-blue);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
 }
 
 .caregiver-nav {
@@ -83,7 +93,7 @@
   .caregiver-nav .nav-link {
     display: none;
   }
-  
+
   .caregiver-nav .nav-link:last-child {
     display: flex;
   }
