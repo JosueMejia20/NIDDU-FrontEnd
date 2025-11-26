@@ -281,7 +281,7 @@ function App() {
         {/* Rutas sin /dashboard */}
         <Route
           path="/new-booking"
-          element={<NewBooking mascotas={mascotas} />}
+          element={<NewBooking mascotas={mascotas} user={user} />}
         />
         <Route
           path="/add-pet"

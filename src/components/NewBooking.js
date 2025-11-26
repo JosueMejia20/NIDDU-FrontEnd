@@ -1,85 +1,27 @@
 // components/NewBooking.js
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { obtenerTiposServicios } from "../api/tiposServicios/tiposServiciosApi";
+import { obtenerServiciosPorCuidadores } from "../api/cuidador/cuidadoresApi";
 import "../styles/components/NewBooking.css";
+import { crearReserva } from "../api/servicios/serviciosApi";
 
-const NewBooking = ({ mascotas }) => {
-  // Eliminar prop navigateTo
-  const navigate = useNavigate(); // Inicializar navigate
+const NewBooking = ({ mascotas, user }) => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedCaregiver, setSelectedCaregiver] = useState(null);
+  const [servicios, setServicios] = useState([]);
+  const [cuidadores, setCuidadores] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     fecha: "",
     hora: "",
-    mascota: "",
+    idMascota: "",
     duracion: "1",
     notas: "",
   });
-
-  const servicios = [
-    {
-      id: 1,
-      nombre: "Day Care Diario",
-      descripcion:
-        "Cuidado durante el día en instalaciones seguras y supervisadas",
-      precio: 25,
-      imagen:
-        "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 2,
-      nombre: "Paseo Personalizado",
-      descripcion: "Paseos adaptados a las necesidades y energía de tu mascota",
-      precio: 15,
-      imagen:
-        "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 3,
-      nombre: "Peluquería Canina",
-      descripcion: "Servicio completo de belleza, baño y corte de pelo",
-      precio: 35,
-      imagen:
-        "https://www.clinicaveterinariamh.com/wp-content/uploads/2023/08/45.jpg",
-    },
-    {
-      id: 4,
-      nombre: "Entrenamiento Canino",
-      descripcion:
-        "Programas de entrenamiento profesional usando métodos positivos para mejores resultados.",
-      precio: 40,
-      imagen:
-        "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    },
-  ];
-
-  const cuidadores = [
-    {
-      id: 1,
-      nombre: "Ana García",
-      especialidad: "Day Care, Paseos",
-      calificacion: 4.9,
-      reseñas: 42,
-      experiencia: "3 años",
-      precioHora: 25000,
-      disponible: true,
-      foto: "https://b2472105.smushcdn.com/2472105/wp-content/uploads/2023/09/Poses-Perfil-Profesional-Mujeres-ago.-10-2023-1-819x1024.jpg?lossy=1&strip=1&webp=1",
-      servicios: ["Day Care", "Paseos"],
-    },
-    {
-      id: 2,
-      nombre: "Carlos López",
-      especialidad: "Paseos, Entrenamiento",
-      calificacion: 4.8,
-      reseñas: 35,
-      experiencia: "2 años",
-      precioHora: 20000,
-      disponible: true,
-      foto: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
-      servicios: ["Paseos", "Entrenamiento"],
-    },
-  ];
 
   const horarios = [
     "08:00",
@@ -93,6 +35,88 @@ const NewBooking = ({ mascotas }) => {
     "16:00",
     "17:00",
   ];
+
+  // Funcion para obtener imagen por tipo de servicio
+  const getServiceImage = (idTipoServicio) => {
+    const serviceImages = {
+      1: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      2: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      3: "https://www.clinicaveterinariamh.com/wp-content/uploads/2023/08/45.jpg",
+      4: "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    };
+    return (
+      serviceImages[idTipoServicio] ||
+      "https://placehold.co/600x400?text=Servicio"
+    );
+  };
+
+  // Funcion para obtener imagen de cuidador por defecto
+  const getCaregiverImage = (genero = "femenino") => {
+    return genero === "femenino"
+      ? "https://b2472105.smushcdn.com/2472105/wp-content/uploads/2023/09/Poses-Perfil-Profesional-Mujeres-ago.-10-2023-1-819x1024.jpg?lossy=1&strip=1&webp=1"
+      : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80";
+  };
+
+  // Cargar servicios y cuidadores
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Cargar servicios
+        const serviciosData = await obtenerTiposServicios();
+        const serviciosFormateados = serviciosData.map((servicio) => ({
+          id: servicio.idTipoServicio,
+          nombre: servicio.nombreServicio,
+          descripcion: servicio.descripcion || "Descripción no disponible",
+          precio: servicio.precioHora || 0,
+          imagen: getServiceImage(servicio.idTipoServicio),
+        }));
+
+        // Cargar cuidadores
+        const cuidadoresData = await obtenerServiciosPorCuidadores();
+        console.log("Datos de Cuidadores: ", cuidadoresData);
+        const cuidadoresFormateados = cuidadoresData.map((cuidadorItem) => {
+          const cuidador = cuidadorItem.cuidador;
+          const persona = cuidador?.persona || {};
+
+          return {
+            id: cuidador?.idCuidador,
+            nombre:
+              `${persona.nombres || ""} ${persona.apellidos || ""}`.trim() ||
+              "Cuidador",
+            especialidad:
+              (cuidadorItem.tipoServicios || [])
+                .map((s) => s.nombreServicio)
+                .join(", ") || "Servicios generales",
+            calificacion: cuidador?.calificacion || 5,
+            reseñas: cuidador?.reseñas || 0,
+            experiencia: `${cuidador?.experiencia || 0} años`,
+            precioHora: cuidador?.precioxhora || 20000,
+            disponible: true,
+            foto: cuidador?.fotoPerfil || getCaregiverImage(),
+            servicios: (cuidadorItem.tipoServicios || []).map(
+              (s) => s.nombreServicio
+            ),
+            serviciosIds: (cuidadorItem.tipoServicios || []).map(
+              (s) => s.idTipoServicio
+            ),
+          };
+        });
+
+        setServicios(serviciosFormateados);
+        setCuidadores(cuidadoresFormateados);
+      } catch (error) {
+        console.error("Error cargando datos:", error);
+        setError("Error al cargar los datos. Por favor, intenta nuevamente.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleServiceSelect = (service) => {
     setSelectedService(service);
@@ -111,11 +135,43 @@ const NewBooking = ({ mascotas }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la lógica para procesar la reserva
-    alert("Reserva creada exitosamente");
-    navigate("/new-booking"); // Navegar al dashboard en la pestaña de reservas
+
+    try {
+      // Calcular valores financieros
+      const subtotal = calcularTotal();
+      const impuesto = subtotal * 0.15;
+      const total = subtotal + impuesto;
+
+      // Crear objeto final para la API
+      const reservaData = {
+        idUsuario: user?.id || 1,
+        idCuidador: selectedCaregiver?.id,
+        idMascota: parseInt(formData.idMascota),
+        idTipoServicio: selectedService?.id,
+        fecha: formData.fecha,
+        subtotal: subtotal,
+        impuesto: impuesto,
+        total: total,
+        estado: "Pagado",
+        // Campos adicionales
+        // duracion: parseInt(formData.duracion),
+        // hora: formData.hora,
+        // notas: formData.notas,
+      };
+
+      console.log("Datos de reserva para API:", reservaData);
+
+      // Llamada a la API para crear la reserva
+      await crearReserva(reservaData);
+
+      alert("Reserva creada exitosamente");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error creando reserva:", error);
+      alert("Error al crear la reserva. Por favor, intenta nuevamente.");
+    }
   };
 
   const calcularTotal = () => {
@@ -123,12 +179,54 @@ const NewBooking = ({ mascotas }) => {
     return selectedService.precio * parseInt(formData.duracion);
   };
 
+  const calcularResumen = () => {
+    const subtotal = calcularTotal();
+    const impuesto = subtotal * 0.15;
+    const total = subtotal + impuesto;
+
+    return { subtotal, impuesto, total };
+  };
+
   const formatPrice = (price) => {
     return new Intl.NumberFormat("es-CO", {
       style: "currency",
       currency: "COP",
-    }).format(price);
+    }).format(price * 1);
   };
+
+  if (loading) {
+    return (
+      <section className="new-booking">
+        <div className="container">
+          <div className="loading-spinner">
+            <i className="fas fa-spinner fa-spin"></i>
+            <p>Cargando servicios y cuidadores...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error && servicios.length === 0) {
+    return (
+      <section className="new-booking">
+        <div className="container">
+          <div className="error-message">
+            <i className="fas fa-exclamation-triangle"></i>
+            <h3>{error}</h3>
+            <button
+              className="btn btn-primary"
+              onClick={() => window.location.reload()}
+            >
+              Reintentar
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const { subtotal, impuesto, total } = calcularResumen();
 
   return (
     <section className="new-booking">
@@ -136,8 +234,8 @@ const NewBooking = ({ mascotas }) => {
         <div className="booking-header">
           <button
             className="back-btn"
-            onClick={
-              () => (step > 1 ? setStep(step - 1) : navigate("/dashboard")) // Reemplazar navigateTo
+            onClick={() =>
+              step > 1 ? setStep(step - 1) : navigate("/dashboard")
             }
           >
             <i className="fas fa-arrow-left"></i>
@@ -184,44 +282,64 @@ const NewBooking = ({ mascotas }) => {
             <p className="step-subtitle">Para: {selectedService?.nombre}</p>
 
             <div className="caregivers-list">
-              {cuidadores.map((cuidador) => (
-                <div
-                  key={cuidador.id}
-                  className="caregiver-card"
-                  onClick={() => handleCaregiverSelect(cuidador)}
-                >
-                  <div className="caregiver-header-dashboard">
-                    <div className="caregiver-avatar">
-                      <img src={cuidador.foto} alt={cuidador.nombre} />
-                      <div
-                        className={`availability-dot ${
-                          cuidador.disponible ? "available" : "busy"
-                        }`}
-                      ></div>
-                    </div>
-                    <div className="caregiver-info">
-                      <h3>{cuidador.nombre}</h3>
-                      <p className="specialty">{cuidador.especialidad}</p>
-                      <div className="caregiver-stats">
-                        <div className="stat">
-                          <i className="fas fa-star"></i>
-                          <span>
-                            <strong>{cuidador.calificacion}</strong> (
-                            {cuidador.reseñas} reseñas)
-                          </span>
-                        </div>
-                        <div className="stat">
-                          <i className="fas fa-clock"></i>
-                          <span>{cuidador.experiencia} experiencia</span>
+              {cuidadores
+                .filter((cuidador) =>
+                  cuidador.serviciosIds?.includes(selectedService?.id)
+                )
+                .map((cuidador) => (
+                  <div
+                    key={cuidador.id}
+                    className="caregiver-card"
+                    onClick={() => handleCaregiverSelect(cuidador)}
+                  >
+                    <div className="caregiver-header-dashboard">
+                      <div className="caregiver-avatar">
+                        <img src={cuidador.foto} alt={cuidador.nombre} />
+                        <div
+                          className={`availability-dot ${
+                            cuidador.disponible ? "available" : "busy"
+                          }`}
+                        ></div>
+                      </div>
+                      <div className="caregiver-info">
+                        <h3>{cuidador.nombre}</h3>
+                        <p className="specialty">{cuidador.especialidad}</p>
+                        <div className="caregiver-stats">
+                          <div className="stat">
+                            <i className="fas fa-star"></i>
+                            <span>
+                              <strong>{cuidador.calificacion}</strong> (
+                              {cuidador.reseñas} reseñas)
+                            </span>
+                          </div>
+                          <div className="stat">
+                            <i className="fas fa-clock"></i>
+                            <span>{cuidador.experiencia} experiencia</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="caregiver-price">
-                    {formatPrice(cuidador.precioHora)}/hora
-                  </div>
+                ))}
+
+              {cuidadores.filter((cuidador) =>
+                cuidador.serviciosIds?.includes(selectedService?.id)
+              ).length === 0 && (
+                <div className="no-caregivers">
+                  <i className="fas fa-users-slash"></i>
+                  <h3>No hay cuidadores disponibles</h3>
+                  <p>
+                    No se encontraron cuidadores para este servicio en este
+                    momento.
+                  </p>
+                  <button
+                    className="btn btn-outline"
+                    onClick={() => setStep(1)}
+                  >
+                    Elegir otro servicio
+                  </button>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}
@@ -242,12 +360,20 @@ const NewBooking = ({ mascotas }) => {
                   <span>{selectedCaregiver?.nombre}</span>
                 </div>
                 <div className="summary-item">
-                  <span>Precio base:</span>
-                  <span>{formatPrice(selectedService?.precio || 0)}</span>
+                  <span>Duración:</span>
+                  <span>{formData.duracion} horas</span>
+                </div>
+                <div className="summary-item">
+                  <span>Subtotal:</span>
+                  <span>{formatPrice(subtotal)}</span>
+                </div>
+                <div className="summary-item">
+                  <span>Impuesto (15%):</span>
+                  <span>{formatPrice(impuesto)}</span>
                 </div>
                 <div className="summary-item total">
                   <span>Total:</span>
-                  <span>{formatPrice(calcularTotal())}</span>
+                  <span>{formatPrice(total)}</span>
                 </div>
               </div>
             </div>
@@ -286,8 +412,8 @@ const NewBooking = ({ mascotas }) => {
                 <div className="form-group">
                   <label>Mascota *</label>
                   <select
-                    name="mascota"
-                    value={formData.mascota}
+                    name="idMascota"
+                    value={formData.idMascota}
                     onChange={handleInputChange}
                     required
                   >
@@ -329,7 +455,7 @@ const NewBooking = ({ mascotas }) => {
 
               <button type="submit" className="btn btn-primary btn-full">
                 <i className="fas fa-calendar-check"></i>
-                Confirmar Reserva - {formatPrice(calcularTotal())}
+                Confirmar Reserva - {formatPrice(total)}
               </button>
             </form>
           </div>

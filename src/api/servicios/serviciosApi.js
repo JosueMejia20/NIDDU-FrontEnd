@@ -16,22 +16,16 @@ export const obtenerServiciosPorTipo = async (id) => {
   }
 };
 
-// Registrar Usuario
-
-// export const registrarMascota = async (mascotaData, idUsuario) => {
-//   try {
-//     const response = await axios.post(
-//       `${API_URL}/agregarMascota/${idUsuario}`,
-//       mascotaData,
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error al registrar mascota:", error);
-//     throw error;
-//   }
-// };
+export const crearReserva = async (reservaData) => {
+  try {
+    const response = await axios.post(`${API_URL}/registrar`, reservaData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear reserva:", error);
+    throw error;
+  }
+};
