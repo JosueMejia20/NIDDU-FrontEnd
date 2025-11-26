@@ -1,14 +1,91 @@
+import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 
-const BookingsTab = ({ reservas, filtro, onFiltroChange }) => {
+const BookingsTab = () => {
   const { navigate } = useOutletContext();
+  const [filtro, setFiltro] = useState("todas");
+  const [reservas, setReservas] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Datos de reservas (los que tenías en App.js)
+  const reservasData = [
+    {
+      id: 1,
+      servicio: "Day Care",
+      cuidador: "Ana García",
+      fecha: "15 Nov 2023",
+      hora: "09:00 - 18:00",
+      estado: "Activa",
+      precio: "$25.000",
+      direccion: "Calle 123 #45-67",
+      tipo: "activa",
+      duracion: "8 horas",
+    },
+    {
+      id: 2,
+      servicio: "Paseo",
+      cuidador: "Carlos López",
+      fecha: "10 Nov 2023",
+      hora: "16:00 - 17:00",
+      estado: "Completada",
+      precio: "$15.000",
+      direccion: "Carrera 89 #12-34",
+      tipo: "completada",
+      duracion: "1 hora",
+    },
+    {
+      id: 3,
+      servicio: "Peluquería",
+      cuidador: "María Rodríguez",
+      fecha: "20 Nov 2023",
+      hora: "14:00 - 16:00",
+      estado: "Confirmada",
+      precio: "$35.000",
+      direccion: "Avenida Siempre Viva 742",
+      tipo: "confirmada",
+      duracion: "2 horas",
+    },
+  ];
+
+  // Lógica de filtrado (la que tenías en App.js)
+  const reservasFiltradas = reservas.filter((reserva) => {
+    if (filtro === "todas") return true;
+    return reserva.tipo === filtro;
+  });
+
+  // Función para cambiar filtro
+  const handleFiltroChange = (nuevoFiltro) => {
+    setFiltro(nuevoFiltro);
+  };
+
+  // Cargar reservas al montar el componente
+  useEffect(() => {
+    // Simular carga de datos (puedes reemplazar con llamada a API real)
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setReservas(reservasData);
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="tab-content">
+        <div className="loading-spinner">
+          <i className="fas fa-spinner fa-spin"></i>
+          <p>Cargando reservas...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="tab-content">
       <div className="tab-header">
         <h2>Mis Reservas</h2>
         <button
-          type="button" // AGREGADO
+          type="button"
           className="btn btn-primary"
           onClick={() => navigate("/new-booking")}
         >
@@ -19,23 +96,23 @@ const BookingsTab = ({ reservas, filtro, onFiltroChange }) => {
       <div className="bookings-filters">
         <div className="filter-buttons">
           <button
-            type="button" // AGREGADO
+            type="button"
             className={`filter-btn ${filtro === "todas" ? "active" : ""}`}
-            onClick={() => onFiltroChange("todas")}
+            onClick={() => handleFiltroChange("todas")}
           >
             Todas
           </button>
           <button
-            type="button" // AGREGADO
+            type="button"
             className={`filter-btn ${filtro === "activa" ? "active" : ""}`}
-            onClick={() => onFiltroChange("activa")}
+            onClick={() => handleFiltroChange("activa")}
           >
             Activas
           </button>
           <button
-            type="button" // AGREGADO
+            type="button"
             className={`filter-btn ${filtro === "completada" ? "active" : ""}`}
-            onClick={() => onFiltroChange("completada")}
+            onClick={() => handleFiltroChange("completada")}
           >
             Completadas
           </button>
@@ -43,8 +120,8 @@ const BookingsTab = ({ reservas, filtro, onFiltroChange }) => {
       </div>
 
       <div className="bookings-detailed-list">
-        {reservas.length > 0 ? (
-          reservas.map((reserva) => (
+        {reservasFiltradas.length > 0 ? (
+          reservasFiltradas.map((reserva) => (
             <div key={reserva.id} className="booking-detailed-card">
               <div className="booking-main">
                 <div className="service-icon">
@@ -100,7 +177,7 @@ const BookingsTab = ({ reservas, filtro, onFiltroChange }) => {
             <h3>No hay reservas</h3>
             <p>No se encontraron reservas con los filtros seleccionados</p>
             <button
-              type="button" // AGREGADO
+              type="button"
               className="btn btn-primary"
               onClick={() => navigate("/new-booking")}
             >

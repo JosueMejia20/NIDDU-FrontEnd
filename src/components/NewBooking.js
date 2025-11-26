@@ -23,41 +23,34 @@ const NewBooking = ({ mascotas }) => {
       nombre: "Day Care Diario",
       descripcion:
         "Cuidado durante el día en instalaciones seguras y supervisadas",
-      precio: 25000,
+      precio: 25,
       imagen:
         "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-      popular: true,
-      duracion: "8 horas",
     },
     {
       id: 2,
       nombre: "Paseo Personalizado",
       descripcion: "Paseos adaptados a las necesidades y energía de tu mascota",
-      precio: 15000,
+      precio: 15,
       imagen:
         "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-      popular: true,
-      duracion: "1 hora",
     },
     {
       id: 3,
       nombre: "Peluquería Canina",
       descripcion: "Servicio completo de belleza, baño y corte de pelo",
-      precio: 35000,
+      precio: 35,
       imagen:
         "https://www.clinicaveterinariamh.com/wp-content/uploads/2023/08/45.jpg",
-      popular: false,
-      duracion: "2 horas",
     },
     {
       id: 4,
-      nombre: "Guardería Nocturna",
-      descripcion: "Cuidado durante la noche para cuando necesites viajar",
-      precio: 40000,
+      nombre: "Entrenamiento Canino",
+      descripcion:
+        "Programas de entrenamiento profesional usando métodos positivos para mejores resultados.",
+      precio: 40,
       imagen:
-        "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-      popular: false,
-      duracion: "12 horas",
+        "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     },
   ];
 
@@ -164,14 +157,9 @@ const NewBooking = ({ mascotas }) => {
               {servicios.map((servicio) => (
                 <div
                   key={servicio.id}
-                  className={`service-card ${
-                    servicio.popular ? "popular" : ""
-                  }`}
+                  className="service-card"
                   onClick={() => handleServiceSelect(servicio)}
                 >
-                  {servicio.popular && (
-                    <div className="popular-badge">Popular</div>
-                  )}
                   <div className="service-image">
                     <img src={servicio.imagen} alt={servicio.nombre} />
                   </div>
@@ -179,11 +167,8 @@ const NewBooking = ({ mascotas }) => {
                     <h3>{servicio.nombre}</h3>
                     <p>{servicio.descripcion}</p>
                     <div className="service-details">
-                      <span>
-                        <i className="fas fa-clock"></i> {servicio.duracion}
-                      </span>
                       <span className="price">
-                        {formatPrice(servicio.precio)}
+                        {formatPrice(servicio.precio)}/hora
                       </span>
                     </div>
                   </div>

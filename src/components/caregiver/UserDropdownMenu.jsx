@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/caregiver/UserDropdownMenu.css";
 
-const UserDropdownMenu = ({ onClose, onNavigate }) => {
+const UserDropdownMenu = ({ onClose, onNavigate, handleLogout, user }) => {
   const handleMenuClick = (action) => {
     switch (action) {
       case "crear-servicio":
@@ -18,7 +18,7 @@ const UserDropdownMenu = ({ onClose, onNavigate }) => {
         break;
       case "logout":
         console.log("Cerrando sesión...");
-        // Aquí iría la lógica de logout
+        handleLogout();
         break;
       default:
         break;
@@ -41,12 +41,14 @@ const UserDropdownMenu = ({ onClose, onNavigate }) => {
           <div className="user-avatar">
             <img
               src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
-              alt="Ana García"
+              alt="Avatar"
             />
           </div>
           <div className="user-details">
-            <strong>Ana García</strong>
-            <span>ana.garcia@email.com</span>
+            <strong>
+              {user?.persona?.nombres} {user?.persona?.apellidos}
+            </strong>
+            <span>{user?.correo}</span>
           </div>
         </div>
 

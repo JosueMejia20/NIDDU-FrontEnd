@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import "../../styles/caregiver/CaregiverHeader.css";
 import UserDropdownMenu from "./UserDropdownMenu";
 
-const CaregiverHeader = ({ currentSection, onSectionChange }) => {
+const CaregiverHeader = ({
+  currentSection,
+  onSectionChange,
+  handleLogout,
+  user,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -81,10 +86,12 @@ const CaregiverHeader = ({ currentSection, onSectionChange }) => {
                 <div className="user-avatar">
                   <img
                     src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
-                    alt="Ana García"
+                    alt="Avatar"
                   />
                 </div>
-                <span>Ana García</span>
+                <span>
+                  {user?.persona?.nombres} {user?.persona?.apellidos}
+                </span>
                 <i
                   className="fas fa-chevron-down"
                   style={{
@@ -99,6 +106,8 @@ const CaregiverHeader = ({ currentSection, onSectionChange }) => {
                   <UserDropdownMenu
                     onClose={() => setIsMenuOpen(false)}
                     onNavigate={handleMenuNavigate}
+                    handleLogout={handleLogout}
+                    user={user}
                   />
                 </div>
               )}

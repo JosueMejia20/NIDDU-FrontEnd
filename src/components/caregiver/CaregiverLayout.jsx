@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import CaregiverHeader from "./CaregiverHeader";
 
-const CaregiverLayout = () => {
+const CaregiverLayout = ({ handleLogout, user }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -35,6 +35,8 @@ const CaregiverLayout = () => {
       <CaregiverHeader
         currentSection={getCurrentSection()}
         onSectionChange={handleSectionChange}
+        handleLogout={handleLogout}
+        user={user}
       />
 
       <main className="caregiver-content">

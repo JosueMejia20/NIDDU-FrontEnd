@@ -61,7 +61,7 @@ const LoginPageCaregiver = ({ onLogin }) => {
       if (onLogin) onLogin(usuario);
 
       // Redirigimos al dashboard
-      navigate("/dashboard");
+      navigate("/caregiver");
     } catch (error) {
       console.error("Error al validar credenciales:", error);
       alert("Ocurrió un error al iniciar sesión");

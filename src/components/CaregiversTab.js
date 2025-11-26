@@ -1,56 +1,72 @@
+import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 
-const CaregiversTab = ({
-  cuidadores,
-  filtro,
-  busqueda,
-  onFiltroChange,
-  onBusquedaChange,
-}) => {
+const CaregiversTab = () => {
   const { navigate } = useOutletContext();
+  const [cuidadores, setCuidadores] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Datos de cuidadores (los que tenías en App.js)
+  const cuidadoresData = [
+    {
+      id: 1,
+      nombre: "Ana García",
+      calificacion: 4.9,
+      reseñas: 42,
+      experiencia: "3 años",
+      disponible: true,
+      foto: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
+      servicios: [
+        {
+          nombre: "Day Care",
+          imagen:
+            "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&w=200&q=80",
+        },
+        {
+          nombre: "Paseos",
+          imagen:
+            "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&w=200&q=80",
+        },
+        {
+          nombre: "Entrenamiento",
+          imagen:
+            "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&w=200&q=80",
+        },
+        {
+          nombre: "Peluquería",
+          imagen:
+            "https://www.clinicaveterinariamh.com/wp-content/uploads/2023/08/45.jpg",
+        },
+      ],
+    },
+  ];
+
+  useEffect(() => {
+    // Simular carga de datos (para luego reemplazar con API)
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setCuidadores(cuidadoresData);
+      setLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="tab-content">
+        <div className="loading-spinner">
+          <i className="fas fa-spinner fa-spin"></i>
+          <p>Cargando cuidadores...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="tab-content">
       <div className="tab-header">
         <h2>Cuidadores</h2>
-        <div className="search-box large">
-          <i className="fas fa-search"></i>
-          <input
-            type="text"
-            placeholder="Buscar cuidadores..."
-            value={busqueda}
-            onChange={(e) => onBusquedaChange(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="caregivers-filters">
-        <div className="filter-tags">
-          <span
-            className={`filter-tag ${filtro === "todos" ? "active" : ""}`}
-            onClick={() => onFiltroChange("todos")}
-          >
-            Todos
-          </span>
-          <span
-            className={`filter-tag ${filtro === "disponibles" ? "active" : ""}`}
-            onClick={() => onFiltroChange("disponibles")}
-          >
-            Disponibles
-          </span>
-          <span
-            className={`filter-tag ${filtro === "day care" ? "active" : ""}`}
-            onClick={() => onFiltroChange("day care")}
-          >
-            Day Care
-          </span>
-          <span
-            className={`filter-tag ${filtro === "paseos" ? "active" : ""}`}
-            onClick={() => onFiltroChange("paseos")}
-          >
-            Paseos
-          </span>
-        </div>
       </div>
 
       <div className="caregivers-detailed-grid">
@@ -95,7 +111,7 @@ const CaregiversTab = ({
 
               <div className="caregiver-actions">
                 <button
-                  type="button" // AGREGADO
+                  type="button"
                   className="btn btn-primary"
                   disabled={!cuidador.disponible}
                   onClick={() => navigate("/new-booking")}

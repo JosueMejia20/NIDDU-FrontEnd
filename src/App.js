@@ -37,15 +37,7 @@ import SettingsSection from "./components/caregiver/SettingsSection";
 import CaregiverLayout from "./components/caregiver/CaregiverLayout";
 import LoginPageCaregiver from "./pages/LoginPageCaregiver";
 import { obtenerMascotasPorUsuario } from "./api/mascotas/mascotasApi";
-
-/*muestuserService
-  .obtainUser()
-  .then((response) => {
-    console.log(response.data);
-  })
-  .catch((error) => {
-    console.error(error);
-  });*/
+import ServiceSelection from "./components/caregiver/ServiceSelection";
 
 const ProtectedRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) {
@@ -62,167 +54,10 @@ function App() {
   const [dashboardActiveTab, setDashboardActiveTab] = useState("overview");
   const [mascotas, setMascotas] = useState([]);
 
-  /**
-   * TODO ESTO ES PARA LOS TABS, SE DEBE ELIMINAR LUEGO (DATADASHBOARD)
-   */
-
-  const [filtroReservas, setFiltroReservas] = useState("todas");
-  const [filtroCuidadores, setFiltroCuidadores] = useState("todos");
-  const [busquedaCuidadores, setBusquedaCuidadores] = useState("");
-
-  const reservas = [
-    {
-      id: 1,
-      servicio: "Day Care",
-      cuidador: "Ana García",
-      fecha: "15 Nov 2023",
-      hora: "09:00 - 18:00",
-      estado: "Activa",
-      precio: "$25.000",
-      direccion: "Calle 123 #45-67",
-      tipo: "activa",
-      duracion: "8 horas",
-    },
-    {
-      id: 2,
-      servicio: "Paseo",
-      cuidador: "Carlos López",
-      fecha: "10 Nov 2023",
-      hora: "16:00 - 17:00",
-      estado: "Completada",
-      precio: "$15.000",
-      direccion: "Carrera 89 #12-34",
-      tipo: "completada",
-      duracion: "1 hora",
-    },
-    {
-      id: 3,
-      servicio: "Peluquería",
-      cuidador: "María Rodríguez",
-      fecha: "20 Nov 2023",
-      hora: "14:00 - 16:00",
-      estado: "Confirmada",
-      precio: "$35.000",
-      direccion: "Avenida Siempre Viva 742",
-      tipo: "confirmada",
-      duracion: "2 horas",
-    },
-  ];
-
-  const cuidadores = [
-    {
-      id: 1,
-      nombre: "Ana García",
-      calificacion: 4.9,
-      reseñas: 42,
-      experiencia: "3 años",
-      foto: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
-      servicios: [
-        {
-          nombre: "Day Care",
-          imagen:
-            "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&w=200&q=80",
-        },
-        {
-          nombre: "Paseos",
-          imagen:
-            "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&w=200&q=80",
-        },
-        {
-          nombre: "Entrenamiento",
-          imagen:
-            "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&w=200&q=80",
-        },
-        {
-          nombre: "Peluquería",
-          imagen:
-            "https://www.clinicaveterinariamh.com/wp-content/uploads/2023/08/45.jpg",
-        },
-      ],
-    },
-  ];
-
-  const userStats = {
-    mascotas: mascotas.length,
-    reservasActivas: 1,
-    cuidadoresFavoritos: 3,
-    puntos: 150,
-  };
-
-  const reservasFiltradas = reservas.filter((reserva) => {
-    if (filtroReservas === "todas") return true;
-    return reserva.tipo === filtroReservas;
-  });
-
-  const cuidadoresFiltrados = cuidadores
-    .filter((cuidador) => {
-      if (filtroCuidadores === "todos") return true;
-      if (filtroCuidadores === "disponibles") return cuidador.disponible;
-      return cuidador.especialidad.toLowerCase().includes(filtroCuidadores);
-    })
-    .filter(
-      (cuidador) =>
-        cuidador.nombre
-          .toLowerCase()
-          .includes(busquedaCuidadores.toLowerCase()) ||
-        cuidador.especialidad
-          .toLowerCase()
-          .includes(busquedaCuidadores.toLowerCase())
-    );
-
-  const serviciosDisponibles = [
-    {
-      id: 1,
-      nombre: "Day Care Diario",
-      descripcion:
-        "Cuidado durante el día en instalaciones seguras y supervisadas",
-      precio: "$25.000/día",
-      duracion: "8 horas",
-      popular: true,
-      imagen:
-        "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 2,
-      nombre: "Paseos Personalizados",
-      descripcion: "Paseos adaptados a las necesidades y energía de tu mascota",
-      precio: "$15.000/paseo",
-      duracion: "1 hora",
-      popular: true,
-      imagen:
-        "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 3,
-      nombre: "Peluquería Canina",
-      descripcion: "Servicio completo de belleza, baño y corte de pelo",
-      precio: "$35.000/sesión",
-      duracion: "2 horas",
-      popular: false,
-      imagen:
-        "https://www.clinicaveterinariamh.com/wp-content/uploads/2023/08/45.jpg",
-    },
-    {
-      id: 4,
-      nombre: "Entrenamiento Básico",
-      descripcion:
-        "Sesiones de entrenamiento para obediencia básica y comandos",
-      precio: "$40.000/sesión",
-      duracion: "1 hora",
-      popular: true,
-      imagen:
-        "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    },
-  ];
-
-  /**
-   * AQUI TERMINA LA DATA (DATADASHBOARD)
-   */
-
+  // Navigate
   const navigate = useNavigate();
 
-  // Restaurar sesión al recargar
-  //TODO: Estas funciones dependen mucho del /dashboard, hacer funciones independientes para el cuidador
+  // PRIMERO: Restaurar sesión
   useEffect(() => {
     const savedUser = localStorage.getItem("niddu_user");
     const savedSession = localStorage.getItem("niddu_session");
@@ -236,9 +71,9 @@ function App() {
     }
   }, [navigate]);
 
-  //Para obtener las mascotas
+  // SEGUNDO: Obtener mascotas cuando user esté disponible
   useEffect(() => {
-    if (!user) return; // espera a que el usuario esté disponible
+    if (!user?.id) return; // Más específico - necesita user.id
 
     obtenerMascotasPorUsuario(user.id)
       .then((data) =>
@@ -259,7 +94,7 @@ function App() {
         )
       )
       .catch(console.error);
-  }, [user]);
+  }, [user?.id]); // Dependencia más específica
 
   // Funciones de autenticación
   const handleLogin = (userData) => {
@@ -305,6 +140,7 @@ function App() {
     setIsLoggedIn(false);
     setUser(null);
     localStorage.removeItem("niddu_user");
+    localStorage.removeItem("usuario");
     localStorage.removeItem("niddu_session");
     navigate("/");
   };
@@ -412,47 +248,20 @@ function App() {
           <Route index element={<Navigate to="overview" replace />} />
           <Route
             path="overview"
-            element={
-              <OverviewTab
-                mascotas={mascotas}
-                reservas={reservas}
-                cuidadores={cuidadores}
-                userStats={userStats}
-              />
-            }
+            element={<OverviewTab mascotas={mascotas} />}
           />
           <Route path="pets" element={<PetsTab mascotas={mascotas} />} />
-          <Route
-            path="bookings"
-            element={
-              <BookingsTab
-                reservas={reservasFiltradas}
-                filtro={filtroReservas}
-                onFiltroChange={setFiltroReservas}
-              />
-            }
-          />
-          <Route
-            path="caregivers"
-            element={
-              <CaregiversTab
-                cuidadores={cuidadoresFiltrados}
-                filtro={filtroCuidadores}
-                busqueda={busquedaCuidadores}
-                onFiltroChange={setFiltroCuidadores}
-                onBusquedaChange={setBusquedaCuidadores}
-              />
-            }
-          />
-          <Route
-            path="services"
-            element={<ServicesTab servicios={serviciosDisponibles} />}
-          />
+          <Route path="bookings" element={<BookingsTab />} />
+          <Route path="caregivers" element={<CaregiversTab />} />
+          <Route path="services" element={<ServicesTab />} />
           <Route path="profile" element={<ProfileTab user={user} />} />
         </Route>
 
         {/* Rutas del Caregiver con Layout */}
-        <Route path="/caregiver" element={<CaregiverLayout />}>
+        <Route
+          path="/caregiver"
+          element={<CaregiverLayout handleLogout={handleLogout} user={user} />}
+        >
           <Route index element={<CaregiverDashboard user={user} />} />
           <Route path="reservas" element={<CaregiverBookings />} />
           {/* <Route
@@ -461,9 +270,12 @@ function App() {
               <AGREGARAQUI /> // Componente para detalles de reserva individual
             }
           /> */}
-          <Route path="servicios" element={<ServiceCreation />} />
+          <Route path="servicios" element={<ServiceSelection />} />
           <Route path="reportes" element={<ReportsSection />} />
-          <Route path="configuracion" element={<SettingsSection />} />
+          <Route
+            path="configuracion"
+            element={<SettingsSection user={user} />}
+          />
         </Route>
 
         {/* Rutas sin /dashboard */}

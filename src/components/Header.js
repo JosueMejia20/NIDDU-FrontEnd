@@ -84,28 +84,6 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
           <ul className={`nav-links ${isMobileMenuOpen ? "active" : ""}`}>
             {isLoggedIn ? (
               <>
-                <li>
-                  <a
-                    href="#buscar"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavigation("/dashboard");
-                    }}
-                  >
-                    <i className="fas fa-search"></i> Buscar
-                  </a>
-                </li>
-                <li>
-                  <a href="#ayuda" onClick={(e) => e.preventDefault()}>
-                    <i className="fas fa-question-circle"></i> Ayuda
-                  </a>
-                </li>
-                <li>
-                  <a href="#ser-cuidador" onClick={(e) => e.preventDefault()}>
-                    <i className="fas fa-paw"></i> Ser Cuidador
-                  </a>
-                </li>
-
                 {/* Menú de usuario */}
                 <li className="nav-user">
                   <div className="user-menu-trigger" onClick={toggleUserMenu}>

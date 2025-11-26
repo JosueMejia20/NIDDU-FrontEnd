@@ -3,7 +3,7 @@ import "../../styles/caregiver/SettingsSection.css";
 import { useNavigate } from "react-router-dom";
 
 //TODO: Este utiliza la funcion onSectionChange, cambiar su uso con navigate
-const SettingsSection = () => {
+const SettingsSection = ({ user }) => {
   const navigate = useNavigate();
 
   const [settings, setSettings] = useState({
@@ -91,8 +91,9 @@ const SettingsSection = () => {
                 </div>
               </div>
               <div className="profile-info">
-                <h4>{settings.profile.fullName}</h4>
-                <p>Cuidadora Profesional</p>
+                <h4>
+                  {user?.persona?.nombres} {user?.persona?.apellidos}
+                </h4>
                 <p>⭐ 4.9 (42 reseñas)</p>
               </div>
             </div>
@@ -103,7 +104,9 @@ const SettingsSection = () => {
                 <input
                   type="text"
                   id="fullName"
-                  value={settings.profile.fullName}
+                  value={`${user?.persona?.nombres || ""} ${
+                    user?.persona?.apellidos || ""
+                  }`}
                   onChange={(e) =>
                     handleProfileChange("fullName", e.target.value)
                   }
@@ -114,7 +117,7 @@ const SettingsSection = () => {
                 <input
                   type="email"
                   id="email"
-                  value={settings.profile.email}
+                  value={user?.correo}
                   onChange={(e) => handleProfileChange("email", e.target.value)}
                 />
               </div>
@@ -123,7 +126,7 @@ const SettingsSection = () => {
                 <input
                   type="tel"
                   id="phone"
-                  value={settings.profile.phone}
+                  value={user?.persona?.telefono}
                   onChange={(e) => handleProfileChange("phone", e.target.value)}
                 />
               </div>
@@ -132,7 +135,7 @@ const SettingsSection = () => {
                 <input
                   type="text"
                   id="location"
-                  value={settings.profile.location}
+                  value={user?.direcciones?.[0]?.ciudad}
                   onChange={(e) =>
                     handleProfileChange("location", e.target.value)
                   }
@@ -140,7 +143,7 @@ const SettingsSection = () => {
               </div>
             </div>
 
-            <div className="form-group full-width">
+            {/* <div className="form-group full-width">
               <label htmlFor="bio">Biografía</label>
               <textarea
                 id="bio"
@@ -148,7 +151,7 @@ const SettingsSection = () => {
                 value={settings.profile.bio}
                 onChange={(e) => handleProfileChange("bio", e.target.value)}
               />
-            </div>
+            </div> */}
 
             <button
               className="btn btn-primary btn-full"
