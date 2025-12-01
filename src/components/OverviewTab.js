@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PetCard from "./PetCard";
 import BookingItem from "./BookingItem";
 import CaregiverCard from "./CaregiverCard";
+import { obtenerServiciosPorCuidadores } from "../api/cuidador/cuidadoresApi";
 
 const OverviewTab = ({ mascotas }) => {
   const navigate = useNavigate();
@@ -10,7 +11,9 @@ const OverviewTab = ({ mascotas }) => {
   const [userStats, setUserStats] = useState({
     mascotas: 0,
     reservasActivas: 0,
+    cuidadoresDisponibles: 0,
   });
+  const [loading, setLoading] = useState(true);
 
   // Datos de reservas
   const reservasData = [
@@ -53,14 +56,38 @@ const OverviewTab = ({ mascotas }) => {
   ];
 
   useEffect(() => {
-    // Cargar reservas y calcular stats
-    setReservas(reservasData);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
-    // Calcular userStats - solo el largo total de reservas
-    setUserStats({
-      mascotas: mascotas.length,
-      reservasActivas: reservasData.length, // Solo el total de reservas
-    });
+        const cuidadoresData = await obtenerServiciosPorCuidadores();
+        console.log("Cuidadores obtenidos:", cuidadoresData);
+
+        const cantidadCuidadores = cuidadoresData.length;
+
+        setReservas(reservasData);
+
+        setUserStats({
+          mascotas: mascotas.length,
+          reservasActivas: reservasData.length,
+          cuidadoresDisponibles: cantidadCuidadores,
+        });
+      } catch (error) {
+        console.error("Error obteniendo cuidadores:", error);
+
+        //Caso de error cambiar
+        setReservas(reservasData);
+        setUserStats({
+          mascotas: mascotas.length,
+          reservasActivas: reservasData.length,
+          cuidadoresDisponibles: 0,
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [mascotas]);
 
   const handleTabNavigate = (tab) => {
@@ -70,6 +97,17 @@ const OverviewTab = ({ mascotas }) => {
   const handleReserve = (mascotaId) => {
     navigate("/new-booking", { state: { mascotaId } });
   };
+
+  if (loading) {
+    return (
+      <div className="tab-content">
+        <div className="loading-spinner">
+          <i className="fas fa-spinner fa-spin"></i>
+          <p>Cargando...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="tab-content">
@@ -101,7 +139,7 @@ const OverviewTab = ({ mascotas }) => {
             <i className="fas fa-heart"></i>
           </div>
           <div className="stat-info">
-            <h3>1000</h3>
+            <h3>{userStats.cuidadoresDisponibles}</h3>
             <p>Cuidadores Disponibles</p>
           </div>
         </div>

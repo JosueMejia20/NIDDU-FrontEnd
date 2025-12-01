@@ -57,7 +57,7 @@ function App() {
   // Navigate
   const navigate = useNavigate();
 
-  // PRIMERO: Restaurar sesión
+  // PRIMERO: Restaurar sesion
   useEffect(() => {
     const savedUser = localStorage.getItem("niddu_user");
     const savedSession = localStorage.getItem("niddu_session");
@@ -71,9 +71,9 @@ function App() {
     }
   }, [navigate]);
 
-  // SEGUNDO: Obtener mascotas cuando user esté disponible
+  // SEGUNDO: Obtener mascotas cuando user este disponible
   useEffect(() => {
-    if (!user?.id) return; // Más específico - necesita user.id
+    if (!user?.id) return; // Mas especifico - necesita user.id
 
     obtenerMascotasPorUsuario(user.id)
       .then((data) =>
@@ -94,9 +94,9 @@ function App() {
         )
       )
       .catch(console.error);
-  }, [user?.id]); // Dependencia más específica
+  }, [user?.id]); // Dependencia mas especifica
 
-  // Funciones de autenticación
+  // Funciones de autenticacion
   const handleLogin = (userData) => {
     setIsLoggedIn(true);
     setUser(userData);
@@ -270,7 +270,7 @@ function App() {
               <AGREGARAQUI /> // Componente para detalles de reserva individual
             }
           /> */}
-          <Route path="servicios" element={<ServiceSelection />} />
+          <Route path="servicios" element={<ServiceSelection user={user} />} />
           <Route path="reportes" element={<ReportsSection />} />
           <Route
             path="configuracion"
@@ -298,7 +298,6 @@ function App() {
   );
 }
 
-// Envolvemos App en BrowserRouter
 export default function RootApp() {
   return (
     <BrowserRouter>

@@ -25,7 +25,7 @@ export const validarCredencialesCuidador = async (correo, password) => {
         correo
       )}/${encodeURIComponent(password)}`
     );
-    return response.data; // Esto devolverá un UserDto
+    return response.data; // Esto devolvera un UserDto
   } catch (error) {
     console.error("Error al validar credenciales:", error);
     throw error;
@@ -37,9 +37,21 @@ export const obtenerServiciosPorCuidadores = async () => {
     const response = await axios.get(
       `${API_URL}/obtenerServiciosPorCuidadores`
     );
-    return response.data; // Esto devolverá un UserDto
+    return response.data; // Esto devolvera un UserDto
   } catch (error) {
     console.error("Error al validar credenciales:", error);
+    throw error;
+  }
+};
+
+export const getServicesByCaregiverId = async (cuidadorId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/obtenerListaServiciosPorCuidadorId/${encodeURI(cuidadorId)}`
+    );
+    return response.data; // Esto devolvera un UserDto
+  } catch (error) {
+    console.error("Error al obtener cuidadortiposervicio:", error);
     throw error;
   }
 };

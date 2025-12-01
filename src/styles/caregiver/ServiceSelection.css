@@ -227,3 +227,80 @@
     justify-content: center;
   }
 }
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.loading-spinner i {
+  font-size: 2rem;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+}
+
+.loading-spinner p {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.error-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.error-message i {
+  font-size: 3rem;
+  color: #ef4444;
+  margin-bottom: 1rem;
+}
+
+.error-message h3 {
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.blocked-service-selection {
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.blocked-service-selection:hover {
+  border-color: #dee2e6;
+  transform: none;
+  box-shadow: none;
+}
+
+.blocked-icon {
+  color: #6c757d;
+}
+
+.servicios-actuales {
+  margin-top: 0.5rem;
+  color: #6c757d;
+}
+
+.servicios-actuales i {
+  margin-right: 0.25rem;
+}
+
+.offered-icon {
+  color: #10b981;
+}
+
+.selection-summary-service-selection p:first-child {
+  color: #3b82f6;
+}
+
+.selection-summary-service-selection .servicios-actuales {
+  color: #059669;
+}
