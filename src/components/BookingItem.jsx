@@ -6,9 +6,7 @@ function BookingItem({ reserva }) {
       <div className="booking-info">
         <h4>{reserva.servicio}</h4>
         <p>Con {reserva.cuidador}</p>
-        <span className="booking-date">
-          {reserva.fecha} - {reserva.hora}
-        </span>
+        <span className="booking-date">{reserva.fecha}</span>
       </div>
       <div className="booking-details">
         <span className="booking-price">{reserva.precio}</span>

@@ -4,8 +4,9 @@ import PetCard from "./PetCard";
 import BookingItem from "./BookingItem";
 import CaregiverCard from "./CaregiverCard";
 import { obtenerServiciosPorCuidadores } from "../api/cuidador/cuidadoresApi";
+import { obtenerHistorialReservas } from "../api/usuarios/usuariosApi";
 
-const OverviewTab = ({ mascotas }) => {
+const OverviewTab = ({ mascotas, user }) => {
   const navigate = useNavigate();
   const [reservas, setReservas] = useState([]);
   const [userStats, setUserStats] = useState({
@@ -15,71 +16,93 @@ const OverviewTab = ({ mascotas }) => {
   });
   const [loading, setLoading] = useState(true);
 
-  // Datos de reservas
-  const reservasData = [
-    {
-      id: 1,
-      servicio: "Day Care",
-      cuidador: "Ana García",
-      fecha: "15 Nov 2023",
-      hora: "09:00 - 18:00",
-      estado: "Activa",
-      precio: "$25.000",
-      direccion: "Calle 123 #45-67",
-      tipo: "activa",
-      duracion: "8 horas",
-    },
-    {
-      id: 2,
-      servicio: "Paseo",
-      cuidador: "Carlos López",
-      fecha: "10 Nov 2023",
-      hora: "16:00 - 17:00",
-      estado: "Completada",
-      precio: "$15.000",
-      direccion: "Carrera 89 #12-34",
-      tipo: "completada",
-      duracion: "1 hora",
-    },
-    {
-      id: 3,
-      servicio: "Peluquería",
-      cuidador: "María Rodríguez",
-      fecha: "20 Nov 2023",
-      hora: "14:00 - 16:00",
-      estado: "Confirmada",
-      precio: "$35.000",
-      direccion: "Avenida Siempre Viva 742",
-      tipo: "confirmada",
-      duracion: "2 horas",
-    },
-  ];
+  // Funcion para mapear estado de API a estado para BookingItem
+  const mapEstadoToReservaItem = (estado) => {
+    const estadoMap = {
+      Completado: "Completada",
+      Pagado: "Activa",
+      Pendiente: "Confirmada",
+    };
+    return estadoMap[estado] || "Activa";
+  };
+
+  // Funcion para formatear fecha para BookingItem
+  const formatBookingDate = (fechaString) => {
+    const fecha = new Date(fechaString);
+    return fecha.toLocaleDateString("es-CO", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
 
+        // 1. Obtener cuidadores disponibles
         const cuidadoresData = await obtenerServiciosPorCuidadores();
         console.log("Cuidadores obtenidos:", cuidadoresData);
 
         const cantidadCuidadores = cuidadoresData.length;
 
-        setReservas(reservasData);
+        // 2. Obtener reservas del usuario desde la API
+        let reservasReales = [];
+        if (user?.id) {
+          console.log("Obteniendo reservas para usuario ID:", user.id);
+          const historialReservas = await obtenerHistorialReservas(user.id);
+          console.log("Reservas obtenidas de API:", historialReservas);
 
+          // Transformar datos de API al formato que necesita BookingItem
+          reservasReales = historialReservas.map((reserva, index) => ({
+            id: index + 1, // Usar indice como ID temporal
+            servicio: reserva.nombreServicio,
+            cuidador: `${reserva.nombreCuidador} ${reserva.apellidoCuidador}`,
+            fecha: formatBookingDate(reserva.fecha),
+            estado: mapEstadoToReservaItem(reserva.estado),
+            precio: `$${reserva.total.toLocaleString("es-CO")}`,
+            tipo: reserva.estado.toLowerCase(),
+            mascota: reserva.nombreMascota,
+          }));
+
+          console.log("Reservas transformadas:", reservasReales);
+        }
+
+        // 3. Contar reservas activas (estado "Pagado" o "Pendiente")
+        const reservasActivasCount = reservasReales.filter(
+          (reserva) =>
+            reserva.estado === "Activa" || reserva.estado === "Confirmada"
+        ).length;
+
+        // 4. Actualizar estado
+        setReservas(reservasReales);
         setUserStats({
           mascotas: mascotas.length,
-          reservasActivas: reservasData.length,
+          reservasActivas: reservasActivasCount,
           cuidadoresDisponibles: cantidadCuidadores,
         });
       } catch (error) {
-        console.error("Error obteniendo cuidadores:", error);
+        console.error("Error obteniendo datos:", error);
 
-        //Caso de error cambiar
-        setReservas(reservasData);
+        // Datos de fallback en caso de error
+        const reservasFallback = [
+          {
+            id: 1,
+            servicio: "Day Care",
+            cuidador: "Ana García",
+            fecha: "15 Nov 2023",
+            estado: "Activa",
+            precio: "$25.000",
+            tipo: "activa",
+            mascota: "Mascota",
+          },
+        ];
+
+        setReservas(reservasFallback);
         setUserStats({
           mascotas: mascotas.length,
-          reservasActivas: reservasData.length,
+          reservasActivas: reservasFallback.length,
           cuidadoresDisponibles: 0,
         });
       } finally {
@@ -88,7 +111,7 @@ const OverviewTab = ({ mascotas }) => {
     };
 
     fetchData();
-  }, [mascotas]);
+  }, [mascotas, user]);
 
   const handleTabNavigate = (tab) => {
     navigate(`/dashboard?tab=${tab}`);
@@ -145,7 +168,7 @@ const OverviewTab = ({ mascotas }) => {
         </div>
       </div>
 
-      {/* Sección Mascotas */}
+      {/* Seccion Mascotas */}
       <div className="section-card">
         <div className="section-header">
           <h3>Mis Mascotas</h3>
@@ -161,7 +184,7 @@ const OverviewTab = ({ mascotas }) => {
         </div>
       </div>
 
-      {/* Sección Reservas */}
+      {/* Seccion Reservas */}
       <div className="section-card">
         <div className="section-header">
           <h3>Próximas Reservas</h3>
@@ -174,9 +197,26 @@ const OverviewTab = ({ mascotas }) => {
           </button>
         </div>
         <div className="bookings-list">
-          {reservas.slice(0, 2).map((reserva) => (
-            <BookingItem key={reserva.id} reserva={reserva} />
-          ))}
+          {reservas.length > 0 ? (
+            reservas.slice(0, 2).map((reserva, index) => (
+              <BookingItem
+                key={reserva.id} // Usar el id generado
+                reserva={reserva}
+              />
+            ))
+          ) : (
+            <div className="no-bookings-message">
+              <i className="fas fa-calendar-times"></i>
+              <p>No tienes reservas activas</p>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => navigate("/new-booking")}
+              >
+                Haz tu primera reserva
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

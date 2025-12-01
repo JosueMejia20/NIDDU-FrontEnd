@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/caregiver/ServiceSelection.css";
 import { obtenerTiposServicios } from "../../api/tiposServicios/tiposServiciosApi";
 import { getServicesByCaregiverId } from "../../api/cuidador/cuidadoresApi";
+import { registrarCuidadorTipoServicio } from "../../api/cuidador/cuidadoresApi";
 
 const ServiceSelection = ({ user }) => {
   const navigate = useNavigate();
@@ -10,7 +11,9 @@ const ServiceSelection = ({ user }) => {
   const [servicios, setServicios] = useState([]);
   const [serviciosDelCuidador, setServiciosDelCuidador] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   const getServiceIcon = (idTipoServicio) => {
     const serviceIcons = {
@@ -90,10 +93,87 @@ const ServiceSelection = ({ user }) => {
     );
   };
 
-  const handleSaveServices = () => {
-    console.log("Servicios seleccionados para agregar:", selectedServices);
-    // Aqui ira la logica para guardar SOLO los nuevos servicios en la API
-    // navigate("/caregiver"); // Redirigir despues de guardar
+  const handleSaveServices = async () => {
+    if (selectedServices.length === 0) {
+      alert("No hay servicios seleccionados para guardar");
+      return;
+    }
+
+    if (!user?.idCuidador) {
+      alert("Error: No se encontró el ID del cuidador");
+      return;
+    }
+
+    try {
+      setSaving(true);
+      setError(null);
+      setSaveSuccess(false);
+
+      console.log("Guardando servicios para cuidador:", user.idCuidador);
+      console.log("Servicios a registrar:", selectedServices);
+
+      // Crear un array de promesas para registrar todos los servicios
+      const promises = selectedServices.map((servicioId) => {
+        console.log(
+          `Registrando servicio ${servicioId} para cuidador ${user.idCuidador}`
+        );
+        return registrarCuidadorTipoServicio(user.idCuidador, servicioId);
+      });
+
+      // Ejecutar todas las llamadas a la API en paralelo
+      const results = await Promise.allSettled(promises);
+
+      // Verificar resultados
+      const successfulRegistrations = results.filter(
+        (result) => result.status === "fulfilled"
+      );
+      const failedRegistrations = results.filter(
+        (result) => result.status === "rejected"
+      );
+
+      console.log(`Registros exitosos: ${successfulRegistrations.length}`);
+      console.log(`Registros fallidos: ${failedRegistrations.length}`);
+
+      if (failedRegistrations.length > 0) {
+        console.error("Errores en algunos registros:", failedRegistrations);
+
+        // Si todos fallaron
+        if (successfulRegistrations.length === 0) {
+          throw new Error(
+            "No se pudo registrar ninguno de los servicios seleccionados"
+          );
+        } else {
+          // Si algunos tuvieron exito
+          alert(
+            `Se registraron ${successfulRegistrations.length} de ${selectedServices.length} servicios. Algunos no pudieron ser registrados.`
+          );
+        }
+      }
+
+      // Mostrar exito
+      setSaveSuccess(true);
+
+      setTimeout(() => {
+        navigate("/caregiver");
+      }, 2000);
+
+      // Actualizar servicios del cuidador (marcar como ya ofrecidos)
+      setServicios((prevServicios) =>
+        prevServicios.map((servicio) => ({
+          ...servicio,
+          yaOfrecido:
+            servicio.yaOfrecido || selectedServices.includes(servicio.id),
+        }))
+      );
+    } catch (error) {
+      console.error("Error guardando servicios:", error);
+      setError(
+        error.message ||
+          "Error al guardar los servicios. Por favor, intenta nuevamente."
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
   // Calcular si hay cambios reales (servicios nuevos seleccionados)
@@ -144,6 +224,37 @@ const ServiceSelection = ({ user }) => {
           <h1>Seleccionar Servicios</h1>
           <p>Elige servicios adicionales que quieras ofrecer</p>
         </div>
+
+        {/* Mensaje de exito */}
+        {saveSuccess && (
+          <div className="success-message-service-selection">
+            <i className="fas fa-check-circle"></i>
+            <div>
+              <h3>¡Servicios guardados exitosamente!</h3>
+              <p>
+                Se registraron {selectedServices.length} servicio(s) nuevo(s).
+                Redirigiendo...
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Mensaje de error */}
+        {error && !saveSuccess && (
+          <div className="error-message-service-selection">
+            <i className="fas fa-exclamation-triangle"></i>
+            <div>
+              <h3>Error</h3>
+              <p>{error}</p>
+            </div>
+            <button
+              className="btn-service-selection btn-outline-service-selection"
+              onClick={() => setError(null)}
+            >
+              Cerrar
+            </button>
+          </div>
+        )}
 
         <div className="services-selection-grid-service-selection">
           {servicios.map((service) => {
@@ -219,6 +330,7 @@ const ServiceSelection = ({ user }) => {
               type="button"
               className="btn-service-selection btn-outline-service-selection"
               onClick={() => navigate("/caregiver")}
+              disabled={saving}
             >
               Cancelar
             </button>
@@ -226,9 +338,17 @@ const ServiceSelection = ({ user }) => {
               type="button"
               className="btn-service-selection btn-primary-service-selection"
               onClick={handleSaveServices}
-              disabled={!hayCambios} // Solo habilitado si hay servicios nuevos
+              disabled={!hayCambios || saving}
             >
-              <i className="fas fa-save"></i> Guardar Servicios Nuevos
+              {saving ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i> Guardando...
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-save"></i> Guardar Servicios Nuevos
+                </>
+              )}
             </button>
           </div>
         </div>

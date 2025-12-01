@@ -733,9 +733,9 @@
 .booking-detailed-card {
   background: var(--white);
   border-radius: 12px;
-  padding: 20px;
+  padding: 20px 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -745,9 +745,10 @@
 
 .booking-main {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   flex: 1;
   min-width: 250px;
+  align-items: flex-start;
 }
 
 .service-icon {
@@ -765,6 +766,13 @@
   color: var(--white);
   font-size: 20px;
   flex-shrink: 0;
+  margin: 0;
+}
+
+.booking-info-detailed {
+  flex: 1;
+  margin: 0;
+  padding: 0;
 }
 
 .booking-info-detailed h4 {
@@ -786,12 +794,15 @@
   align-items: flex-end;
   gap: 10px;
   min-width: 120px;
+  margin: 0;
+  padding: 0;
 }
 
 .booking-price-main {
   font-size: 18px;
   font-weight: 700;
   color: var(--dark-gray);
+  margin: 0;
 }
 
 .booking-status-large {
@@ -800,21 +811,22 @@
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
+  margin: 0;
 }
 
-.booking-status-large.activa {
+.booking-status-large.pagado {
   background: var(--light-green);
   color: var(--dark-green);
 }
 
-.booking-status-large.completada {
-  background: var(--light-blue);
-  color: var(--dark-blue);
-}
-
-.booking-status-large.confirmada {
+.booking-status-large.pendiente {
   background: #fff3cd;
   color: #856404;
+}
+
+.booking-status-large.completado {
+  background: var(--light-blue);
+  color: var(--dark-blue);
 }
 
 .booking-actions {

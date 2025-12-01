@@ -248,10 +248,10 @@ function App() {
           <Route index element={<Navigate to="overview" replace />} />
           <Route
             path="overview"
-            element={<OverviewTab mascotas={mascotas} />}
+            element={<OverviewTab mascotas={mascotas} user={user} />}
           />
           <Route path="pets" element={<PetsTab mascotas={mascotas} />} />
-          <Route path="bookings" element={<BookingsTab />} />
+          <Route path="bookings" element={<BookingsTab user={user} />} />
           <Route path="caregivers" element={<CaregiversTab />} />
           <Route path="services" element={<ServicesTab />} />
           <Route path="profile" element={<ProfileTab user={user} />} />

@@ -1,7 +1,8 @@
 // src/api/usuarios/usuariosApi.js
 import axios from "axios";
 
-const API_URL = "https://niddu-backend-aqg9cngxbza8dxd4.eastus2-01.azurewebsites.net/usuarios";
+const API_URL =
+  "https://niddu-backend-aqg9cngxbza8dxd4.eastus2-01.azurewebsites.net/usuarios";
 
 // Registrar Usuario
 export const registrarUsuario = async (usuarioData) => {
@@ -27,6 +28,18 @@ export const validarCredenciales = async (correo, password) => {
       )}/${encodeURIComponent(password)}`
     );
     return response.data; // Esto devolverá un UserDto
+  } catch (error) {
+    console.error("Error al validar credenciales:", error);
+    throw error;
+  }
+};
+
+export const obtenerHistorialReservas = async (idUsuario) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/obtenerHistorialReservas/${encodeURIComponent(idUsuario)}`
+    );
+    return response.data;
   } catch (error) {
     console.error("Error al validar credenciales:", error);
     throw error;

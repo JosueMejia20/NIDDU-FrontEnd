@@ -14,15 +14,6 @@ function PetCard({ mascota, onReserve }) {
         </p>
         <span className="pet-detail">{mascota.peso}</span>
       </div>
-
-      <button
-        type="button"
-        className="btn btn-secondary btn-sm"
-        style={{ marginLeft: "auto" }}
-        onClick={() => onReserve(mascota.id)}
-      >
-        Ver / Reservar
-      </button>
     </div>
   );
 }

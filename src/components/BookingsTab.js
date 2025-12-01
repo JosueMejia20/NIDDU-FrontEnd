@@ -1,56 +1,46 @@
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
+import { obtenerHistorialReservas } from "../api/usuarios/usuariosApi";
 
-const BookingsTab = () => {
+const BookingsTab = ({ user }) => {
   const { navigate } = useOutletContext();
   const [filtro, setFiltro] = useState("todas");
   const [reservas, setReservas] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Datos de reservas (los que tenías en App.js)
-  const reservasData = [
-    {
-      id: 1,
-      servicio: "Day Care",
-      cuidador: "Ana García",
-      fecha: "15 Nov 2023",
-      hora: "09:00 - 18:00",
-      estado: "Activa",
-      precio: "$25.000",
-      direccion: "Calle 123 #45-67",
-      tipo: "activa",
-      duracion: "8 horas",
-    },
-    {
-      id: 2,
-      servicio: "Paseo",
-      cuidador: "Carlos López",
-      fecha: "10 Nov 2023",
-      hora: "16:00 - 17:00",
-      estado: "Completada",
-      precio: "$15.000",
-      direccion: "Carrera 89 #12-34",
-      tipo: "completada",
-      duracion: "1 hora",
-    },
-    {
-      id: 3,
-      servicio: "Peluquería",
-      cuidador: "María Rodríguez",
-      fecha: "20 Nov 2023",
-      hora: "14:00 - 16:00",
-      estado: "Confirmada",
-      precio: "$35.000",
-      direccion: "Avenida Siempre Viva 742",
-      tipo: "confirmada",
-      duracion: "2 horas",
-    },
-  ];
+  // Función para formatear precio
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+    }).format(price);
+  };
 
-  // Lógica de filtrado (la que tenías en App.js)
+  // Función para formatear fecha
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("es-CO", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  // Mapear estado de la API al tipo para filtros
+  const mapEstadoToTipo = (estado) => {
+    const estadoMap = {
+      Pagado: "activa",
+      Pendiente: "activa",
+      Completado: "completada",
+    };
+    return estadoMap[estado] || "activa";
+  };
+
+  // Lógica de filtrado
   const reservasFiltradas = reservas.filter((reserva) => {
     if (filtro === "todas") return true;
-    return reserva.tipo === filtro;
+    return mapEstadoToTipo(reserva.estado) === filtro;
   });
 
   // Función para cambiar filtro
@@ -58,16 +48,61 @@ const BookingsTab = () => {
     setFiltro(nuevoFiltro);
   };
 
-  // Cargar reservas al montar el componente
+  // Cargar reservas desde la API
   useEffect(() => {
-    // Simular carga de datos (puedes reemplazar con llamada a API real)
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setReservas(reservasData);
-      setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+    const fetchReservas = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        console.log("Obteniendo reservas para usuario ID:", user?.id);
+
+        const reservasData = await obtenerHistorialReservas(user?.id);
+        console.log("Reservas desde API:", reservasData);
+
+        // Agregar propiedad 'tipo' para compatibilidad con filtros
+        const reservasConTipo = reservasData.map((reserva) => ({
+          ...reserva,
+          tipo: mapEstadoToTipo(reserva.estado),
+        }));
+
+        setReservas(reservasConTipo);
+      } catch (error) {
+        console.error("Error cargando reservas:", error);
+        setError(
+          "Error al cargar las reservas. Por favor, intenta nuevamente."
+        );
+
+        // Datos de fallback
+        const reservasFallback = [
+          {
+            nombreCuidador: "Lucía",
+            apellidoCuidador: "González",
+            nombreMascota: "Firulais",
+            nombreServicio: "Paseos Moderados",
+            fecha: "2025-11-10",
+            subtotal: 150.0,
+            impuesto: 22.5,
+            total: 172.5,
+            estado: "Completado",
+            tipo: "completada",
+          },
+        ];
+        setReservas(reservasFallback);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.id) {
+      fetchReservas();
+    }
+  }, [user?.id]);
+
+  // Debug para ver el user object
+  useEffect(() => {
+    console.log("User object en BookingsTab:", user);
+  }, [user]);
 
   if (loading) {
     return (
@@ -75,6 +110,23 @@ const BookingsTab = () => {
         <div className="loading-spinner">
           <i className="fas fa-spinner fa-spin"></i>
           <p>Cargando reservas...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && reservas.length === 0) {
+    return (
+      <div className="tab-content">
+        <div className="error-message">
+          <i className="fas fa-exclamation-triangle"></i>
+          <h3>{error}</h3>
+          <button
+            className="btn btn-primary"
+            onClick={() => window.location.reload()}
+          >
+            Reintentar
+          </button>
         </div>
       </div>
     );
@@ -121,52 +173,34 @@ const BookingsTab = () => {
 
       <div className="bookings-detailed-list">
         {reservasFiltradas.length > 0 ? (
-          reservasFiltradas.map((reserva) => (
-            <div key={reserva.id} className="booking-detailed-card">
+          reservasFiltradas.map((reserva, index) => (
+            <div key={index} className="booking-detailed-card">
               <div className="booking-main">
                 <div className="service-icon">
                   <i className="fas fa-calendar"></i>
                 </div>
                 <div className="booking-info-detailed">
-                  <h4>{reserva.servicio}</h4>
+                  <h4>{reserva.nombreServicio}</h4>
                   <p>
-                    <strong>Cuidador:</strong> {reserva.cuidador}
+                    <strong>Cuidador:</strong> {reserva.nombreCuidador}{" "}
+                    {reserva.apellidoCuidador}
                   </p>
                   <p>
-                    <strong>Fecha:</strong> {reserva.fecha}
+                    <strong>Mascota:</strong> {reserva.nombreMascota}
                   </p>
                   <p>
-                    <strong>Horario:</strong> {reserva.hora}
-                  </p>
-                  <p>
-                    <strong>Duración:</strong> {reserva.duracion}
-                  </p>
-                  <p>
-                    <strong>Dirección:</strong> {reserva.direccion}
+                    <strong>Fecha:</strong> {formatDate(reserva.fecha)}
                   </p>
                 </div>
               </div>
               <div className="booking-side">
-                <div className="booking-price-main">{reserva.precio}</div>
+                <div className="booking-price-main">
+                  {formatPrice(reserva.total)}
+                </div>
                 <div
                   className={`booking-status-large ${reserva.estado.toLowerCase()}`}
                 >
                   {reserva.estado}
-                </div>
-                <div className="booking-actions">
-                  <button type="button" className="btn btn-outline btn-sm">
-                    Detalles
-                  </button>{" "}
-                  {reserva.estado === "Activa" && (
-                    <>
-                      <button type="button" className="btn btn-primary btn-sm">
-                        Modificar
-                      </button>
-                      <button type="button" className="btn btn-danger btn-sm">
-                        Cancelar
-                      </button>
-                    </>
-                  )}
                 </div>
               </div>
             </div>

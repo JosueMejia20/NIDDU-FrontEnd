@@ -55,3 +55,20 @@ export const getServicesByCaregiverId = async (cuidadorId) => {
     throw error;
   }
 };
+
+export const registrarCuidadorTipoServicio = async (
+  cuidadorId,
+  tipoServicioId
+) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/asignarTipoServicio/${encodeURI(cuidadorId)}/${encodeURI(
+        tipoServicioId
+      )}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al registrar usuario:", error);
+    throw error;
+  }
+};
