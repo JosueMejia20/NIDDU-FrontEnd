@@ -5,6 +5,7 @@ import { registrarUsuarioCuidadores } from "../api/cuidador/cuidadoresApi";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/RegisterPage.css";
 import DepartamentosSelect from "../components/DepartamentosSelect";
+import { validarCredencialesCuidador } from "../api/cuidador/cuidadoresApi";
 
 const RegisterCaregiverPage = ({ onRegister }) => {
   const navigate = useNavigate();
@@ -73,7 +74,16 @@ const RegisterCaregiverPage = ({ onRegister }) => {
       console.log(" Respuesta del backend:", response);
       alert("Usuario registrado correctamente ");
       // Registrar usuario
-      onRegister(usuarioData);
+
+      const datosUsuario = await validarCredencialesCuidador(
+        usuarioData.correo,
+        usuarioData.contrasena
+      );
+
+      //AAAAAAAAAAAAAAA
+      onRegister(datosUsuario);
+
+      localStorage.setItem("usuario", JSON.stringify(datosUsuario));
 
       // Redirigir al dashboard tras el registro
       navigate("/caregiver");
