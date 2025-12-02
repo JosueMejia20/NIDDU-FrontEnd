@@ -271,7 +271,7 @@ function App() {
             }
           /> */}
           <Route path="servicios" element={<ServiceSelection user={user} />} />
-          <Route path="reportes" element={<ReportsSection />} />
+          <Route path="reportes" element={<ReportsSection user={user} />} />
           <Route
             path="configuracion"
             element={<SettingsSection user={user} />}
