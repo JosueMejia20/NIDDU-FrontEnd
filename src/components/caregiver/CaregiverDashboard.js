@@ -6,37 +6,37 @@ import { obtenerReservasPorCuidador } from "../../api/cuidador/cuidadoresApi";
 const CaregiverDashboard = ({ user }) => {
   const navigate = useNavigate();
   const [upcomingBookings, setUpcomingBookings] = useState([]);
+  const [allReservas, setAllReservas] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  console.log(user);
-
-  const stats = [
+  const [stats, setStats] = useState([
     {
       icon: "dollar-sign",
-      value: "$1,250,000",
-      label: "Ingresos del Mes",
+      value: "$0",
+      label: "Ingresos Totales",
       type: "income",
     },
     {
       icon: "calendar-check",
-      value: "15",
+      value: "0",
       label: "Reservas Activas",
       type: "bookings",
     },
-    { icon: "star", value: "4.9", label: "Calificación", type: "rating" },
+    { icon: "star", value: "5", label: "Calificación", type: "rating" },
     {
       icon: "users",
-      value: "42",
-      label: "Clientes Satisfechos",
+      value: "0",
+      label: "Clientes Atendidos",
       type: "clients",
     },
-  ];
+  ]);
+
+  console.log(user);
 
   const quickActions = [
     {
       icon: "plus-circle",
-      title: "Crear Servicio",
-      description: "Publica un nuevo servicio",
+      title: "Gestionar Servicios",
+      description: "Gestiona los servicios que ofreces",
       path: "/caregiver/servicios",
     },
     {
@@ -59,6 +59,60 @@ const CaregiverDashboard = ({ user }) => {
     },
   ];
 
+  // Funcion para calcular estadisticas basadas en las reservas
+  const calculateStats = (reservasData) => {
+    if (!Array.isArray(reservasData)) return;
+
+    // 1. Ingresos Totales: Suma de todas las reservas con estado "Completado"
+    const reservasCompletadas = reservasData.filter(
+      (reserva) => reserva.estado === "Completado"
+    );
+    const ingresosTotales = reservasCompletadas.reduce(
+      (sum, reserva) => sum + (reserva.total || 0),
+      0
+    );
+
+    //Reservas Activas: Reservas con estado "Confirmado"
+    const reservasActivas = reservasData.filter(
+      (reserva) => reserva.estado === "Confirmado"
+    );
+
+    //Clientes Atendidos: Cantidad de reservas con estado "Completado"
+    const clientesAtendidos = reservasCompletadas.length;
+
+    // Formatear ingresos a moneda
+    const formatCurrency = (amount) => {
+      return new Intl.NumberFormat("es-CO", {
+        style: "currency",
+        currency: "COP",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(amount);
+    };
+
+    setStats([
+      {
+        icon: "dollar-sign",
+        value: formatCurrency(ingresosTotales),
+        label: "Ingresos Totales",
+        type: "income",
+      },
+      {
+        icon: "calendar-check",
+        value: reservasActivas.length.toString(),
+        label: "Reservas Activas",
+        type: "bookings",
+      },
+      { icon: "star", value: "5", label: "Calificación", type: "rating" },
+      {
+        icon: "users",
+        value: clientesAtendidos.toString(),
+        label: "Clientes Atendidos",
+        type: "clients",
+      },
+    ]);
+  };
+
   // Obtener reservas desde la API
   useEffect(() => {
     const fetchBookings = async () => {
@@ -68,6 +122,7 @@ const CaregiverDashboard = ({ user }) => {
         if (!user?.idCuidador) {
           console.log("No hay ID de cuidador disponible");
           setUpcomingBookings([]);
+          setAllReservas([]);
           return;
         }
 
@@ -75,6 +130,12 @@ const CaregiverDashboard = ({ user }) => {
         const reservasData = await obtenerReservasPorCuidador(user.idCuidador);
 
         console.log("Reservas obtenidas:", reservasData);
+
+        // Guardar todas las reservas para calculos
+        setAllReservas(Array.isArray(reservasData) ? reservasData : []);
+
+        // Calcular estadisticas con todas las reservas
+        calculateStats(reservasData);
 
         // Filtrar solo reservas con estado "Pendiente" o "Confirmado" (exacto)
         const reservasFiltradas = Array.isArray(reservasData)
@@ -97,7 +158,7 @@ const CaregiverDashboard = ({ user }) => {
       } catch (error) {
         console.error("Error obteniendo reservas:", error);
         // Mantener datos de ejemplo en caso de error
-        setUpcomingBookings([
+        const fallbackData = [
           {
             idServicio: 1,
             estado: "Pendiente",
@@ -119,7 +180,11 @@ const CaregiverDashboard = ({ user }) => {
             impuesto: 22.5,
             total: 172.5,
           },
-        ]);
+        ];
+
+        setAllReservas(fallbackData);
+        calculateStats(fallbackData);
+        setUpcomingBookings(fallbackData.slice(0, 3));
       } finally {
         setLoading(false);
       }
