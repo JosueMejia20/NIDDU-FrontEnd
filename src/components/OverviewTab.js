@@ -198,7 +198,7 @@ const OverviewTab = ({ mascotas, user }) => {
         </div>
         <div className="bookings-list">
           {reservas.length > 0 ? (
-            reservas.slice(0, 2).map((reserva, index) => (
+            reservas.slice(0, 5).map((reserva, index) => (
               <BookingItem
                 key={reserva.id} // Usar el id generado
                 reserva={reserva}

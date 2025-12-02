@@ -154,6 +154,7 @@ const ServiceSelection = ({ user }) => {
       setSaveSuccess(true);
 
       setTimeout(() => {
+        alert("Servicios agregados correctamente");
         navigate("/caregiver");
       }, 2000);
 
