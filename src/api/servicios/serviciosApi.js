@@ -29,3 +29,18 @@ export const crearReserva = async (reservaData) => {
     throw error;
   }
 };
+
+export const removerTipoServicioDeCuidador = async (
+  idCuidador,
+  idTipoServicio
+) => {
+  try {
+    const response = await axios.delete(
+      `${API_URL}/RemoverTipoServicio/${idCuidador}/${idTipoServicio}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al remover tipo de servicio:", error);
+    throw error;
+  }
+};

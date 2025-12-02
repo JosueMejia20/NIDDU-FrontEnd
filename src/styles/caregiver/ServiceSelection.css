@@ -304,3 +304,218 @@
 .selection-summary-service-selection .servicios-actuales {
   color: #059669;
 }
+
+/* Estilos para la seccion de eliminacion de servicios */
+.service-deletion-section {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.deletion-header {
+  margin-bottom: 30px;
+}
+
+.deletion-header h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.deletion-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+.services-deletion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.service-deletion-card {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.service-deletion-card:hover {
+  border-color: #ff6b6b;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.1);
+}
+
+.service-deletion-card.selected-for-deletion {
+  border-color: #ff4444;
+  background: #fff5f5;
+}
+
+.service-icon-deletion {
+  width: 60px;
+  height: 60px;
+  background: #ffebee;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.service-deletion-card.selected-for-deletion .service-icon-deletion {
+  background: #ffcdd2;
+}
+
+.service-icon-deletion i {
+  font-size: 24px;
+  color: #ff4444;
+}
+
+.service-content-deletion {
+  flex: 1;
+}
+
+.service-content-deletion h3 {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.service-description-deletion {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.service-details-deletion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.service-price-deletion {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ff4444;
+}
+
+.deletion-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.deletion-indicator i {
+  font-size: 16px;
+}
+
+.deletion-icon {
+  color: #ff4444;
+}
+
+.deletion-actions {
+  background: #fff5f5;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #ffcdd2;
+}
+
+.deletion-summary {
+  margin-bottom: 20px;
+}
+
+.deletion-summary p {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.deletion-summary p strong {
+  color: #ff4444;
+}
+
+.warning-text {
+  color: #d32f2f !important;
+  font-size: 14px !important;
+}
+
+.warning-text i {
+  margin-right: 6px;
+}
+
+.deletion-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.btn-deletion {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-outline-deletion {
+  background: transparent;
+  border: 2px solid #e0e0e0;
+  color: #666;
+}
+
+.btn-outline-deletion:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #d0d0d0;
+}
+
+.btn-outline-deletion:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-danger-deletion {
+  background: #ff4444;
+  color: white;
+}
+
+.btn-danger-deletion:hover:not(:disabled) {
+  background: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 68, 68, 0.2);
+}
+
+.btn-danger-deletion:disabled {
+  background: #ff9999;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .services-deletion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .deletion-buttons {
+    flex-direction: column;
+  }
+
+  .btn-deletion {
+    width: 100%;
+    justify-content: center;
+  }
+}

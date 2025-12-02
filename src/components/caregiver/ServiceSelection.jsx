@@ -4,6 +4,7 @@ import "../../styles/caregiver/ServiceSelection.css";
 import { obtenerTiposServicios } from "../../api/tiposServicios/tiposServiciosApi";
 import { getServicesByCaregiverId } from "../../api/cuidador/cuidadoresApi";
 import { registrarCuidadorTipoServicio } from "../../api/cuidador/cuidadoresApi";
+import ServiceDeletion from "./ServiceDeletion";
 
 const ServiceSelection = ({ user }) => {
   const navigate = useNavigate();
@@ -353,6 +354,12 @@ const ServiceSelection = ({ user }) => {
             </button>
           </div>
         </div>
+      </div>
+      <div className="container">
+        <ServiceDeletion
+          serviciosDelCuidador={serviciosDelCuidador}
+          user={user}
+        />
       </div>
     </section>
   );
