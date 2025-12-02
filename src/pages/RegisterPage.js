@@ -5,6 +5,7 @@ import { registrarUsuario } from "../api/usuarios/usuariosApi";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/RegisterPage.css";
 import DepartamentosSelect from "../components/DepartamentosSelect";
+import { validarCredenciales } from "../api/usuarios/usuariosApi";
 
 const RegisterPage = ({ onRegister }) => {
   const navigate = useNavigate();
@@ -71,10 +72,18 @@ const RegisterPage = ({ onRegister }) => {
       console.log(" Respuesta del backend:", response);
       alert("Usuario registrado correctamente ");
       // Registrar usuario
-      onRegister(usuarioData);
+
+      const datosUsuario = await validarCredenciales(
+        usuarioData.correo,
+        usuarioData.contrasena
+      );
+
+      //console.log("PRUEBAAAAAAAAAAAAAAAAAA: ", datosUsuario);
+      //AAAAAA
+      onRegister(datosUsuario);
 
       // Guardar datos en memoria
-      localStorage.setItem("usuario", JSON.stringify(usuarioData));
+      localStorage.setItem("usuario", JSON.stringify(datosUsuario));
 
       // Redirigir al dashboard tras el registro
       navigate("/dashboard");
