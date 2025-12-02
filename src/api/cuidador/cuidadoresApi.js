@@ -72,3 +72,28 @@ export const registrarCuidadorTipoServicio = async (
     throw error;
   }
 };
+
+export const obtenerReservasPorCuidador = async (cuidadorId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/obtenerHistorialReservas/${encodeURI(cuidadorId)}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener cuidadortiposervicio:", error);
+    throw error;
+  }
+};
+
+export const actualizarEstadoReserva = async (idServicio, nuevoEstado) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/actualizarEstadoReserva/${idServicio}/${nuevoEstado}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar estado de reserva:", error);
+    throw error;
+  }
+};

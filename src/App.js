@@ -263,7 +263,7 @@ function App() {
           element={<CaregiverLayout handleLogout={handleLogout} user={user} />}
         >
           <Route index element={<CaregiverDashboard user={user} />} />
-          <Route path="reservas" element={<CaregiverBookings />} />
+          <Route path="reservas" element={<CaregiverBookings user={user} />} />
           {/* <Route
             path="reservas/:id"
             element={

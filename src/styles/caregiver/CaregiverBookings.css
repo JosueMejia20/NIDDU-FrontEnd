@@ -72,19 +72,19 @@
   overflow: hidden;
 }
 
-.booking-card.pending {
+.booking-card.pendiente {
   border-left: 4px solid #f39c12;
 }
 
-.booking-card.confirmed {
+.booking-card.confirmado {
   border-left: 4px solid var(--primary-green);
 }
 
-.booking-card.completed {
+.booking-card.completado {
   border-left: 4px solid var(--primary-blue);
 }
 
-.booking-card.cancelled {
+.booking-card.rechazado {
   border-left: 4px solid #e74c3c;
 }
 
@@ -110,22 +110,22 @@
   text-transform: uppercase;
 }
 
-.booking-status.pending {
+.booking-status.pendiente {
   background: #fff3cd;
   color: #856404;
 }
 
-.booking-status.confirmed {
+.booking-status.confirmado {
   background: var(--light-green);
   color: var(--dark-green);
 }
 
-.booking-status.completed {
+.booking-status.completado {
   background: var(--light-blue);
   color: var(--dark-blue);
 }
 
-.booking-status.cancelled {
+.booking-status.rechazado {
   background: #f8d7da;
   color: #721c24;
 }
@@ -227,16 +227,16 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .booking-content {
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  
+
   .booking-actions {
     flex-direction: column;
   }
-  
+
   .booking-header {
     flex-direction: column;
     gap: 10px;
@@ -248,12 +248,12 @@
   .filter-tabs {
     flex-wrap: wrap;
   }
-  
+
   .client-info {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .booking-actions .btn {
     width: 100%;
   }

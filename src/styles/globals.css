@@ -126,8 +126,8 @@ p {
 
 .btn-outline {
   background: transparent;
-  color: var(--white);
-  border: 2px solid var(--white);
+  color: var(--light-blue);
+  border: 2px solid var(--light-blue);
 }
 
 .btn-outline:hover {
