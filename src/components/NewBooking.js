@@ -158,7 +158,7 @@ const NewBooking = ({ mascotas, user }) => {
         subtotal: subtotal,
         impuesto: impuesto,
         total: total,
-        estado: "Pagado",
+        estado: "Pendiente",
         // Campos adicionales
         // duracion: parseInt(formData.duracion),
         // hora: formData.hora,

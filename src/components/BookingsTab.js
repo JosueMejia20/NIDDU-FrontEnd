@@ -30,9 +30,10 @@ const BookingsTab = ({ user }) => {
   // Mapear estado de la API al tipo para filtros
   const mapEstadoToTipo = (estado) => {
     const estadoMap = {
-      Pagado: "activa",
+      Confirmado: "activa",
       Pendiente: "activa",
       Completado: "completada",
+      Rechazado: "completada",
     };
     return estadoMap[estado] || "activa";
   };

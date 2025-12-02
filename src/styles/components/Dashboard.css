@@ -367,9 +367,14 @@
   text-transform: uppercase;
 }
 
-.booking-status.activa {
+.booking-status.confirmado {
   background: var(--light-green);
   color: var(--dark-green);
+}
+
+.booking-status.rechazado {
+  background: #fa8072;
+  color: #ff2400;
 }
 
 .booking-status.completada {
@@ -377,7 +382,7 @@
   color: var(--dark-blue);
 }
 
-.booking-status.confirmada {
+.booking-status.pendiente {
   background: #fff3cd;
   color: #856404;
 }
@@ -814,9 +819,14 @@
   margin: 0;
 }
 
-.booking-status-large.pagado {
+.booking-status-large.confirmado {
   background: var(--light-green);
   color: var(--dark-green);
+}
+
+.booking-status-large.rechazado {
+  background: #fa8072;
+  color: #ff2400;
 }
 
 .booking-status-large.pendiente {

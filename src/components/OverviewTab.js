@@ -20,8 +20,9 @@ const OverviewTab = ({ mascotas, user }) => {
   const mapEstadoToReservaItem = (estado) => {
     const estadoMap = {
       Completado: "Completada",
-      Pagado: "Activa",
-      Pendiente: "Confirmada",
+      Confirmado: "Confirmado",
+      Pendiente: "Pendiente",
+      Rechazado: "Rechazado",
     };
     return estadoMap[estado] || "Activa";
   };
@@ -72,7 +73,7 @@ const OverviewTab = ({ mascotas, user }) => {
         // 3. Contar reservas activas (estado "Pagado" o "Pendiente")
         const reservasActivasCount = reservasReales.filter(
           (reserva) =>
-            reserva.estado === "Activa" || reserva.estado === "Confirmada"
+            reserva.estado === "Activa" || reserva.estado === "Pendiente"
         ).length;
 
         // 4. Actualizar estado
