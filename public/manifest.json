@@ -20,9 +20,11 @@
   ],
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "categories": ["lifestyle"],
   "id": "niddu2025",
-  "description": "Niddu, la aplicacion que cuida tu mascota."
+  "description": "Niddu, la aplicacion que cuida tu mascota.",
+  "scope": "/"
 }
