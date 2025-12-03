@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "net.azurestaticapps.app_3.proud_beach_0a296230f.twa",
+        "sha256_cert_fingerprints": ["04:70:D2:FB:6C:4D:84:B8:55:66:86:B1:AC:ED:8F:2B:B7:EB:7E:03:5E:19:64:F1:DA:A4:D0:18:38:85:3B:97"]
+      }
+    }]
