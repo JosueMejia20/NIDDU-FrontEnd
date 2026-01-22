@@ -15,6 +15,7 @@ const Dashboard = ({ user, mascotas }) => {
     setShowMobileMenu(false);
   };
 
+  // Pruebas de credenciales git
   const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   const getTabTitle = () => {
